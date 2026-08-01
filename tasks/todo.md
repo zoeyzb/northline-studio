@@ -9,6 +9,6 @@
 - [x] Evidence system and conversion journey
   - Acceptance: proof is honest and the primary action remains clear
   - Verify: accessibility and browser interaction review
-- [ ] Coordinated motion and performance polish
+- [x] Coordinated motion and performance polish
   - Acceptance: motion clarifies content, respects reduced motion, and remains stable on mobile
   - Verify: browser console, responsive review, production build

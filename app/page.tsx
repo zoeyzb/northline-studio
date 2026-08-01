@@ -1,3 +1,11 @@
+import dynamic from "next/dynamic";
+import { MotionController } from "./components/MotionController";
+
+const AtmosphericScene = dynamic(
+  () => import("./components/AtmosphericScene").then((module) => module.AtmosphericScene),
+  { ssr: false },
+);
+
 const audiences = [
   "Higher education",
   "Research & innovation",
@@ -27,18 +35,21 @@ const method = [
 const services = [
   {
     number: "01",
+    kind: "website",
     title: "Organization websites",
     audience: "Institutions, programs, nonprofits, firms, and ventures",
     outcome: "Turn fragmented information into a clear, credible digital presence.",
   },
   {
     number: "02",
+    kind: "portfolio",
     title: "Portfolio systems",
     audience: "Researchers, founders, leaders, and emerging professionals",
     outcome: "Connect experience, work, and direction into a convincing narrative.",
   },
   {
     number: "03",
+    kind: "platform",
     title: "Digital platforms",
     audience: "Organizations with complex information or operational workflows",
     outcome: "Create useful portals, dashboards, internal tools, and connected systems.",
@@ -48,11 +59,17 @@ const services = [
 export default function Home() {
   return (
     <main id="main-content">
+      <MotionController />
+      <aside className="scroll-rail" aria-hidden="true">
+        <span className="scroll-rail-progress" />
+        <i>01</i><i>02</i><i>03</i><i>04</i>
+      </aside>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
 
       <section className="hero" aria-labelledby="hero-title">
+        <AtmosphericScene />
         <div className="atmosphere" aria-hidden="true">
           <span className="orb orb-one" />
           <span className="orb orb-two" />
@@ -76,19 +93,20 @@ export default function Home() {
 
         <div className="hero-content shell">
           <div className="hero-copy">
-            <p className="eyebrow">
+            <p className="eyebrow" data-hero-support>
               Digital credibility for consequential work
             </p>
             <h1 id="hero-title">
-              Make the first impression <em>match the work.</em>
+              <span className="hero-line-mask"><span data-hero-line>Make the first impression</span></span>
+              <em className="hero-line-mask"><span data-hero-line>match the work.</span></em>
             </h1>
-            <p className="hero-description">
+            <p className="hero-description" data-hero-support>
               We build and continuously improve websites, portfolios, and
               digital platforms that make important work easier to understand,
               trust, and act on.
             </p>
 
-            <div className="hero-actions" id="contact">
+            <div className="hero-actions" id="contact" data-hero-support>
               <a className="button button-primary" href="mailto:hello@northline.studio?subject=Project%20review">
                 Request a project review
                 <span aria-hidden="true">↗</span>
@@ -145,13 +163,20 @@ export default function Home() {
 
           <div className="service-list">
             {services.map((service) => (
-              <article key={service.number}>
+              <article key={service.number} data-reveal data-service={service.kind}>
                 <span className="service-number">{service.number}</span>
                 <div>
                   <p className="service-audience">{service.audience}</p>
                   <h3>{service.title}</h3>
                 </div>
-                <p className="service-outcome">{service.outcome}</p>
+                <div className="service-result">
+                  <p className="service-outcome">{service.outcome}</p>
+                  <div className={`service-visual visual-${service.kind}`} aria-hidden="true">
+                    {service.kind === "website" && <><span>Message</span><span>Evidence</span><span>Action</span></>}
+                    {service.kind === "portfolio" && <><span className="portfolio-card">Experience</span><span className="portfolio-card">Selected work</span><span className="portfolio-card">Direction</span></>}
+                    {service.kind === "platform" && <><span className="platform-node">Input</span><span className="platform-core">System</span><span className="platform-node">Action</span></>}
+                  </div>
+                </div>
               </article>
             ))}
           </div>
@@ -170,7 +195,7 @@ export default function Home() {
 
         <div className="method-grid">
           {method.map((item) => (
-            <article key={item.number}>
+            <article key={item.number} data-reveal>
               <span>{item.number}</span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>

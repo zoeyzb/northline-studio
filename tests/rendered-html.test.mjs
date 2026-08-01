@@ -29,5 +29,10 @@ test("renders development preview metadata", async () => {
     response.headers.get("content-type") ?? "",
     /^text\/html\b/i,
   );
-  assert.match(await response.text(), developmentPreviewMeta);
+  const html = await response.text();
+  assert.match(html, developmentPreviewMeta);
+  assert.match(html, /service-visual visual-website/);
+  assert.match(html, /service-visual visual-portfolio/);
+  assert.match(html, /service-visual visual-platform/);
+  assert.match(html, /scroll-rail-progress/);
 });
