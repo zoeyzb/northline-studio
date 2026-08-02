@@ -60,7 +60,7 @@ export function HeroReview() {
             </button>
           ))}
         </div>
-        <div className="review-finding" aria-live="polite">
+        <div className="review-finding state-panel" key={active.id} aria-live="polite">
           <small>OBSERVED GAP</small>
           <p>{active.finding}</p>
           <div><span>Northline direction</span><strong>{active.change}</strong></div>
@@ -87,7 +87,7 @@ export function CredibilityGapWalkthrough() {
           </button>
         ))}
       </div>
-      <article className="gap-panel" aria-live="polite">
+      <article className="gap-panel state-panel" key={active.id} aria-live="polite">
         <div className="gap-panel-heading"><span>{active.number} / {active.label}</span><h3>{active.question}</h3></div>
         <div className="gap-comparison">
           <div><small>WHEN IT IS WEAK</small><p>{active.before}</p></div>

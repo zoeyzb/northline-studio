@@ -46,4 +46,10 @@ test("renders development preview metadata", async () => {
   assert.match(html, /What changes after launch/);
   assert.match(html, /For organizations/);
   assert.match(html, /For individual professionals/);
+  assert.match(html, /Page chapters/);
+  assert.match(html, /data-scene="work"/);
+  assert.match(html, /Inspect the repository/);
+  assert.match(html, /github\.com\/zoeyzb\/recoverhvac-revenue-os/);
+  assert.match(html, /github\.com\/zoeyzb\/NextRole/);
+  assert.match(html, /id="contact"/);
 });
