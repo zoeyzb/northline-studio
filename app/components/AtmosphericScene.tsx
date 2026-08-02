@@ -45,14 +45,14 @@ function SpatialField() {
   return (
     <group ref={rig}>
       <Points ref={points} positions={positions} stride={3} frustumCulled>
-        <PointMaterial transparent color="#68c4ff" size={0.018} sizeAttenuation depthWrite={false} opacity={0.72} />
+        <PointMaterial transparent color="#ff7a45" size={0.018} sizeAttenuation depthWrite={false} opacity={0.72} />
       </Points>
-      <Line points={pathway} color="#96c7ff" lineWidth={0.65} transparent opacity={0.35} />
+      <Line points={pathway} color="#d8a07b" lineWidth={0.65} transparent opacity={0.35} />
       {pathway.map((point, index) => (
         <Float key={index} speed={0.7 + index * 0.12} rotationIntensity={0.1} floatIntensity={0.3}>
           <mesh position={point}>
             <ringGeometry args={[0.08, 0.11, 32]} />
-            <meshBasicMaterial color={index === 3 ? "#68c4ff" : "#69a9e8"} transparent opacity={0.75} />
+            <meshBasicMaterial color={index === 3 ? "#ff6b35" : "#bd7650"} transparent opacity={0.75} />
           </mesh>
         </Float>
       ))}
