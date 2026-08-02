@@ -51,6 +51,30 @@ const services = [
   },
 ];
 
+const selectedWork = [
+  {
+    index: "01",
+    type: "Revenue operations platform",
+    title: "Recover Revenue",
+    brief: "A fragmented follow-up process reframed as one operational system for lead recovery, communication, and owner visibility.",
+    contribution: ["Product narrative", "Workflow architecture", "Interface system", "Automation pathways"],
+  },
+  {
+    index: "02",
+    type: "Opportunity platform",
+    title: "NextRole",
+    brief: "A complex job-search workflow organized into a legible product journey—from discovery and fit to application readiness and tracking.",
+    contribution: ["Information architecture", "Product UX", "System states", "Application workflow"],
+  },
+];
+
+const stakeholders = [
+  ["Applicants", "Can I see where I fit and what happens next?"],
+  ["Partners", "Is the work substantial, aligned, and credible?"],
+  ["Funders", "What is the model, evidence, and potential impact?"],
+  ["Recruits", "Who is doing the work—and why should I join?"],
+];
+
 export default function Home() {
   return (
     <main id="main-content">
@@ -81,6 +105,7 @@ export default function Home() {
           <nav aria-label="Primary navigation">
             <a href="#method">Method</a>
             <a href="#services">Services</a>
+            <a href="#work">Work</a>
             <a href="#engagements">Engagements</a>
             <a href="#contact">Start a project</a>
           </nav>
@@ -144,6 +169,25 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="signal-section" aria-labelledby="signal-title">
+        <div className="shell signal-layout">
+          <div className="signal-sticky">
+            <p className="eyebrow dark">One presence. Different decisions.</p>
+            <h2 id="signal-title">Credibility changes with the person looking.</h2>
+            <p>A serious digital presence does not push one generic pitch. It gives every important stakeholder the evidence and next step they need.</p>
+          </div>
+          <div className="stakeholder-stack">
+            {stakeholders.map(([name, question], index) => (
+              <article key={name} data-reveal>
+                <span>0{index + 1}</span>
+                <div><h3>{name}</h3><p>{question}</p></div>
+                <i aria-hidden="true">↗</i>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="services-section" id="services" aria-labelledby="services-title">
         <div className="shell">
           <div className="services-heading">
@@ -196,6 +240,50 @@ export default function Home() {
               <p>{item.description}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="work-section" id="work" aria-labelledby="work-title">
+        <div className="shell">
+          <div className="work-heading">
+            <div><p className="eyebrow">Selected systems</p><span>Evidence, not a logo wall</span></div>
+            <h2 id="work-title">See how complex work becomes a clear digital experience.</h2>
+          </div>
+          <div className="work-list">
+            {selectedWork.map((project) => (
+              <article key={project.title} data-reveal>
+                <div className="work-meta"><span>{project.index}</span><span>{project.type}</span></div>
+                <div className="work-copy"><h3>{project.title}</h3><p>{project.brief}</p></div>
+                <ul aria-label={`${project.title} contribution`}>
+                  {project.contribution.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+                <div className="work-window" aria-hidden="true">
+                  <div className="window-bar"><i/><i/><i/><span>{project.title.toLowerCase().replace(" ", "-")}.system</span></div>
+                  <div className="window-canvas">
+                    <span className="window-kicker">From fragmented</span>
+                    <strong>{project.title}</strong>
+                    <div className="window-flow"><i/><i/><i/></div>
+                    <span className="window-result">to directed action</span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="work-note">These are product and system studies. No client outcomes or performance figures are presented without verified evidence.</p>
+        </div>
+      </section>
+
+      <section className="continuity-section" aria-labelledby="continuity-title">
+        <div className="shell continuity-layout">
+          <div>
+            <p className="eyebrow dark">After launch</p>
+            <h2 id="continuity-title">A digital presence is never actually finished.</h2>
+          </div>
+          <div className="continuity-loop" aria-label="Continuous improvement cycle">
+            <div><span>01</span><strong>Observe</strong><p>Analytics, behavior, accessibility, and changing priorities.</p></div>
+            <div><span>02</span><strong>Decide</strong><p>Identify the highest-value credibility and conversion improvement.</p></div>
+            <div><span>03</span><strong>Improve</strong><p>Ship focused changes, measure the response, and repeat.</p></div>
+          </div>
         </div>
       </section>
 
