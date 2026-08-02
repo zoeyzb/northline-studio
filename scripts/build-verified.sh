@@ -7,6 +7,19 @@ if [[ "${SITES_ENV_READY:-}" != "1" ]]; then
   exec "${script_dir}/sites-env.sh" -- "$0" "$@"
 fi
 
+# Vercel's native Next.js runtime requires the `.next` build output. Keep the
+# Vinext worker build below for ChatGPT Sites/Cloudflare deployments.
+if [[ "${VERCEL:-}" == "1" ]]; then
+  next="${SITES_PROJECT_ROOT}/node_modules/.bin/next"
+  if [[ ! -x "${next}" ]]; then
+    echo "next is unavailable. Install dependencies before building." >&2
+    exit 69
+  fi
+
+  echo "Running native Next.js build for Vercel..."
+  exec "${next}" build
+fi
+
 command -v timeout >/dev/null || {
   echo "build-verified.sh requires GNU timeout." >&2
   exit 69
