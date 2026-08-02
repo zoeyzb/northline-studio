@@ -39,4 +39,11 @@ test("renders development preview metadata", async () => {
   assert.match(html, /Recover Revenue/);
   assert.match(html, /NextRole/);
   assert.match(html, /Continuous improvement cycle/);
+  assert.match(html, /Digital presence review/);
+  assert.match(html, /Choose a credibility gap/);
+  assert.match(html, /Website review example/);
+  assert.match(html, /What we examine/);
+  assert.match(html, /What changes after launch/);
+  assert.match(html, /For organizations/);
+  assert.match(html, /For individual professionals/);
 });

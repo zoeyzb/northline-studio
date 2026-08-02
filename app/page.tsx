@@ -1,5 +1,6 @@
 import { AtmosphericSceneClient } from "./components/AtmosphericSceneClient";
 import { MotionController } from "./components/MotionController";
+import { CredibilityGapWalkthrough, HeroReview } from "./components/CredibilityExperience";
 
 const audiences = [
   "Higher education",
@@ -7,24 +8,6 @@ const audiences = [
   "Nonprofits",
   "Professional services",
   "Selected B2B ventures",
-];
-
-const method = [
-  {
-    number: "01",
-    title: "Message",
-    description: "Make the work, its relevance, and its audience immediately clear.",
-  },
-  {
-    number: "02",
-    title: "Evidence",
-    description: "Structure the people, projects, outcomes, and proof that make it credible.",
-  },
-  {
-    number: "03",
-    title: "Action",
-    description: "Guide each visitor toward the next step that matters.",
-  },
 ];
 
 const services = [
@@ -57,14 +40,22 @@ const selectedWork = [
     type: "Revenue operations platform",
     title: "Recover Revenue",
     brief: "A fragmented follow-up process reframed as one operational system for lead recovery, communication, and owner visibility.",
+    challenge: "Missed calls, follow-up, bookings, approvals, and attributed revenue lived across disconnected tools.",
+    intervention: "One operating narrative and workspace connecting the customer signal to an accountable next step.",
     contribution: ["Product narrative", "Workflow architecture", "Interface system", "Automation pathways"],
+    flow: ["Inquiry", "Qualification", "Approved action", "Verified outcome"],
+    status: "Working product system",
   },
   {
     index: "02",
     type: "Opportunity platform",
     title: "NextRole",
     brief: "A complex job-search workflow organized into a legible product journey—from discovery and fit to application readiness and tracking.",
+    challenge: "Discovery, fit, documents, applications, and follow-up created a fragmented experience with no clear state.",
+    intervention: "A single journey that makes readiness, required action, and application status visible at every stage.",
     contribution: ["Information architecture", "Product UX", "System states", "Application workflow"],
+    flow: ["Discover", "Assess fit", "Prepare", "Track"],
+    status: "Product development",
   },
 ];
 
@@ -137,28 +128,7 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="credibility-panel" aria-label="Northline credibility framework">
-            <div className="panel-topline">
-              <span>Northline framework</span>
-              <span className="status"><i /> Active</span>
-            </div>
-            <p className="panel-question">What should this experience make possible?</p>
-            <ol>
-              {method.map((item) => (
-                <li key={item.number}>
-                  <span>{item.number}</span>
-                  <div>
-                    <strong>{item.title}</strong>
-                    <p>{item.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <div className="panel-outcome">
-              <span>Outcome</span>
-              <strong>Clarity that earns trust and directs action.</strong>
-            </div>
-          </aside>
+          <HeroReview />
         </div>
 
         <div className="audience-strip shell" aria-label="Organizations we serve">
@@ -166,6 +136,23 @@ export default function Home() {
           <div>
             {audiences.map((audience) => <span key={audience}>{audience}</span>)}
           </div>
+        </div>
+      </section>
+
+      <section className="audience-paths" aria-labelledby="audience-paths-title">
+        <div className="shell audience-paths-grid">
+          <article className="organization-path" data-reveal>
+            <span>Primary practice / For organizations</span>
+            <h2 id="audience-paths-title">When reputation affects applications, partnerships, funding, recruitment, or trust.</h2>
+            <p>For universities, research groups, public-interest organizations, professional firms, and selected B2B ventures whose digital presence has real institutional consequences.</p>
+            <a href="#services">Explore organization work <i aria-hidden="true">↗</i></a>
+          </article>
+          <article className="professional-path" data-reveal>
+            <span>Distinct pathway / For individual professionals</span>
+            <h3>When expertise needs a convincing professional narrative.</h3>
+            <p>Portfolio systems for researchers, founders, designers, engineers, leaders, and students pursuing competitive opportunities.</p>
+            <a href="#services">Explore portfolio systems <i aria-hidden="true">↗</i></a>
+          </article>
         </div>
       </section>
 
@@ -232,15 +219,8 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="method-grid">
-          {method.map((item) => (
-            <article key={item.number} data-reveal>
-              <span>{item.number}</span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))}
-        </div>
+        <p className="experience-label">Choose a credibility gap</p>
+        <CredibilityGapWalkthrough />
       </section>
 
       <section className="work-section" id="work" aria-labelledby="work-title">
@@ -252,18 +232,20 @@ export default function Home() {
           <div className="work-list">
             {selectedWork.map((project) => (
               <article key={project.title} data-reveal>
-                <div className="work-meta"><span>{project.index}</span><span>{project.type}</span></div>
+                <div className="work-meta"><span>{project.index}</span><span>{project.type}</span><b>{project.status}</b></div>
                 <div className="work-copy"><h3>{project.title}</h3><p>{project.brief}</p></div>
-                <ul aria-label={`${project.title} contribution`}>
-                  {project.contribution.map((item) => <li key={item}>{item}</li>)}
-                </ul>
+                <div className="case-evidence">
+                  <div><span>Challenge</span><p>{project.challenge}</p></div>
+                  <div><span>Intervention</span><p>{project.intervention}</p></div>
+                  <div><span>Scope</span><ul aria-label={`${project.title} contribution`}>{project.contribution.map((item) => <li key={item}>{item}</li>)}</ul></div>
+                </div>
                 <div className="work-window" aria-hidden="true">
                   <div className="window-bar"><i/><i/><i/><span>{project.title.toLowerCase().replace(" ", "-")}.system</span></div>
                   <div className="window-canvas">
-                    <span className="window-kicker">From fragmented</span>
+                    <span className="window-kicker">System path / conceptual view</span>
                     <strong>{project.title}</strong>
-                    <div className="window-flow"><i/><i/><i/></div>
-                    <span className="window-result">to directed action</span>
+                    <div className="window-flow">{project.flow.map((step, index) => <span key={step}><i>{index + 1}</i><b>{step}</b></span>)}</div>
+                    <span className="window-result">Each stage leaves a visible state and next action.</span>
                   </div>
                 </div>
               </article>

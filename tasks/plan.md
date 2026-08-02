@@ -31,3 +31,10 @@ Build a premium, accessible website for a digital credibility studio serving ins
 - The hero and services read as one continuous depth transition.
 - Each service has a content-specific visual explanation rather than a decorative placeholder.
 - Reduced-motion users receive stable content without the WebGL scene.
+
+## Second-pass content and interaction revision
+- Replace the abstract hero framework card with a concrete website-review scene that demonstrates what Northline actually inspects.
+- Make organizations the unmistakable primary route and separate the professional portfolio route without presenting both as equal markets.
+- Turn Message → Evidence → Action into an interactive diagnosis with visible before/after consequences.
+- Expand selected work into honest case-study evidence with challenge, intervention, system view, and status labels.
+- Preserve the existing architecture, warm institutional identity, WebGL atmosphere, navigation, and email conversion path.

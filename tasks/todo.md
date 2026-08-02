@@ -12,3 +12,12 @@
 - [x] Coordinated motion and performance polish
   - Acceptance: motion clarifies content, respects reduced motion, and remains stable on mobile
   - Verify: browser console, responsive review, production build
+- [x] Replace abstract hero panel with an interactive digital-presence review
+  - Acceptance: the first viewport shows what Northline examines and what the review produces
+  - Verify: rendered HTML test, keyboard interaction, responsive browser review
+- [x] Build an interactive credibility-gap walkthrough and clearer audience routing
+  - Acceptance: visitors can inspect Message, Evidence, and Action gaps; organizations remain primary
+  - Verify: rendered HTML test and keyboard review
+- [x] Reframe selected work as evidence-led case studies
+  - Acceptance: each study distinguishes challenge, intervention, system, and honest project status
+  - Verify: rendered HTML test and mobile layout review

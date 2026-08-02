@@ -22,7 +22,7 @@ export function MotionController() {
       intro
         .from("[data-hero-line]", { yPercent: 105, filter: "blur(14px)", duration: 1.15, stagger: 0.12 })
         .from("[data-hero-support]", { y: 22, opacity: 0, duration: 0.75, stagger: 0.1 }, "-=0.5")
-        .from(".credibility-panel", { x: 50, rotateY: -8, opacity: 0, duration: 1 }, "-=0.85");
+        .from(".review-console", { x: 50, rotateY: -8, opacity: 0, duration: 1 }, "-=0.85");
 
       gsap.to(".hero-content", {
         yPercent: 12,
