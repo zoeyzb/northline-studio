@@ -35,4 +35,8 @@ test("renders development preview metadata", async () => {
   assert.match(html, /service-visual visual-portfolio/);
   assert.match(html, /service-visual visual-platform/);
   assert.match(html, /scroll-rail-progress/);
+  assert.match(html, /Selected systems/);
+  assert.match(html, /Recover Revenue/);
+  assert.match(html, /NextRole/);
+  assert.match(html, /Continuous improvement cycle/);
 });
