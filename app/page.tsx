@@ -1,10 +1,5 @@
-import dynamic from "next/dynamic";
+import { AtmosphericSceneClient } from "./components/AtmosphericSceneClient";
 import { MotionController } from "./components/MotionController";
-
-const AtmosphericScene = dynamic(
-  () => import("./components/AtmosphericScene").then((module) => module.AtmosphericScene),
-  { ssr: false },
-);
 
 const audiences = [
   "Higher education",
@@ -69,7 +64,7 @@ export default function Home() {
       </a>
 
       <section className="hero" aria-labelledby="hero-title">
-        <AtmosphericScene />
+        <AtmosphericSceneClient />
         <div className="atmosphere" aria-hidden="true">
           <span className="orb orb-one" />
           <span className="orb orb-two" />
