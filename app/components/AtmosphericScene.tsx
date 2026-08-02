@@ -11,6 +11,10 @@ function SpatialField() {
   const rig = useRef<THREE.Group>(null);
   const core = useRef<THREE.Group>(null);
   const input = useRef({ x: 0, y: 0 });
+  const sceneTarget = useRef({ color: new THREE.Color("#ff9567"), opacity: 0.78, depth: 0 });
+  const nearMaterial = useRef<THREE.PointsMaterial>(null);
+  const farMaterial = useRef<THREE.PointsMaterial>(null);
+  const visible = useRef(true);
 
   const makeField = (count: number, spread: number, depth: number) => {
     const values = new Float32Array(count * 3);
@@ -25,8 +29,12 @@ function SpatialField() {
     return values;
   };
 
-  const nearPositions = useMemo(() => makeField(900, 8, 12), []);
-  const farPositions = useMemo(() => makeField(1250, 15, 24), []);
+  const compactDevice = useMemo(
+    () => window.matchMedia("(max-width: 760px), (pointer: coarse)").matches || (navigator.hardwareConcurrency ?? 8) <= 4,
+    [],
+  );
+  const nearPositions = useMemo(() => makeField(compactDevice ? 420 : 900, 8, 12), [compactDevice]);
+  const farPositions = useMemo(() => makeField(compactDevice ? 640 : 1250, 15, 24), [compactDevice]);
 
   const pathway = useMemo(
     () => [
@@ -50,21 +58,46 @@ function SpatialField() {
     };
     window.addEventListener("pointermove", onPointer, { passive: true });
     window.addEventListener("touchmove", onTouch, { passive: true });
+    const sceneMap: Record<string, { color: string; opacity: number; depth: number }> = {
+      overview: { color: "#ff9567", opacity: 0.78, depth: 0 },
+      audience: { color: "#e7a47c", opacity: 0.48, depth: 0.6 },
+      services: { color: "#a86d4b", opacity: 0.26, depth: 1.4 },
+      method: { color: "#d8a07b", opacity: 0.34, depth: 1.8 },
+      work: { color: "#ff7a42", opacity: 0.68, depth: 2.4 },
+      engagements: { color: "#f2ae84", opacity: 0.44, depth: 3 },
+      contact: { color: "#d89770", opacity: 0.32, depth: 3.4 },
+    };
+    const onScene = (event: Event) => {
+      const scene = (event as CustomEvent<{ scene: string }>).detail.scene;
+      const next = sceneMap[scene];
+      if (next) sceneTarget.current = { color: new THREE.Color(next.color), opacity: next.opacity, depth: next.depth };
+    };
+    const onVisibility = () => { visible.current = !document.hidden; };
+    window.addEventListener("northline:scene", onScene);
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
       window.removeEventListener("pointermove", onPointer);
       window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("northline:scene", onScene);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
   useFrame((_state, delta) => {
-    if (!rig.current || !nearPoints.current || !farPoints.current || !core.current) return;
+    if (!visible.current || !rig.current || !nearPoints.current || !farPoints.current || !core.current) return;
     const scroll = window.scrollY / Math.max(window.innerHeight, 1);
     const { x, y } = input.current;
     rig.current.rotation.y = THREE.MathUtils.damp(rig.current.rotation.y, x * 0.24, 3.4, delta);
     rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, -y * 0.13, 3.4, delta);
     rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, x * 0.48, 3, delta);
     rig.current.position.y = THREE.MathUtils.damp(rig.current.position.y, y * 0.3 + scroll * 0.24, 3, delta);
-    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, scroll * 0.8, 2.2, delta);
+    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, scroll * 0.16 + sceneTarget.current.depth, 2.2, delta);
+    if (nearMaterial.current && farMaterial.current) {
+      nearMaterial.current.color.lerp(sceneTarget.current.color, Math.min(delta * 2.4, 1));
+      nearMaterial.current.opacity = THREE.MathUtils.damp(nearMaterial.current.opacity, sceneTarget.current.opacity, 2.4, delta);
+      farMaterial.current.color.lerp(sceneTarget.current.color, Math.min(delta * 1.5, 1));
+      farMaterial.current.opacity = THREE.MathUtils.damp(farMaterial.current.opacity, sceneTarget.current.opacity * 0.42, 2.4, delta);
+    }
     nearPoints.current.rotation.z += delta * 0.012;
     farPoints.current.rotation.z -= delta * 0.003;
     core.current.rotation.x += delta * 0.035;
@@ -74,10 +107,10 @@ function SpatialField() {
   return (
     <group ref={rig}>
       <Points ref={farPoints} positions={farPositions} stride={3} frustumCulled>
-        <PointMaterial transparent color="#8f553b" size={0.025} sizeAttenuation depthWrite={false} opacity={0.34} />
+        <PointMaterial ref={farMaterial} transparent color="#8f553b" size={0.025} sizeAttenuation depthWrite={false} opacity={0.34} />
       </Points>
       <Points ref={nearPoints} positions={nearPositions} stride={3} frustumCulled>
-        <PointMaterial transparent color="#ff9567" size={0.035} sizeAttenuation depthWrite={false} opacity={0.78} />
+        <PointMaterial ref={nearMaterial} transparent color="#ff9567" size={0.035} sizeAttenuation depthWrite={false} opacity={0.78} />
       </Points>
       <Line points={pathway} color="#f2ae84" lineWidth={0.8} transparent opacity={0.58} />
       <group ref={core} position={[3.35, 0.4, -1.4]}>
@@ -107,10 +140,11 @@ function SpatialField() {
 }
 
 export function AtmosphericScene() {
+  const compactDevice = window.matchMedia("(max-width: 760px), (pointer: coarse)").matches;
   return (
     <div className="spatial-canvas" aria-hidden="true">
       <Canvas
-        dpr={[1, 1.5]}
+        dpr={compactDevice ? [1, 1.15] : [1, 1.5]}
         camera={{ position: [0, 0, 6], fov: 52 }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       >

@@ -45,6 +45,7 @@ const selectedWork = [
     contribution: ["Product narrative", "Workflow architecture", "Interface system", "Automation pathways"],
     flow: ["Inquiry", "Qualification", "Approved action", "Verified outcome"],
     status: "Working product system",
+    repository: "https://github.com/zoeyzb/recoverhvac-revenue-os",
   },
   {
     index: "02",
@@ -56,6 +57,7 @@ const selectedWork = [
     contribution: ["Information architecture", "Product UX", "System states", "Application workflow"],
     flow: ["Discover", "Assess fit", "Prepare", "Track"],
     status: "Product development",
+    repository: "https://github.com/zoeyzb/NextRole",
   },
 ];
 
@@ -70,16 +72,20 @@ export default function Home() {
   return (
     <main id="main-content">
       <MotionController />
-      <aside className="scroll-rail" aria-hidden="true">
+      <AtmosphericSceneClient />
+      <nav className="scroll-rail" aria-label="Page chapters">
         <span className="scroll-rail-progress" />
-        <i>01</i><i>02</i><i>03</i><i>04</i>
-      </aside>
+        <a href="#overview" data-rail-link="overview"><i>01</i><span>Overview</span></a>
+        <a href="#services" data-rail-link="services"><i>02</i><span>Services</span></a>
+        <a href="#method" data-rail-link="method"><i>03</i><span>Method</span></a>
+        <a href="#work" data-rail-link="work"><i>04</i><span>Work</span></a>
+        <a href="#engagements" data-rail-link="engagements"><i>05</i><span>Engage</span></a>
+      </nav>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
 
-      <section className="hero" aria-labelledby="hero-title">
-        <AtmosphericSceneClient />
+      <section className="hero" id="overview" data-scene="overview" data-scene-strength="1" aria-labelledby="hero-title">
         <div className="atmosphere" aria-hidden="true">
           <span className="orb orb-one" />
           <span className="orb orb-two" />
@@ -117,7 +123,7 @@ export default function Home() {
               trust, and act on.
             </p>
 
-            <div className="hero-actions" id="contact" data-hero-support>
+            <div className="hero-actions" data-hero-support>
               <a className="button button-primary" href="mailto:hello@northline.studio?subject=Project%20review">
                 Request a project review
                 <span aria-hidden="true">↗</span>
@@ -137,9 +143,10 @@ export default function Home() {
             {audiences.map((audience) => <span key={audience}>{audience}</span>)}
           </div>
         </div>
+        <div className="scene-bridge" aria-hidden="true"><span /><i /></div>
       </section>
 
-      <section className="audience-paths" aria-labelledby="audience-paths-title">
+      <section className="audience-paths" data-scene="audience" data-scene-strength=".62" aria-labelledby="audience-paths-title">
         <div className="shell audience-paths-grid">
           <article className="organization-path" data-reveal>
             <span>Primary practice / For organizations</span>
@@ -156,7 +163,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="signal-section" aria-labelledby="signal-title">
+      <section className="signal-section" data-scene="stakeholders" data-scene-strength=".12" aria-labelledby="signal-title">
         <div className="shell signal-layout">
           <div className="signal-sticky">
             <p className="eyebrow dark">One presence. Different decisions.</p>
@@ -175,7 +182,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="services-section" id="services" aria-labelledby="services-title">
+      <section className="services-section" id="services" data-scene="services" data-scene-strength=".08" aria-labelledby="services-title">
         <div className="shell">
           <div className="services-heading">
             <p className="eyebrow dark">What we build</p>
@@ -209,7 +216,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="method-section shell" id="method" aria-labelledby="method-title">
+      <section className="method-section shell" id="method" data-scene="method" data-scene-strength=".1" aria-labelledby="method-title">
         <div className="section-intro">
           <p className="eyebrow dark">The credibility system</p>
           <h2 id="method-title">Substance should never be buried under a weak digital presence.</h2>
@@ -223,7 +230,7 @@ export default function Home() {
         <CredibilityGapWalkthrough />
       </section>
 
-      <section className="work-section" id="work" aria-labelledby="work-title">
+      <section className="work-section" id="work" data-scene="work" data-scene-strength=".78" aria-labelledby="work-title">
         <div className="shell">
           <div className="work-heading">
             <div><p className="eyebrow">Selected systems</p><span>Evidence, not a logo wall</span></div>
@@ -248,6 +255,9 @@ export default function Home() {
                     <span className="window-result">Each stage leaves a visible state and next action.</span>
                   </div>
                 </div>
+                <a className="case-link" href={project.repository} target="_blank" rel="noreferrer">
+                  Inspect the repository <span aria-hidden="true">↗</span>
+                </a>
               </article>
             ))}
           </div>
@@ -255,21 +265,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="continuity-section" aria-labelledby="continuity-title">
+      <section className="continuity-section" data-scene="continuity" data-scene-strength=".08" aria-labelledby="continuity-title">
         <div className="shell continuity-layout">
           <div>
             <p className="eyebrow dark">After launch</p>
             <h2 id="continuity-title">A digital presence is never actually finished.</h2>
           </div>
           <div className="continuity-loop" aria-label="Continuous improvement cycle">
-            <div><span>01</span><strong>Observe</strong><p>Analytics, behavior, accessibility, and changing priorities.</p></div>
-            <div><span>02</span><strong>Decide</strong><p>Identify the highest-value credibility and conversion improvement.</p></div>
-            <div><span>03</span><strong>Improve</strong><p>Ship focused changes, measure the response, and repeat.</p></div>
+            <div data-reveal><span>01</span><strong>Observe</strong><p>Analytics, behavior, accessibility, and changing priorities.</p></div>
+            <div data-reveal><span>02</span><strong>Decide</strong><p>Identify the highest-value credibility and conversion improvement.</p></div>
+            <div data-reveal><span>03</span><strong>Improve</strong><p>Ship focused changes, measure the response, and repeat.</p></div>
           </div>
         </div>
       </section>
 
-      <section className="engagements" id="engagements" aria-labelledby="engagements-title">
+      <section className="engagements" id="engagements" data-scene="engagements" data-scene-strength=".52" aria-labelledby="engagements-title">
         <div className="shell engagement-layout">
           <div className="section-intro light">
             <p className="eyebrow">Ways to work together</p>
@@ -328,7 +338,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer" id="contact" data-scene="contact" data-scene-strength=".35">
         <div className="shell footer-main">
           <p className="eyebrow">Start with the current version</p>
           <h2>Show us what the digital presence is failing to communicate.</h2>

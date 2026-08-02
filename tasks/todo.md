@@ -1,23 +1,14 @@
-# Northline build tasks
+# Northline implementation tasks
 
-- [x] Foundation: identity, hero, credibility method, and engagement models
-  - Acceptance: institutional positioning is understandable in the first viewport
-  - Verify: build, rendered HTML test, responsive browser review
-- [x] Offer architecture: websites, portfolios, and platforms
-  - Acceptance: each offer has a clear user, scope, and outcome
-  - Verify: build and link review
-- [x] Evidence system and conversion journey
-  - Acceptance: proof is honest and the primary action remains clear
-  - Verify: accessibility and browser interaction review
-- [x] Coordinated motion and performance polish
-  - Acceptance: motion clarifies content, respects reduced motion, and remains stable on mobile
-  - Verify: browser console, responsive review, production build
-- [x] Replace abstract hero panel with an interactive digital-presence review
-  - Acceptance: the first viewport shows what Northline examines and what the review produces
-  - Verify: rendered HTML test, keyboard interaction, responsive browser review
-- [x] Build an interactive credibility-gap walkthrough and clearer audience routing
-  - Acceptance: visitors can inspect Message, Evidence, and Action gaps; organizations remain primary
-  - Verify: rendered HTML test and keyboard review
-- [x] Reframe selected work as evidence-led case studies
-  - Acceptance: each study distinguishes challenge, intervention, system, and honest project status
-  - Verify: rendered HTML test and mobile layout review
+- [x] Audit the repository, deployment target, stack, content, motion, and evidence boundaries.
+- [x] Write and validate the end-to-end specification and implementation plan before code changes.
+- [x] Add accessible chapter navigation and section scene metadata.
+- [x] Extend the shared atmosphere with adaptive performance and section-aware depth.
+- [x] Add precise-pointer cursor lighting and polished interaction states.
+- [x] Strengthen hero, method, service, and continuity choreography without changing the core layout.
+- [x] Add real repository evidence and richer functional project workflow scenes.
+- [x] Expand rendered-output regression coverage.
+- [x] Run lint, typecheck, build, and rendered-runtime verification.
+- [ ] Complete real-browser visual verification when a browser connector is available.
+- [x] Commit and push the verified continuation to a review branch.
+- [ ] Merge the reviewed continuation into `main` to trigger production deployment.
