@@ -1,91 +1,58 @@
 import { AtmosphericSceneClient } from "./components/AtmosphericSceneClient";
 import { MotionController } from "./components/MotionController";
-import { CredibilityGapWalkthrough, HeroReview } from "./components/CredibilityExperience";
 
 const audiences = [
-  "Higher education",
-  "Research & innovation",
-  "Nonprofits",
-  "Professional services",
-  "Selected B2B ventures",
+  ["Higher education", "Programs, labs, centers, and academic initiatives."],
+  ["Research & innovation", "Complex work translated into a clear public story."],
+  ["Nonprofits", "Mission, evidence, and participation made easier to understand."],
+  ["Professional firms", "Expertise presented with the authority it deserves."],
+  ["Selected B2B ventures", "Early credibility for serious products and teams."],
 ];
 
 const services = [
   {
     number: "01",
-    kind: "website",
     title: "Organization websites",
-    audience: "Institutions, programs, nonprofits, firms, and ventures",
-    outcome: "Turn fragmented information into a clear, credible digital presence.",
+    copy: "Clear digital homes for institutions, programs, firms, and public-interest work.",
+    labels: ["Positioning", "Structure", "Launch"],
   },
   {
     number: "02",
-    kind: "portfolio",
     title: "Portfolio systems",
-    audience: "Researchers, founders, leaders, and emerging professionals",
-    outcome: "Connect experience, work, and direction into a convincing narrative.",
+    copy: "Professional narratives that connect experience, evidence, and direction.",
+    labels: ["Experience", "Selected work", "Direction"],
   },
   {
     number: "03",
-    kind: "platform",
     title: "Digital platforms",
-    audience: "Organizations with complex information or operational workflows",
-    outcome: "Create useful portals, dashboards, internal tools, and connected systems.",
+    copy: "Useful portals and systems for information, workflows, and participation.",
+    labels: ["Input", "System", "Action"],
   },
 ];
 
-const selectedWork = [
-  {
-    index: "01",
-    type: "Revenue operations platform",
-    title: "Recover Revenue",
-    brief: "A fragmented follow-up process reframed as one operational system for lead recovery, communication, and owner visibility.",
-    challenge: "Missed calls, follow-up, bookings, approvals, and attributed revenue lived across disconnected tools.",
-    intervention: "One operating narrative and workspace connecting the customer signal to an accountable next step.",
-    contribution: ["Product narrative", "Workflow architecture", "Interface system", "Automation pathways"],
-    flow: ["Inquiry", "Qualification", "Approved action", "Verified outcome"],
-    status: "Working product system",
-    repository: "https://github.com/zoeyzb/recoverhvac-revenue-os",
-  },
-  {
-    index: "02",
-    type: "Opportunity platform",
-    title: "NextRole",
-    brief: "A complex job-search workflow organized into a legible product journey—from discovery and fit to application readiness and tracking.",
-    challenge: "Discovery, fit, documents, applications, and follow-up created a fragmented experience with no clear state.",
-    intervention: "A single journey that makes readiness, required action, and application status visible at every stage.",
-    contribution: ["Information architecture", "Product UX", "System states", "Application workflow"],
-    flow: ["Discover", "Assess fit", "Prepare", "Track"],
-    status: "Product development",
-    repository: "https://github.com/zoeyzb/NextRole",
-  },
-];
-
-const stakeholders = [
-  ["Applicants", "Can I see where I fit and what happens next?"],
-  ["Partners", "Is the work substantial, aligned, and credible?"],
-  ["Funders", "What is the model, evidence, and potential impact?"],
-  ["Recruits", "Who is doing the work—and why should I join?"],
+const method = [
+  ["Message", "What should people understand immediately?"],
+  ["Evidence", "What proves the work is credible?"],
+  ["Action", "What should the visitor do next?"],
 ];
 
 export default function Home() {
   return (
-    <main id="main-content">
+    <main id="main-content" className="northline-home">
       <MotionController />
       <AtmosphericSceneClient />
+      <a className="skip-link" href="#main-content">Skip to content</a>
+
       <nav className="scroll-rail" aria-label="Page chapters">
         <span className="scroll-rail-progress" />
         <a href="#overview" data-rail-link="overview"><i>01</i><span>Overview</span></a>
-        <a href="#services" data-rail-link="services"><i>02</i><span>Services</span></a>
-        <a href="#method" data-rail-link="method"><i>03</i><span>Method</span></a>
-        <a href="#work" data-rail-link="work"><i>04</i><span>Work</span></a>
+        <a href="#audience" data-rail-link="audience"><i>02</i><span>Audience</span></a>
+        <a href="#services" data-rail-link="services"><i>03</i><span>Services</span></a>
+        <a href="#method" data-rail-link="method"><i>04</i><span>Method</span></a>
         <a href="#engagements" data-rail-link="engagements"><i>05</i><span>Engage</span></a>
       </nav>
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
 
-      <section className="hero" id="overview" data-scene="overview" data-scene-strength="1" aria-labelledby="hero-title">
+      <section className="hero scene-section" id="overview" data-scene="overview" data-scene-strength="1" aria-labelledby="hero-title">
         <div className="atmosphere" aria-hidden="true">
           <span className="orb orb-one" />
           <span className="orb orb-two" />
@@ -94,121 +61,98 @@ export default function Home() {
         </div>
 
         <header className="site-header shell">
-          <a className="wordmark" href="#main-content" aria-label="Northline home">
+          <a className="wordmark" href="#overview" aria-label="Northline home">
             <span className="wordmark-mark" aria-hidden="true">N</span>
             <span>Northline</span>
           </a>
-
           <nav aria-label="Primary navigation">
-            <a href="#method">Method</a>
             <a href="#services">Services</a>
-            <a href="#work">Work</a>
+            <a href="#method">Method</a>
             <a href="#engagements">Engagements</a>
-            <a href="#contact">Start a project</a>
+            <a className="nav-cta" href="#contact">Start a project</a>
           </nav>
         </header>
 
-        <div className="hero-content shell">
+        <div className="hero-stage shell">
           <div className="hero-copy">
-            <p className="eyebrow" data-hero-support>
-              Digital credibility for consequential work
-            </p>
+            <p className="eyebrow" data-hero-support>Digital credibility for consequential work</p>
             <h1 id="hero-title">
               <span className="hero-line-mask"><span data-hero-line>Make the first impression</span></span>
               <em className="hero-line-mask"><span data-hero-line>match the work.</span></em>
             </h1>
             <p className="hero-description" data-hero-support>
-              We build and continuously improve websites, portfolios, and
-              digital platforms that make important work easier to understand,
-              trust, and act on.
+              We design websites and digital platforms that make serious work easier to understand, trust, and act on.
             </p>
-
             <div className="hero-actions" data-hero-support>
-              <a className="button button-primary" href="mailto:hello@northline.studio?subject=Project%20review">
-                Request a project review
-                <span aria-hidden="true">↗</span>
-              </a>
-              <a className="button button-secondary" href="#method">
-                Explore our method
-              </a>
+              <a className="button button-primary" href="#contact">Start a project <span aria-hidden="true">↗</span></a>
+              <a className="button button-secondary" href="#services">See what we build</a>
             </div>
           </div>
 
-          <HeroReview />
-        </div>
-
-        <div className="audience-strip shell" aria-label="Organizations we serve">
-          <span className="strip-label">Built for</span>
-          <div>
-            {audiences.map((audience) => <span key={audience}>{audience}</span>)}
+          <div className="hero-object" aria-hidden="true">
+            <div className="hero-halo" />
+            <div className="interface-stack interface-stack-back">
+              <span className="interface-label">Evidence</span>
+              <div className="interface-lines"><i/><i/><i/></div>
+            </div>
+            <div className="interface-stack interface-stack-mid">
+              <span className="interface-label">Message</span>
+              <div className="interface-heading" />
+              <div className="interface-copy" />
+            </div>
+            <div className="interface-stack interface-stack-front">
+              <div className="interface-nav"><i/><span/><span/><b/></div>
+              <div className="interface-hero"><strong>Make important work clear.</strong><span/></div>
+              <div className="interface-cards"><i/><i/><i/></div>
+            </div>
           </div>
         </div>
-        <div className="scene-bridge" aria-hidden="true"><span /><i /></div>
-      </section>
 
-      <section className="audience-paths" data-scene="audience" data-scene-strength=".62" aria-labelledby="audience-paths-title">
-        <div className="shell audience-paths-grid">
-          <article className="organization-path" data-reveal>
-            <span>Primary practice / For organizations</span>
-            <h2 id="audience-paths-title">When reputation affects applications, partnerships, funding, recruitment, or trust.</h2>
-            <p>For universities, research groups, public-interest organizations, professional firms, and selected B2B ventures whose digital presence has real institutional consequences.</p>
-            <a href="#services">Explore organization work <i aria-hidden="true">↗</i></a>
-          </article>
-          <article className="professional-path" data-reveal>
-            <span>Distinct pathway / For individual professionals</span>
-            <h3>When expertise needs a convincing professional narrative.</h3>
-            <p>Portfolio systems for researchers, founders, designers, engineers, leaders, and students pursuing competitive opportunities.</p>
-            <a href="#services">Explore portfolio systems <i aria-hidden="true">↗</i></a>
-          </article>
+        <div className="hero-caption shell" data-hero-support>
+          <span>Message</span><i>→</i><span>Evidence</span><i>→</i><span>Action</span>
         </div>
       </section>
 
-      <section className="signal-section" data-scene="stakeholders" data-scene-strength=".12" aria-labelledby="signal-title">
-        <div className="shell signal-layout">
-          <div className="signal-sticky">
-            <p className="eyebrow dark">One presence. Different decisions.</p>
-            <h2 id="signal-title">Credibility changes with the person looking.</h2>
-            <p>A serious digital presence does not push one generic pitch. It gives every important stakeholder the evidence and next step they need.</p>
-          </div>
-          <div className="stakeholder-stack">
-            {stakeholders.map(([name, question], index) => (
-              <article key={name} data-reveal>
+      <section className="audience-section scene-section" id="audience" data-scene="audience" data-scene-strength=".46" aria-labelledby="audience-title">
+        <div className="shell audience-shell">
+          <header className="section-heading centered" data-reveal>
+            <p className="eyebrow">Who we build for</p>
+            <h2 id="audience-title">Digital credibility for consequential work.</h2>
+            <p>For organizations whose website affects trust, participation, funding, recruitment, or growth.</p>
+          </header>
+          <div className="audience-grid">
+            {audiences.map(([title, copy], index) => (
+              <article key={title} data-reveal>
                 <span>0{index + 1}</span>
-                <div><h3>{name}</h3><p>{question}</p></div>
-                <i aria-hidden="true">↗</i>
+                <h3>{title}</h3>
+                <p>{copy}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="services-section" id="services" data-scene="services" data-scene-strength=".08" aria-labelledby="services-title">
+      <section className="services-section scene-section" id="services" data-scene="services" data-scene-strength=".28" aria-labelledby="services-title">
         <div className="shell">
-          <div className="services-heading">
-            <p className="eyebrow dark">What we build</p>
-            <h2 id="services-title">Different outputs. One credibility system.</h2>
-            <p>
-              The format changes with the need. The standard does not: every
-              engagement clarifies the message, strengthens the evidence, and
-              creates a purposeful path forward.
-            </p>
-          </div>
+          <header className="section-heading" data-reveal>
+            <p className="eyebrow">What we build</p>
+            <h2 id="services-title">Three formats. One clear standard.</h2>
+          </header>
 
-          <div className="service-list">
-            {services.map((service) => (
-              <article key={service.number} data-reveal data-service={service.kind}>
-                <span className="service-number">{service.number}</span>
-                <div>
-                  <p className="service-audience">{service.audience}</p>
+          <div className="service-showcase">
+            {services.map((service, index) => (
+              <article key={service.title} className="service-scene" data-service data-reveal>
+                <div className="service-copy">
+                  <span>{service.number}</span>
                   <h3>{service.title}</h3>
+                  <p>{service.copy}</p>
                 </div>
-                <div className="service-result">
-                  <p className="service-outcome">{service.outcome}</p>
-                  <div className={`service-visual visual-${service.kind}`} aria-hidden="true">
-                    {service.kind === "website" && <><span>Message</span><span>Evidence</span><span>Action</span></>}
-                    {service.kind === "portfolio" && <><span className="portfolio-card">Experience</span><span className="portfolio-card">Selected work</span><span className="portfolio-card">Direction</span></>}
-                    {service.kind === "platform" && <><span className="platform-node">Input</span><span className="platform-core">System</span><span className="platform-node">Action</span></>}
-                  </div>
+                <div className={`service-object service-object-${index + 1}`} aria-hidden="true">
+                  {service.labels.map((label, labelIndex) => (
+                    <div key={label} style={{ "--layer": labelIndex } as React.CSSProperties}>
+                      <span>{label}</span><i/><i/>
+                    </div>
+                  ))}
                 </div>
               </article>
             ))}
@@ -216,141 +160,84 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="method-section shell" id="method" data-scene="method" data-scene-strength=".1" aria-labelledby="method-title">
-        <div className="section-intro">
-          <p className="eyebrow dark">The credibility system</p>
-          <h2 id="method-title">Substance should never be buried under a weak digital presence.</h2>
-          <p>
-            We turn complex programs, expertise, and organizations into a clear
-            narrative supported by real evidence and purposeful conversion paths.
-          </p>
-        </div>
+      <section className="method-section scene-section" id="method" data-scene="method" data-scene-strength=".55" aria-labelledby="method-title">
+        <div className="shell method-shell">
+          <header className="section-heading centered" data-reveal>
+            <p className="eyebrow">The credibility system</p>
+            <h2 id="method-title">Message <i>→</i> Evidence <i>→</i> Action</h2>
+            <p>Every project is organized around three questions.</p>
+          </header>
 
-        <p className="experience-label">Choose a credibility gap</p>
-        <CredibilityGapWalkthrough />
+          <div className="method-flow" aria-label="Message, Evidence, Action process">
+            {method.map(([title, copy], index) => (
+              <article key={title} data-method-card data-reveal>
+                <span>0{index + 1}</span>
+                <div className="method-icon" aria-hidden="true"><i/><i/></div>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </article>
+            ))}
+            <div className="method-line" aria-hidden="true"><span/></div>
+          </div>
+        </div>
       </section>
 
-      <section className="work-section" id="work" data-scene="work" data-scene-strength=".78" aria-labelledby="work-title">
-        <div className="shell">
-          <div className="work-heading">
-            <div><p className="eyebrow">Selected systems</p><span>Evidence, not a logo wall</span></div>
-            <h2 id="work-title">See how complex work becomes a clear digital experience.</h2>
-          </div>
-          <div className="work-list">
-            {selectedWork.map((project) => (
-              <article key={project.title} data-reveal>
-                <div className="work-meta"><span>{project.index}</span><span>{project.type}</span><b>{project.status}</b></div>
-                <div className="work-copy"><h3>{project.title}</h3><p>{project.brief}</p></div>
-                <div className="case-evidence">
-                  <div><span>Challenge</span><p>{project.challenge}</p></div>
-                  <div><span>Intervention</span><p>{project.intervention}</p></div>
-                  <div><span>Scope</span><ul aria-label={`${project.title} contribution`}>{project.contribution.map((item) => <li key={item}>{item}</li>)}</ul></div>
-                </div>
-                <div className="work-window" aria-hidden="true">
-                  <div className="window-bar"><i/><i/><i/><span>{project.title.toLowerCase().replace(" ", "-")}.system</span></div>
-                  <div className="window-canvas">
-                    <span className="window-kicker">System path / conceptual view</span>
-                    <strong>{project.title}</strong>
-                    <div className="window-flow">{project.flow.map((step, index) => <span key={step}><i>{index + 1}</i><b>{step}</b></span>)}</div>
-                    <span className="window-result">Each stage leaves a visible state and next action.</span>
-                  </div>
-                </div>
-                <a className="case-link" href={project.repository} target="_blank" rel="noreferrer">
-                  Inspect the repository <span aria-hidden="true">↗</span>
-                </a>
+      <section className="continuity-section scene-section" data-scene="continuity" data-scene-strength=".32" aria-labelledby="continuity-title">
+        <div className="shell continuity-shell">
+          <header className="section-heading centered" data-reveal>
+            <p className="eyebrow">Continuous improvement</p>
+            <h2 id="continuity-title">Observe. Decide. Improve.</h2>
+          </header>
+          <div className="continuity-rings" aria-label="Continuous improvement cycle">
+            {[
+              ["Observe", "See what is unclear."],
+              ["Decide", "Choose the highest-value change."],
+              ["Improve", "Ship, learn, and repeat."],
+            ].map(([title, copy], index) => (
+              <article key={title} data-reveal>
+                <div className="ring" aria-hidden="true"><i/><span>0{index + 1}</span></div>
+                <h3>{title}</h3>
+                <p>{copy}</p>
               </article>
             ))}
           </div>
-          <p className="work-note">These are product and system studies. No client outcomes or performance figures are presented without verified evidence.</p>
         </div>
       </section>
 
-      <section className="continuity-section" data-scene="continuity" data-scene-strength=".08" aria-labelledby="continuity-title">
-        <div className="shell continuity-layout">
-          <div>
-            <p className="eyebrow dark">After launch</p>
-            <h2 id="continuity-title">A digital presence is never actually finished.</h2>
-          </div>
-          <div className="continuity-loop" aria-label="Continuous improvement cycle">
-            <div data-reveal><span>01</span><strong>Observe</strong><p>Analytics, behavior, accessibility, and changing priorities.</p></div>
-            <div data-reveal><span>02</span><strong>Decide</strong><p>Identify the highest-value credibility and conversion improvement.</p></div>
-            <div data-reveal><span>03</span><strong>Improve</strong><p>Ship focused changes, measure the response, and repeat.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="engagements" id="engagements" data-scene="engagements" data-scene-strength=".52" aria-labelledby="engagements-title">
-        <div className="shell engagement-layout">
-          <div className="section-intro light">
+      <section className="engagements scene-section" id="engagements" data-scene="engagements" data-scene-strength=".42" aria-labelledby="engagements-title">
+        <div className="shell engagement-shell">
+          <header className="section-heading centered" data-reveal>
             <p className="eyebrow">Ways to work together</p>
             <h2 id="engagements-title">Launch once—or keep improving.</h2>
-            <p>
-              Choose a defined build with handoff, or an ongoing partnership
-              that protects and improves your digital credibility after launch.
-            </p>
-          </div>
-
-          <div className="engagement-cards">
-            <article>
-              <span className="card-label">Defined engagement</span>
+          </header>
+          <div className="engagement-grid">
+            <article data-reveal>
+              <span>Defined engagement</span>
               <h3>One-time build</h3>
-              <p>Strategy, narrative, design, development, launch, and a structured handoff.</p>
-              <ul>
-                <li>Clear scope and delivery plan</li>
-                <li>Accessible, responsive implementation</li>
-                <li>Documentation and ownership transfer</li>
-              </ul>
+              <p>Strategy, design, development, launch, and a structured handoff.</p>
+              <ul><li>Clear scope</li><li>Complete build</li><li>Ownership transfer</li></ul>
             </article>
-
-            <article className="featured-card">
-              <span className="card-label">Ongoing partnership</span>
+            <article className="featured" data-reveal>
+              <span>Ongoing partnership</span>
               <h3>Managed digital presence</h3>
-              <p>Continuous oversight and improvements informed by performance, content, and organizational change.</p>
-              <ul>
-                <li>Maintenance, security, and accessibility</li>
-                <li>Content and conversion improvements</li>
-                <li>Analytics reviews and strategic updates</li>
-              </ul>
+              <p>Continuous oversight and improvement after launch.</p>
+              <ul><li>Maintenance</li><li>Content refinement</li><li>Reporting and iteration</li></ul>
             </article>
           </div>
         </div>
       </section>
 
-      <section className="standards-section" aria-labelledby="standards-title">
-        <div className="shell standards-layout">
-          <div>
-            <p className="eyebrow dark">Evidence before decoration</p>
-            <h2 id="standards-title">Credibility cannot be manufactured with polish alone.</h2>
-          </div>
-          <div className="standards-copy">
-            <p>
-              We do not invent metrics, testimonials, partnerships, or outcomes.
-              When proof is limited, we improve how the real work is documented,
-              explained, and experienced.
-            </p>
-            <dl>
-              <div><dt>01</dt><dd>Real work over unsupported claims</dd></div>
-              <div><dt>02</dt><dd>Functional experiences over decorative demos</dd></div>
-              <div><dt>03</dt><dd>Accessible clarity over visual noise</dd></div>
-              <div><dt>04</dt><dd>Continuous improvement over launch-and-forget</dd></div>
-            </dl>
-          </div>
+      <section className="contact-section scene-section" id="contact" data-scene="contact" data-scene-strength=".22" aria-labelledby="contact-title">
+        <div className="shell contact-shell" data-reveal>
+          <p className="eyebrow">Start with the gap</p>
+          <h2 id="contact-title">Show us what the digital presence is failing to communicate.</h2>
+          <a className="button button-primary" href="mailto:hello@northline.studio?subject=Project%20review">Request a project review <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
-      <footer className="site-footer" id="contact" data-scene="contact" data-scene-strength=".35">
-        <div className="shell footer-main">
-          <p className="eyebrow">Start with the current version</p>
-          <h2>Show us what the digital presence is failing to communicate.</h2>
-          <a className="button button-primary" href="mailto:hello@northline.studio?subject=Project%20review">
-            Request a project review <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <div className="shell footer-bottom">
-          <span>Northline</span>
-          <span>Message → Evidence → Action</span>
-          <span>© {new Date().getFullYear()}</span>
-        </div>
+      <footer className="site-footer shell">
+        <a className="wordmark" href="#overview"><span className="wordmark-mark" aria-hidden="true">N</span><span>Northline</span></a>
+        <p>Digital credibility for consequential work.</p>
       </footer>
     </main>
   );
