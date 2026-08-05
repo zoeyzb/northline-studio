@@ -11,9 +11,7 @@ test("renders the Northline credibility homepage", async () => {
 
   const response = await worker.fetch(
     new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    {
-      ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
-    },
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
     { waitUntil() {}, passThroughOnException() {} },
   );
 
@@ -22,12 +20,14 @@ test("renders the Northline credibility homepage", async () => {
 
   const html = await response.text();
   assert.match(html, developmentPreviewMeta);
-  assert.match(html, /Turn complex work into/);
-  assert.match(html, /Selected work/);
-  assert.match(html, /Evidence before promises/);
-  assert.match(html, /Recover Revenue/);
-  assert.match(html, /NextRole/);
-  assert.match(html, /Research initiative platform/);
+  assert.match(html, /Make complex work/);
+  assert.match(html, /Evidence in the work/);
+  assert.match(html, /Proof should match the service being sold/);
+  assert.match(html, /From internal language to a clear public story/);
+  assert.match(html, /Turning scattered evidence into a usable system/);
+  assert.match(html, /A working website, not a static concept/);
+  assert.doesNotMatch(html, /Recover Revenue/);
+  assert.doesNotMatch(html, /NextRole/);
   assert.match(html, /Institutional websites/);
   assert.match(html, /Program and initiative platforms/);
   assert.match(html, /Digital presence improvement/);
