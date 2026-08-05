@@ -11,7 +11,7 @@ function SpatialField() {
   const rig = useRef<THREE.Group>(null);
   const core = useRef<THREE.Group>(null);
   const input = useRef({ x: 0, y: 0 });
-  const sceneTarget = useRef({ color: new THREE.Color("#7ef0bd"), opacity: 0.72, depth: 0 });
+  const sceneTarget = useRef({ color: new THREE.Color("#6fd8ef"), opacity: 0.72, depth: 0 });
   const nearMaterial = useRef<THREE.PointsMaterial>(null);
   const farMaterial = useRef<THREE.PointsMaterial>(null);
   const visible = useRef(true);
@@ -59,13 +59,13 @@ function SpatialField() {
     window.addEventListener("pointermove", onPointer, { passive: true });
     window.addEventListener("touchmove", onTouch, { passive: true });
     const sceneMap: Record<string, { color: string; opacity: number; depth: number }> = {
-      overview: { color: "#7ef0bd", opacity: 0.72, depth: 0 },
-      audience: { color: "#9ee8c6", opacity: 0.42, depth: 0.65 },
-      services: { color: "#58b98d", opacity: 0.3, depth: 1.3 },
-      method: { color: "#7ed8ae", opacity: 0.4, depth: 1.9 },
-      work: { color: "#68efb2", opacity: 0.72, depth: 2.7 },
-      engagements: { color: "#8fd9b8", opacity: 0.46, depth: 3.15 },
-      contact: { color: "#b7e8d0", opacity: 0.3, depth: 3.65 },
+      overview: { color: "#6fd8ef", opacity: 0.72, depth: 0 },
+      audience: { color: "#9fdcef", opacity: 0.42, depth: 0.65 },
+      services: { color: "#4f9fc4", opacity: 0.3, depth: 1.3 },
+      method: { color: "#6fc4e0", opacity: 0.4, depth: 1.9 },
+      work: { color: "#5fd0ef", opacity: 0.72, depth: 2.7 },
+      engagements: { color: "#85c8e0", opacity: 0.46, depth: 3.15 },
+      contact: { color: "#b7dcef", opacity: 0.3, depth: 3.65 },
     };
     const onScene = (event: Event) => {
       const scene = (event as CustomEvent<{ scene: string }>).detail.scene;
@@ -107,31 +107,31 @@ function SpatialField() {
   return (
     <group ref={rig}>
       <Points ref={farPoints} positions={farPositions} stride={3} frustumCulled>
-        <PointMaterial ref={farMaterial} transparent color="#2f8d68" size={0.023} sizeAttenuation depthWrite={false} opacity={0.28} />
+        <PointMaterial ref={farMaterial} transparent color="#2f6d8d" size={0.023} sizeAttenuation depthWrite={false} opacity={0.28} />
       </Points>
       <Points ref={nearPoints} positions={nearPositions} stride={3} frustumCulled>
-        <PointMaterial ref={nearMaterial} transparent color="#7ef0bd" size={0.032} sizeAttenuation depthWrite={false} opacity={0.72} />
+        <PointMaterial ref={nearMaterial} transparent color="#6fd8ef" size={0.032} sizeAttenuation depthWrite={false} opacity={0.72} />
       </Points>
-      <Line points={pathway} color="#8fe0bb" lineWidth={0.75} transparent opacity={0.5} />
+      <Line points={pathway} color="#8fd4ef" lineWidth={0.75} transparent opacity={0.5} />
       <group ref={core} position={[3.35, 0.4, -1.4]}>
         <mesh>
           <icosahedronGeometry args={[1.35, 1]} />
-          <meshBasicMaterial color="#46bc87" wireframe transparent opacity={0.2} />
+          <meshBasicMaterial color="#46a0c8" wireframe transparent opacity={0.2} />
         </mesh>
         <mesh rotation={[0.5, 0.2, 0.8]}>
           <torusGeometry args={[1.85, 0.012, 8, 120]} />
-          <meshBasicMaterial color="#b7f3d7" transparent opacity={0.42} />
+          <meshBasicMaterial color="#b7e6f5" transparent opacity={0.42} />
         </mesh>
         <mesh rotation={[1.2, 0.7, 0.1]}>
           <torusGeometry args={[2.25, 0.008, 8, 120]} />
-          <meshBasicMaterial color="#3c9f75" transparent opacity={0.24} />
+          <meshBasicMaterial color="#3c8fbf" transparent opacity={0.24} />
         </mesh>
       </group>
       {pathway.map((point, index) => (
         <Float key={index} speed={0.7 + index * 0.12} rotationIntensity={0.16} floatIntensity={0.42}>
           <mesh position={point}>
             <sphereGeometry args={[index === 3 ? 0.13 : 0.085, 20, 20]} />
-            <meshBasicMaterial color={index === 3 ? "#81f0bd" : "#78cda7"} transparent opacity={0.88} />
+            <meshBasicMaterial color={index === 3 ? "#71d8ef" : "#78bcd8"} transparent opacity={0.88} />
           </mesh>
         </Float>
       ))}
@@ -148,7 +148,7 @@ export function AtmosphericScene() {
         camera={{ position: [0, 0, 6], fov: 52 }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       >
-        <fog attach="fog" args={["#07100c", 7, 25]} />
+        <fog attach="fog" args={["#060e16", 7, 25]} />
         <SpatialField />
       </Canvas>
     </div>

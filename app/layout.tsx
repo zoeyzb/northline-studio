@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "./premium-overrides.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +23,11 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#060e16",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
