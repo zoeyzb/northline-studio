@@ -35,7 +35,7 @@ export function MotionController() {
         const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible) activate(visible.target as HTMLElement);
       },
-      { rootMargin: "-30% 0px -48% 0px", threshold: [0, .2, .45] },
+      { rootMargin: "-28% 0px -50% 0px", threshold: [0, .2, .45] },
     );
     sections.forEach((section) => observer.observe(section));
 
@@ -47,7 +47,7 @@ export function MotionController() {
     }
 
     gsap.registerPlugin(ScrollTrigger);
-    const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+    const lenis = new Lenis({ duration: .82, smoothWheel: true });
     const update = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
@@ -56,24 +56,42 @@ export function MotionController() {
     const context = gsap.context(() => {
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
       intro
-        .from("[data-hero-line]", { yPercent: 110, filter: "blur(16px)", duration: 1.2, stagger: .12 })
-        .from("[data-hero-support]", { y: 22, opacity: 0, duration: .75, stagger: .1 }, "-=.55")
-        .from(".hero-object", { z: -320, rotateX: 12, opacity: 0, duration: 1.35 }, "-=1");
+        .from("[data-hero-line]", { yPercent: 110, filter: "blur(14px)", duration: 1.05, stagger: .1 })
+        .from("[data-hero-support]", { y: 18, opacity: 0, duration: .65, stagger: .08 }, "-=.45")
+        .from(".interface-stack", { y: 70, opacity: 0, duration: .9, stagger: .12 }, "-=.8")
+        .from(".interface-fragment", { x: (index) => index % 2 ? 50 : -50, y: 20, opacity: 0, duration: .7, stagger: .08 }, "-=.65");
 
-      gsap.timeline({
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1.1 },
-      })
-        .to(".hero-copy", { yPercent: 18, scale: .88, opacity: .12, ease: "none" }, 0)
-        .to(".hero-object", { z: 430, yPercent: -5, rotateX: 8, scale: 1.22, opacity: .08, ease: "none" }, 0)
-        .to(".grid-plane", { scale: 2.1, yPercent: 22, opacity: .08, ease: "none" }, 0);
+      gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 } })
+        .to(".interface-fragment", { x: 0, y: 0, rotate: 0, opacity: .12, scale: .75, ease: "none" }, 0)
+        .to(".interface-stack-back", { y: 18, opacity: .2, ease: "none" }, 0)
+        .to(".interface-stack-mid", { y: 8, opacity: .45, ease: "none" }, 0)
+        .to(".interface-stack-front", { y: -18, scale: 1.05, ease: "none" }, 0)
+        .to(".hero-copy", { yPercent: 8, opacity: .38, ease: "none" }, 0)
+        .to(".grid-plane", { scale: 1.85, yPercent: 14, opacity: .08, ease: "none" }, 0);
 
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
         gsap.from(element, {
-          y: 44,
+          y: 34,
           opacity: 0,
-          duration: .9,
+          duration: .75,
           ease: "power2.out",
-          scrollTrigger: { trigger: element, start: "top 86%", once: true },
+          scrollTrigger: { trigger: element, start: "top 88%", once: true },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>("[data-work-card]").forEach((card, index) => {
+        const visual = card.querySelector(".work-visual");
+        if (!visual) return;
+        gsap.fromTo(visual,
+          { xPercent: index % 2 === 0 ? 12 : -12, z: -180, rotateY: index % 2 === 0 ? -8 : 8, scale: .9, opacity: .5 },
+          { xPercent: 0, z: 0, rotateY: 0, scale: 1, opacity: 1, ease: "none", scrollTrigger: { trigger: card, start: "top 88%", end: "center 55%", scrub: .8 } },
+        );
+        gsap.from(card.querySelectorAll(".screen-grid i"), {
+          y: 30,
+          opacity: 0,
+          stagger: .08,
+          duration: .55,
+          scrollTrigger: { trigger: card, start: "top 62%", once: true },
         });
       });
 
@@ -81,72 +99,38 @@ export function MotionController() {
         const object = element.querySelector(".service-object");
         if (!object) return;
         gsap.fromTo(object,
-          { xPercent: index % 2 === 0 ? 22 : -22, z: -280, rotateY: index % 2 === 0 ? -16 : 16, scale: .82, opacity: .25 },
-          {
-            xPercent: 0, z: 0, rotateY: 0, scale: 1, opacity: 1, ease: "none",
-            scrollTrigger: { trigger: element, start: "top 85%", end: "center 55%", scrub: 1 },
-          },
+          { xPercent: index % 2 === 0 ? 15 : -15, z: -180, rotateY: index % 2 === 0 ? -10 : 10, scale: .9, opacity: .45 },
+          { xPercent: 0, z: 0, rotateY: 0, scale: 1, opacity: 1, ease: "none", scrollTrigger: { trigger: element, start: "top 88%", end: "center 58%", scrub: .85 } },
         );
-        gsap.to(object, {
-          z: 180, scale: 1.08, opacity: .32, ease: "none",
-          scrollTrigger: { trigger: element, start: "center 35%", end: "bottom top", scrub: 1 },
-        });
       });
 
-      gsap.fromTo(".method-flow", { z: -260, rotateX: 12, scale: .84 }, {
-        z: 0, rotateX: 0, scale: 1, ease: "none",
-        scrollTrigger: { trigger: ".method-section", start: "top 86%", end: "center 52%", scrub: 1 },
-      });
-      gsap.to(".method-line span", {
-        scaleX: 1, ease: "none",
-        scrollTrigger: { trigger: ".method-flow", start: "top 72%", end: "center 48%", scrub: .8 },
-      });
+      gsap.timeline({ scrollTrigger: { trigger: ".method-section", start: "top 76%", end: "center 42%", scrub: 1 } })
+        .fromTo(".method-message", { z: -260, y: 110, opacity: .2 }, { z: -130, y: 0, opacity: .75, ease: "none" }, 0)
+        .fromTo(".method-evidence", { z: -200, y: 120, opacity: .2 }, { z: -55, y: 0, opacity: .88, ease: "none" }, .1)
+        .fromTo(".method-action", { z: -140, y: 130, opacity: .2 }, { z: 0, y: 0, opacity: 1, ease: "none" }, .2);
+
       gsap.utils.toArray<HTMLElement>("[data-method-card]").forEach((card, index) => {
-        gsap.from(card, {
-          y: 70,
-          z: -120,
-          rotateX: 8,
-          opacity: 0,
-          duration: .9,
-          delay: index * .08,
-          scrollTrigger: { trigger: card, start: "top 82%", once: true },
-        });
+        gsap.from(card, { x: 28, opacity: 0, duration: .7, delay: index * .05, scrollTrigger: { trigger: card, start: "top 84%", once: true } });
       });
 
-      gsap.utils.toArray<HTMLElement>(".ring i").forEach((ring, index) => {
-        gsap.to(ring, {
-          rotate: index % 2 === 0 ? 360 : -360,
-          duration: 14 + index * 3,
-          repeat: -1,
-          ease: "none",
-        });
-      });
-      gsap.fromTo(".continuity-rings", { scale: .78, z: -220, opacity: .2 }, {
-        scale: 1, z: 0, opacity: 1, ease: "none",
-        scrollTrigger: { trigger: ".continuity-section", start: "top 85%", end: "center 52%", scrub: 1 },
-      });
-
-      gsap.fromTo(".engagement-grid", { scale: .86, z: -220, rotateX: 9 }, {
-        scale: 1, z: 0, rotateX: 0, ease: "none",
-        scrollTrigger: { trigger: ".engagements", start: "top 86%", end: "center 55%", scrub: 1 },
-      });
-
-      gsap.to(".scroll-rail-progress", {
-        scaleY: 1,
-        ease: "none",
-        scrollTrigger: { trigger: "main", start: "top top", end: "bottom bottom", scrub: .2 },
-      });
+      gsap.to(".scroll-rail-progress", { scaleY: 1, ease: "none", scrollTrigger: { trigger: "main", start: "top top", end: "bottom bottom", scrub: .2 } });
 
       if (desktop) {
-        const object = document.querySelector<HTMLElement>(".hero-object");
-        const onHeroPointer = (event: PointerEvent) => {
-          if (!object) return;
+        const heroObject = document.querySelector<HTMLElement>(".hero-object");
+        const workVisuals = Array.from(document.querySelectorAll<HTMLElement>(".work-visual"));
+        const onDepthPointer = (event: PointerEvent) => {
           const x = event.clientX / window.innerWidth - .5;
           const y = event.clientY / window.innerHeight - .5;
-          gsap.to(object, { rotateY: x * 7, rotateX: -y * 5, x: x * 18, y: y * 10, duration: .8, ease: "power2.out" });
+          if (heroObject) gsap.to(heroObject, { rotateY: x * 4.5, rotateX: -y * 3.5, x: x * 10, y: y * 6, duration: .8, ease: "power2.out" });
+          workVisuals.forEach((visual) => {
+            const rect = visual.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              gsap.to(visual, { rotateY: x * 2.2, rotateX: -y * 1.6, duration: .9, ease: "power2.out" });
+            }
+          });
         };
-        window.addEventListener("pointermove", onHeroPointer, { passive: true });
-        return () => window.removeEventListener("pointermove", onHeroPointer);
+        window.addEventListener("pointermove", onDepthPointer, { passive: true });
+        return () => window.removeEventListener("pointermove", onDepthPointer);
       }
     });
 
