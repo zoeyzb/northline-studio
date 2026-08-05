@@ -3,58 +3,39 @@ import { MotionController } from "./components/MotionController";
 import { ProjectReviewForm } from "./components/ProjectReviewForm";
 
 const problems = [
-  {
-    number: "01",
-    title: "Complex work is difficult to explain",
-    copy: "The organization understands its value internally, but visitors cannot quickly see what it does or why it matters.",
-  },
-  {
-    number: "02",
-    title: "Evidence is scattered",
-    copy: "Programs, research, outcomes, people, publications, and partnerships live across disconnected pages and files.",
-  },
-  {
-    number: "03",
-    title: "The website understates the institution",
-    copy: "The digital presence feels smaller, less established, or less capable than the work behind it.",
-  },
-  {
-    number: "04",
-    title: "Visitors do not know what to do next",
-    copy: "Applicants, partners, funders, clients, and participants cannot find a clear path forward.",
-  },
+  ["01", "Complex work is difficult to explain", "The organization understands its value internally, but visitors cannot quickly see what it does or why it matters."],
+  ["02", "Evidence is scattered", "Programs, research, outcomes, people, publications, and partnerships live across disconnected pages and files."],
+  ["03", "The website understates the institution", "The digital presence feels smaller, less established, or less capable than the work behind it."],
+  ["04", "Visitors do not know what to do next", "Applicants, partners, funders, clients, and participants cannot find a clear path forward."],
 ];
 
-const work = [
+const evidence = [
   {
-    type: "Revenue operations platform",
-    title: "Recover Revenue",
-    problem: "A complex operational system needed a clear product story and a usable path from lead recovery to booked work.",
-    decision: "Organize the experience around missed opportunity, operational proof, and the next action an operator should take.",
-    delivered: ["Product positioning", "Workflow architecture", "Responsive interface", "Operational dashboards"],
-    href: "https://recoverrevenue.company/",
-    label: "View live platform",
-    className: "work-recover",
-  },
-  {
-    type: "Career automation platform",
-    title: "NextRole",
-    problem: "Job-search automation can feel opaque and risky when users cannot see what the system is doing or control key actions.",
-    decision: "Make progress, evidence, and human checkpoints visible throughout the workflow.",
-    delivered: ["Product narrative", "Application workflow", "Trust states", "Responsive product UI"],
-    href: "https://next-role-web-nine.vercel.app/",
-    label: "View live platform",
-    className: "work-nextrole",
-  },
-  {
-    type: "Institutional concept system",
-    title: "Research initiative platform",
-    problem: "Programs often need to explain research, people, opportunities, and impact to several audiences at once.",
-    decision: "Create one hierarchy connecting the initiative, its evidence, and routes to participate.",
-    delivered: ["Information architecture", "Evidence modules", "Program pathways", "Accessible content system"],
-    href: "#method",
-    label: "See the approach",
+    type: "Messaging transformation",
+    title: "From internal language to a clear public story",
+    problem: "Institutional websites often lead with department language, broad claims, and long descriptions that assume visitors already understand the work.",
+    decision: "Reduce the first screen to one audience, one core value proposition, visible proof, and one primary next step.",
+    delivered: ["Audience hierarchy", "Homepage narrative", "Page-level messaging", "CTA system"],
+    note: "Complex language → clear message → next step",
     className: "work-research",
+  },
+  {
+    type: "Information architecture",
+    title: "Turning scattered evidence into a usable system",
+    problem: "Research, programs, people, publications, events, and outcomes are frequently separated across pages with no visible relationship.",
+    decision: "Create an evidence map, define reusable content modules, and organize navigation around visitor questions rather than internal departments.",
+    delivered: ["Evidence inventory", "Sitemap", "Content relationships", "Reusable page modules"],
+    note: "Scattered material → evidence map → coherent structure",
+    className: "work-architecture",
+  },
+  {
+    type: "Responsive delivery standard",
+    title: "A working website, not a static concept",
+    problem: "A visually impressive desktop design is not credible if it becomes confusing, inaccessible, or slow on real devices.",
+    decision: "Treat responsive behavior, keyboard access, reduced motion, performance, and clear form states as part of the design itself.",
+    delivered: ["Responsive implementation", "Keyboard and focus states", "Reduced-motion support", "Performance fallbacks"],
+    note: "Design intent → tested behavior → dependable delivery",
+    className: "work-delivery",
   },
 ];
 
@@ -80,48 +61,15 @@ const services = [
 ];
 
 const method = [
-  {
-    number: "01",
-    title: "Message",
-    question: "What must the visitor understand?",
-    copy: "We define the audience, positioning, page hierarchy, and core narrative before design begins.",
-    output: "Messaging brief and page architecture",
-  },
-  {
-    number: "02",
-    title: "Evidence",
-    question: "What makes the work believable?",
-    copy: "We organize outcomes, research, programs, people, publications, partnerships, and proof into useful modules.",
-    output: "Evidence map and content system",
-  },
-  {
-    number: "03",
-    title: "Action",
-    question: "What should happen next?",
-    copy: "We create clear pathways to apply, contact, partner, donate, attend, explore, or hire.",
-    output: "Conversion paths and measurable actions",
-  },
+  ["01", "Message", "What must the visitor understand?", "We define the audience, positioning, page hierarchy, and core narrative before design begins.", "Messaging brief and page architecture"],
+  ["02", "Evidence", "What makes the work believable?", "We organize outcomes, research, programs, people, publications, partnerships, and proof into useful modules.", "Evidence map and content system"],
+  ["03", "Action", "What should happen next?", "We create clear pathways to apply, contact, partner, donate, attend, explore, or hire.", "Conversion paths and measurable actions"],
 ];
 
 const engagements = [
-  {
-    label: "Defined engagement",
-    title: "Foundation",
-    copy: "A complete website or institutional launch with a clear scope and structured handoff.",
-    items: ["Strategy and positioning", "Custom design and development", "CMS, testing, and launch"],
-  },
-  {
-    label: "Complex build",
-    title: "Platform",
-    copy: "A functional digital system involving structured content, workflows, applications, or integrations.",
-    items: ["User and stakeholder flows", "Functional platform development", "Data, integrations, and deployment"],
-  },
-  {
-    label: "Ongoing partnership",
-    title: "Continuous improvement",
-    copy: "Focused ownership after launch, guided by clarity, usability, performance, and content needs.",
-    items: ["Content and page improvements", "Accessibility and performance", "Monthly planning and releases"],
-  },
+  ["Defined engagement", "Foundation", "A complete website or institutional launch with a clear scope and structured handoff.", ["Strategy and positioning", "Custom design and development", "CMS, testing, and launch"]],
+  ["Complex build", "Platform", "A functional digital system involving structured content, workflows, applications, or integrations.", ["User and stakeholder flows", "Functional platform development", "Data, integrations, and deployment"]],
+  ["Ongoing partnership", "Continuous improvement", "Focused ownership after launch, guided by clarity, usability, performance, and content needs.", ["Content and page improvements", "Accessibility and performance", "Monthly planning and releases"]],
 ];
 
 export default function Home() {
@@ -134,7 +82,7 @@ export default function Home() {
       <nav className="scroll-rail" aria-label="Page chapters">
         <span className="scroll-rail-progress" />
         <a href="#overview" data-rail-link="overview"><i>01</i><span>Overview</span></a>
-        <a href="#work" data-rail-link="work"><i>02</i><span>Work</span></a>
+        <a href="#evidence" data-rail-link="evidence"><i>02</i><span>Evidence</span></a>
         <a href="#services" data-rail-link="services"><i>03</i><span>Services</span></a>
         <a href="#method" data-rail-link="method"><i>04</i><span>Method</span></a>
         <a href="#contact" data-rail-link="contact"><i>05</i><span>Contact</span></a>
@@ -142,11 +90,10 @@ export default function Home() {
 
       <section className="hero scene-section" id="overview" data-scene="overview" data-scene-strength="1" aria-labelledby="hero-title">
         <div className="atmosphere" aria-hidden="true"><span className="grid-plane" /><span className="grain" /></div>
-
         <header className="site-header shell">
           <a className="wordmark" href="#overview" aria-label="Northline home"><span>Northline</span><small>Credibility studio</small></a>
           <nav aria-label="Primary navigation">
-            <a href="#work">Work</a>
+            <a href="#evidence">Evidence</a>
             <a href="#services">Services</a>
             <a href="#method">Method</a>
             <a className="nav-cta" href="#contact">Request a review</a>
@@ -157,17 +104,17 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow" data-hero-support>Websites and digital platforms for institutions and expert organizations</p>
             <h1 id="hero-title">
-              <span className="hero-line-mask"><span data-hero-line>Turn complex work into</span></span>
-              <em className="hero-line-mask"><span data-hero-line>a clear digital presence.</span></em>
+              <span className="hero-line-mask"><span data-hero-line>Make complex work</span></span>
+              <em className="hero-line-mask"><span data-hero-line>clear and credible.</span></em>
             </h1>
             <p className="hero-description" data-hero-support>
-              Northline helps universities, research programs, nonprofits, and professional organizations explain what they do, prove why it matters, and guide visitors toward the right next step.
+              Northline helps universities, research programs, nonprofits, and professional organizations explain what they do, organize the evidence behind it, and guide visitors toward the right next step.
             </p>
             <div className="hero-actions" data-hero-support>
-              <a className="button button-primary" href="#work">Review our work <span aria-hidden="true">↘</span></a>
+              <a className="button button-primary" href="#evidence">See the standard <span aria-hidden="true">↘</span></a>
               <a className="button button-secondary" href="#method">See how we work</a>
             </div>
-            <p className="hero-fit" data-hero-support>Best suited for complex, evidence-heavy work that deserves to be understood quickly.</p>
+            <p className="hero-fit" data-hero-support>For valuable work that is currently harder to understand online than it should be.</p>
           </div>
 
           <div className="hero-object" aria-label="A fragmented interface becoming a clear website system">
@@ -175,15 +122,8 @@ export default function Home() {
             <div className="interface-fragment fragment-one"><span>Research</span><i/><i/></div>
             <div className="interface-fragment fragment-two"><span>Programs</span><i/><i/></div>
             <div className="interface-fragment fragment-three"><span>Outcomes</span><i/><i/></div>
-            <div className="interface-stack interface-stack-back">
-              <span className="interface-label">Evidence</span>
-              <div className="interface-lines"><i/><i/><i/></div>
-            </div>
-            <div className="interface-stack interface-stack-mid">
-              <span className="interface-label">Message</span>
-              <div className="interface-heading" />
-              <div className="interface-copy" />
-            </div>
+            <div className="interface-stack interface-stack-back"><span className="interface-label">Evidence</span><div className="interface-lines"><i/><i/><i/></div></div>
+            <div className="interface-stack interface-stack-mid"><span className="interface-label">Message</span><div className="interface-heading" /><div className="interface-copy" /></div>
             <div className="interface-stack interface-stack-front">
               <div className="interface-nav"><i/><span/><span/><b/></div>
               <div className="interface-hero"><strong>Make important work clear.</strong><span/></div>
@@ -192,7 +132,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
         <div className="hero-caption shell" data-hero-support><span>Message</span><i>→</i><span>Evidence</span><i>→</i><span>Action</span></div>
       </section>
 
@@ -205,33 +144,32 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="work-section scene-section" id="work" data-scene="work" data-scene-strength=".78" aria-labelledby="work-title">
+      <section className="work-section scene-section" id="evidence" data-scene="work" data-scene-strength=".78" aria-labelledby="evidence-title">
         <div className="shell">
           <header className="section-heading split-heading" data-reveal>
-            <div><p className="eyebrow">Selected work</p><h2 id="work-title">Evidence before promises.</h2></div>
-            <p>Each project starts with a communication problem, turns evidence into structure, and ends with a useful digital experience.</p>
+            <div><p className="eyebrow">Evidence in the work</p><h2 id="evidence-title">Proof should match the service being sold.</h2></div>
+            <p>Until client case studies are available, Northline shows the exact strategic and technical standards used to build credible institutional websites. No unrelated products. No invented results.</p>
           </header>
-
           <div className="work-list">
-            {work.map((project, index) => (
-              <article className="work-card" data-work-card data-reveal key={project.title}>
+            {evidence.map((item, index) => (
+              <article className="work-card" data-work-card data-reveal key={item.title}>
                 <div className="work-copy">
-                  <span className="work-index">0{index + 1} / {project.type}</span>
-                  <h3>{project.title}</h3>
+                  <span className="work-index">0{index + 1} / {item.type}</span>
+                  <h3>{item.title}</h3>
                   <dl>
-                    <div><dt>Problem</dt><dd>{project.problem}</dd></div>
-                    <div><dt>Decision</dt><dd>{project.decision}</dd></div>
+                    <div><dt>Common failure</dt><dd>{item.problem}</dd></div>
+                    <div><dt>Northline decision</dt><dd>{item.decision}</dd></div>
                   </dl>
-                  <ul>{project.delivered.map((item) => <li key={item}>{item}</li>)}</ul>
-                  <a href={project.href} target={project.href.startsWith("http") ? "_blank" : undefined} rel={project.href.startsWith("http") ? "noreferrer" : undefined}>{project.label} <span>↗</span></a>
+                  <ul>{item.delivered.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul>
+                  <p className="evidence-label">Demonstrated through this site and the delivery process.</p>
                 </div>
-                <div className={`work-visual ${project.className}`} aria-hidden="true">
+                <div className={`work-visual ${item.className}`} aria-hidden="true">
                   <div className="browser-bar"><i/><i/><i/><span/></div>
                   <div className="work-screen">
                     <aside><b/><i/><i/><i/></aside>
                     <section><span className="screen-kicker"/><strong/><p/><div className="screen-grid"><i/><i/><i/></div></section>
                   </div>
-                  <div className="decision-note">{index === 0 ? "Opportunity → proof → action" : index === 1 ? "Progress → control → trust" : "Initiative → evidence → participation"}</div>
+                  <div className="decision-note">{item.note}</div>
                 </div>
               </article>
             ))}
@@ -241,14 +179,9 @@ export default function Home() {
 
       <section className="problems-section scene-section" id="problems" data-scene="problems" data-scene-strength=".34" aria-labelledby="problems-title">
         <div className="shell">
-          <header className="section-heading centered" data-reveal>
-            <p className="eyebrow">Where clarity breaks down</p>
-            <h2 id="problems-title">The work is valuable. The digital story is not keeping up.</h2>
-          </header>
+          <header className="section-heading centered" data-reveal><p className="eyebrow">Where clarity breaks down</p><h2 id="problems-title">The work is valuable. The digital story is not keeping up.</h2></header>
           <div className="problem-grid">
-            {problems.map((problem) => (
-              <article key={problem.title} data-reveal><span>{problem.number}</span><h3>{problem.title}</h3><p>{problem.copy}</p></article>
-            ))}
+            {problems.map(([number, title, copy]) => <article key={title} data-reveal><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}
           </div>
         </div>
       </section>
@@ -263,9 +196,7 @@ export default function Home() {
             {services.map((service, index) => (
               <article key={service.title} className="service-scene" data-service data-reveal>
                 <div className="service-copy"><span>{service.number}</span><h3>{service.title}</h3><p>{service.copy}</p><ul>{service.labels.map((label) => <li key={label}>{label}</li>)}</ul></div>
-                <div className={`service-object service-object-${index + 1}`} aria-hidden="true">
-                  <div className="service-frame"><span>{service.title}</span><i/><i/><div><b/><b/><b/></div></div>
-                </div>
+                <div className={`service-object service-object-${index + 1}`} aria-hidden="true"><div className="service-frame"><span>{service.title}</span><i/><i/><div><b/><b/><b/></div></div></div>
               </article>
             ))}
           </div>
@@ -274,11 +205,7 @@ export default function Home() {
 
       <section className="method-section scene-section" id="method" data-scene="method" data-scene-strength=".62" aria-labelledby="method-title">
         <div className="shell method-shell">
-          <header className="section-heading centered" data-reveal>
-            <p className="eyebrow">The credibility system</p>
-            <h2 id="method-title">Message <i>→</i> Evidence <i>→</i> Action</h2>
-            <p>One framework, translated into concrete decisions and deliverables.</p>
-          </header>
+          <header className="section-heading centered" data-reveal><p className="eyebrow">The credibility system</p><h2 id="method-title">Message <i>→</i> Evidence <i>→</i> Action</h2><p>One framework, translated into concrete decisions and deliverables.</p></header>
           <div className="method-stage">
             <div className="method-preview" aria-hidden="true">
               <div className="method-layer method-message"><span>Message</span><strong>What must be understood?</strong></div>
@@ -286,10 +213,8 @@ export default function Home() {
               <div className="method-layer method-action"><span>Action</span><b>Participate →</b></div>
             </div>
             <div className="method-flow">
-              {method.map((step) => (
-                <article key={step.title} data-method-card data-reveal>
-                  <span>{step.number}</span><p className="method-question">{step.question}</p><h3>{step.title}</h3><p>{step.copy}</p><strong>Output: {step.output}</strong>
-                </article>
+              {method.map(([number, title, question, copy, output]) => (
+                <article key={title} data-method-card data-reveal><span>{number}</span><p className="method-question">{question}</p><h3>{title}</h3><p>{copy}</p><strong>Output: {output}</strong></article>
               ))}
             </div>
           </div>
@@ -298,13 +223,10 @@ export default function Home() {
 
       <section className="engagements scene-section" id="engagements" data-scene="engagements" data-scene-strength=".4" aria-labelledby="engagements-title">
         <div className="shell">
-          <header className="section-heading split-heading" data-reveal>
-            <div><p className="eyebrow">Ways to work together</p><h2 id="engagements-title">Build what is needed. Keep improving what matters.</h2></div>
-            <p>The right engagement depends on whether the gap is a public presence, a functional platform, or ongoing digital ownership.</p>
-          </header>
+          <header className="section-heading split-heading" data-reveal><div><p className="eyebrow">Ways to work together</p><h2 id="engagements-title">Build what is needed. Keep improving what matters.</h2></div><p>The right engagement depends on whether the gap is a public presence, a functional platform, or ongoing digital ownership.</p></header>
           <div className="engagement-grid">
-            {engagements.map((engagement, index) => (
-              <article className={index === 1 ? "featured" : ""} data-reveal key={engagement.title}><span>{engagement.label}</span><h3>{engagement.title}</h3><p>{engagement.copy}</p><ul>{engagement.items.map((item) => <li key={item}>{item}</li>)}</ul></article>
+            {engagements.map(([label, title, copy, items], index) => (
+              <article className={index === 1 ? "featured" : ""} data-reveal key={String(title)}><span>{label}</span><h3>{title}</h3><p>{copy}</p><ul>{(items as string[]).map((item) => <li key={item}>{item}</li>)}</ul></article>
             ))}
           </div>
         </div>
@@ -327,12 +249,7 @@ export default function Home() {
 
       <section className="contact-section scene-section" id="contact" data-scene="contact" data-scene-strength=".22" aria-labelledby="contact-title">
         <div className="shell contact-grid">
-          <div className="contact-copy" data-reveal>
-            <p className="eyebrow">Start with the gap</p>
-            <h2 id="contact-title">What is the current digital presence failing to communicate?</h2>
-            <p>Share the existing site, the audience that matters, and what needs to become clearer. Northline will respond with the most useful next step—not an automatic sales call.</p>
-            <ul><li>Institutional websites</li><li>Program and initiative platforms</li><li>Focused digital improvements</li></ul>
-          </div>
+          <div className="contact-copy" data-reveal><p className="eyebrow">Start with the gap</p><h2 id="contact-title">What is the current digital presence failing to communicate?</h2><p>Share the existing site, the audience that matters, and what needs to become clearer. Northline will respond with the most useful next step—not an automatic sales call.</p><ul><li>Institutional websites</li><li>Program and initiative platforms</li><li>Focused digital improvements</li></ul></div>
           <ProjectReviewForm />
         </div>
       </section>
