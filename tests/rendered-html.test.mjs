@@ -46,7 +46,8 @@ test("renders the Northline credibility homepage", async () => {
   assert.match(html, /Continuous improvement/);
   assert.match(html, /One line of thinking from strategy through launch/);
   assert.match(html, /Where is the current digital experience losing trust, clarity, or momentum/);
-  assert.match(html, /Prepare project review/);
+  assert.match(html, /Open project review email/);
+  assert.match(html, /Nothing is sent until you choose to send it/);
   assert.match(html, /scroll-rail-progress/);
   assert.match(html, /Page chapters/);
   assert.match(html, /data-scene="story"/);
