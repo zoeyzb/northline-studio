@@ -1,0 +1,310 @@
+:root {
+  --page-progress: 0;
+  --pointer-x: 0;
+  --pointer-y: 0;
+  --scene-glow-x: calc(50% + (var(--pointer-x) * 8%));
+  --scene-glow-y: calc(22% + (var(--pointer-y) * 5%));
+}
+
+.northline-home::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 30rem at var(--scene-glow-x) var(--scene-glow-y), rgba(114, 217, 242, .055), transparent 70%),
+    linear-gradient(90deg, transparent 0 49.95%, rgba(150, 220, 240, .018) 50%, transparent 50.05%);
+  mix-blend-mode: screen;
+}
+
+.northline-home::after {
+  content: "";
+  position: fixed;
+  z-index: 24;
+  left: 0;
+  top: 0;
+  width: calc(var(--page-progress) * 100%);
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(114,217,242,.25), #72d9f2, #c8eff8);
+  box-shadow: 0 0 18px rgba(114, 217, 242, .42);
+}
+
+.scene-section:not(.hero) {
+  isolation: isolate;
+}
+
+.scene-section:not(.hero)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(46rem 24rem at 78% 12%, rgba(114,217,242,.025), transparent 75%);
+  opacity: .8;
+}
+
+.hero-object,
+.work-visual,
+.service-object,
+.method-preview,
+.engagement-grid,
+.standards-grid,
+.review-form {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.interface-stack,
+.work-visual,
+.service-frame,
+.method-layer,
+.problem-grid article,
+.engagement-grid article,
+.standards-grid article,
+.review-form {
+  position: relative;
+}
+
+.interface-stack::after,
+.work-visual::after,
+.service-frame::after,
+.method-layer::after,
+.problem-grid article::after,
+.engagement-grid article::after,
+.standards-grid article::after,
+.review-form::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(200,239,248,.10), transparent 26%, transparent 72%, rgba(114,217,242,.06)) border-box;
+  mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: .7;
+}
+
+.interface-stack-front,
+.work-visual,
+.service-frame,
+.method-action,
+.review-form {
+  box-shadow:
+    0 36px 110px rgba(0,0,0,.48),
+    0 0 0 1px rgba(183,224,239,.04) inset,
+    0 1px 0 rgba(255,255,255,.05) inset;
+}
+
+.interface-fragment,
+.decision-note {
+  will-change: transform, opacity;
+}
+
+.interface-fragment::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  right: .55rem;
+  top: .55rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(114,217,242,.8);
+}
+
+.hero-caption {
+  position: relative;
+}
+
+.hero-caption::before,
+.hero-caption::after {
+  content: "";
+  width: min(12vw, 9rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(114,217,242,.28));
+}
+
+.hero-caption::after {
+  transform: scaleX(-1);
+}
+
+.problem-grid,
+.engagement-grid,
+.standards-grid {
+  perspective: 1200px;
+}
+
+.problem-grid article,
+.engagement-grid article,
+.standards-grid article {
+  transition:
+    border-color .35s ease,
+    background .35s ease,
+    box-shadow .35s ease;
+}
+
+.problem-grid article:hover,
+.engagement-grid article:hover,
+.standards-grid article:hover {
+  border-color: rgba(114,217,242,.28);
+  background: linear-gradient(145deg, rgba(114,217,242,.055), rgba(255,255,255,.025));
+  box-shadow: 0 22px 68px rgba(0,0,0,.22);
+}
+
+.work-card,
+.service-scene {
+  position: relative;
+}
+
+.work-card::before,
+.service-scene::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(114,217,242,.35), transparent);
+  transform: scaleY(.15);
+  transform-origin: center;
+  opacity: .55;
+  transition: transform .7s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
+}
+
+.work-card:hover::before,
+.service-scene:hover::before {
+  transform: scaleY(.8);
+  opacity: 1;
+}
+
+.work-visual,
+.service-object,
+.method-preview {
+  will-change: transform;
+}
+
+.screen-grid i,
+.service-frame b,
+.method-evidence i {
+  position: relative;
+  overflow: hidden;
+}
+
+.screen-grid i::after,
+.service-frame b::after,
+.method-evidence i::after {
+  content: "";
+  position: absolute;
+  inset: -30% -70%;
+  background: linear-gradient(105deg, transparent 43%, rgba(200,239,248,.08) 50%, transparent 57%);
+  transform: translateX(-35%);
+  transition: transform .8s ease;
+}
+
+.work-visual:hover .screen-grid i::after,
+.service-frame:hover b::after,
+.method-preview:hover .method-evidence i::after {
+  transform: translateX(35%);
+}
+
+.button,
+.nav-cta {
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.button::before,
+.nav-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.14) 50%, transparent 75%);
+  transform: translateX(-125%);
+  transition: transform .65s cubic-bezier(.2,.8,.2,1);
+}
+
+.button:hover::before,
+.nav-cta:hover::before {
+  transform: translateX(125%);
+}
+
+.scroll-rail {
+  padding: .8rem .7rem;
+  border: 1px solid rgba(183,224,239,.07);
+  background: rgba(5,11,18,.34);
+  backdrop-filter: blur(14px);
+}
+
+.scroll-rail a.is-current i {
+  box-shadow: 0 0 0 4px rgba(114,217,242,.07), 0 0 18px rgba(114,217,242,.16);
+}
+
+.review-form {
+  perspective: 1000px;
+}
+
+.review-form input,
+.review-form textarea,
+.review-form select {
+  transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.review-form input:hover,
+.review-form textarea:hover,
+.review-form select:hover {
+  border-color: rgba(183,224,239,.24);
+}
+
+.review-form input:focus,
+.review-form textarea:focus,
+.review-form select:focus {
+  border-color: rgba(114,217,242,.55);
+  background: rgba(114,217,242,.035);
+  box-shadow: 0 0 0 3px rgba(114,217,242,.055);
+}
+
+[data-motion="full"] .spatial-canvas {
+  animation: northlineAtmosphereBreath 9s ease-in-out infinite alternate;
+}
+
+@keyframes northlineAtmosphereBreath {
+  from { filter: saturate(.92) brightness(.94); }
+  to { filter: saturate(1.08) brightness(1.03); }
+}
+
+@media (max-width: 900px) {
+  .northline-home::after {
+    height: 1px;
+  }
+
+  .hero-caption::before,
+  .hero-caption::after {
+    display: none;
+  }
+
+  .scene-section:not(.hero)::before {
+    background: radial-gradient(28rem 18rem at 70% 8%, rgba(114,217,242,.025), transparent 75%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .northline-home::after {
+    display: none;
+  }
+
+  [data-motion="reduced"] .spatial-canvas {
+    animation: none;
+  }
+
+  .button,
+  .nav-cta,
+  .problem-grid article,
+  .engagement-grid article,
+  .standards-grid article {
+    transform: none !important;
+  }
+}
