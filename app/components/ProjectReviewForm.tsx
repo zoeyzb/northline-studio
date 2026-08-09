@@ -1,105 +1,104 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
-
-const EMAIL = "hello@northline.studio";
-const NOTE_ID = "project-review-note";
-const STATUS_ID = "project-review-status";
+import { FormEvent, useState } from "react";
 
 export function ProjectReviewForm() {
   const [status, setStatus] = useState("");
-  const [busy, setBusy] = useState(false);
-  const emailPattern = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/, []);
 
-  const submit = async (event: FormEvent<HTMLFormElement>) => {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (busy) return;
-
-    const element = event.currentTarget;
-    const form = new FormData(element);
+    const form = new FormData(event.currentTarget);
     const organization = String(form.get("organization") || "").trim();
     const website = String(form.get("website") || "").trim();
+    const projectType = String(form.get("projectType") || "").trim();
     const gap = String(form.get("gap") || "").trim();
     const outcome = String(form.get("outcome") || "").trim();
     const timeline = String(form.get("timeline") || "").trim();
+    const budget = String(form.get("budget") || "").trim();
     const name = String(form.get("name") || "").trim();
     const email = String(form.get("email") || "").trim();
 
-    if (!organization || !gap || !outcome || !name || !email) {
-      setStatus("Complete the required fields before continuing.");
-      element.reportValidity();
+    if (!organization || !projectType || !gap || !outcome || !name || !email) {
+      setStatus("Please complete the required fields before opening the review email.");
       return;
     }
 
-    if (!emailPattern.test(email)) {
-      setStatus("Enter a valid email address.");
-      element.querySelector<HTMLInputElement>('input[name="email"]')?.focus();
-      return;
-    }
-
-    if (website) {
-      try {
-        new URL(website);
-      } catch {
-        setStatus("Enter the website as a full URL, including https://");
-        element.querySelector<HTMLInputElement>('input[name="website"]')?.focus();
-        return;
-      }
-    }
-
-    const plainText = [
+    const subject = encodeURIComponent(`Northline project review — ${organization}`);
+    const body = encodeURIComponent([
       `Organization: ${organization}`,
-      `Website: ${website || "Not provided"}`,
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Timeline: ${timeline || "Not specified"}`,
+      `Existing website: ${website || "Not provided"}`,
+      `Project type: ${projectType}`,
+      `Desired timeline: ${timeline || "Not specified"}`,
+      `Budget range: ${budget || "Not specified"}`,
+      `Contact: ${name} (${email})`,
       "",
-      "What is unclear or underperforming?",
+      "Where is the current digital experience losing trust, clarity, or momentum?",
       gap,
       "",
-      "What needs to happen next?",
+      "What should be stronger when the work is finished?",
       outcome,
-    ].join("\n");
+    ].join("\n"));
 
-    const subject = encodeURIComponent(`Project review — ${organization}`);
-    const body = encodeURIComponent(plainText);
-
-    setBusy(true);
-    setStatus("Preparing your project review…");
-
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(plainText);
-        setStatus("Project details copied. Opening your email app…");
-      } else {
-        setStatus("Opening your email app with the project details prepared…");
-      }
-    } catch {
-      setStatus("Opening your email app with the project details prepared…");
-    }
-
-    window.location.assign(`mailto:${EMAIL}?subject=${subject}&body=${body}`);
-    window.setTimeout(() => setBusy(false), 1200);
+    setStatus("Your project review is prepared. Nothing is sent until you choose to send it in your email app.");
+    window.location.href = `mailto:hello@northline.studio?subject=${subject}&body=${body}`;
   };
 
   return (
-    <form className="review-form" onSubmit={submit} data-reveal aria-describedby={`${NOTE_ID} ${STATUS_ID}`}>
-      <div className="form-row">
-        <label>Organization <span aria-hidden="true">*</span><input name="organization" autoComplete="organization" required /></label>
-        <label>Existing website<input name="website" type="url" inputMode="url" placeholder="https://example.org" /></label>
+    <form className="review-form" onSubmit={submit} data-reveal noValidate>
+      <div className="form-intro">
+        <span>Project review</span>
+        <h3>Give us the useful context.</h3>
+        <p>Required fields are marked with an asterisk. The form prepares an email on your device; nothing is sent automatically.</p>
       </div>
-      <label>What is unclear or underperforming? <span aria-hidden="true">*</span><textarea name="gap" rows={4} required placeholder="What feels confusing, dated, difficult to navigate, or too hard to explain?" /></label>
-      <label>What needs to happen next? <span aria-hidden="true">*</span><textarea name="outcome" rows={4} required placeholder="What should the new experience make easier, clearer, or more credible?" /></label>
-      <label>Desired timeline<select name="timeline" defaultValue=""><option value="">Select one</option><option>Within 4–6 weeks</option><option>Within 2–3 months</option><option>Within 3–6 months</option><option>Exploring options</option></select></label>
+
       <div className="form-row">
-        <label>Your name <span aria-hidden="true">*</span><input name="name" autoComplete="name" required /></label>
-        <label>Email <span aria-hidden="true">*</span><input name="email" type="email" inputMode="email" autoComplete="email" required /></label>
+        <label>Organization <span>*</span><input name="organization" autoComplete="organization" required /></label>
+        <label>Existing website<input name="website" type="url" inputMode="url" placeholder="https://" /></label>
       </div>
-      <button className="button button-primary" type="submit" disabled={busy} aria-busy={busy}>
-        {busy ? "Preparing…" : "Open project review email"} <span aria-hidden="true">↗</span>
-      </button>
-      <p className="form-note" id={NOTE_ID}>Required fields are marked with an asterisk. This prepares an email draft on your device; nothing is sent until you choose to send it.</p>
-      <p className="form-status" id={STATUS_ID} role="status" aria-live="polite">{status}</p>
+
+      <label>What kind of project is this? <span>*</span>
+        <select name="projectType" defaultValue="" required>
+          <option value="" disabled>Select one</option>
+          <option>Flagship website</option>
+          <option>Digital product or platform</option>
+          <option>Existing-site transformation</option>
+          <option>Not sure yet</option>
+        </select>
+      </label>
+
+      <label>Where is the current experience losing trust, clarity, or momentum? <span>*</span><textarea name="gap" rows={4} required /></label>
+      <label>What should be stronger when the work is finished? <span>*</span><textarea name="outcome" rows={4} required /></label>
+
+      <div className="form-row">
+        <label>Desired timeline
+          <select name="timeline" defaultValue="">
+            <option value="">Select one</option>
+            <option>Within 4–6 weeks</option>
+            <option>Within 2–3 months</option>
+            <option>Within 3–6 months</option>
+            <option>Exploring options</option>
+          </select>
+        </label>
+        <label>Planned investment
+          <select name="budget" defaultValue="">
+            <option value="">Select one</option>
+            <option>Under $5k</option>
+            <option>$5k–$10k</option>
+            <option>$10k–$25k</option>
+            <option>$25k+</option>
+            <option>Need help scoping</option>
+          </select>
+        </label>
+      </div>
+
+      <div className="form-row">
+        <label>Your name <span>*</span><input name="name" autoComplete="name" required /></label>
+        <label>Email <span>*</span><input name="email" type="email" autoComplete="email" required /></label>
+      </div>
+
+      <button className="button button-primary magnetic" type="submit">Open project review email <span aria-hidden="true">↗</span></button>
+      <p className="form-note">Privacy by design: your answers stay in your browser until your email app opens, and nothing is sent until you choose to send it.</p>
+      <p className="form-status" role="status" aria-live="polite">{status}</p>
     </form>
   );
 }
