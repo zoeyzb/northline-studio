@@ -2,98 +2,109 @@ import { AtmosphericSceneClient } from "./components/AtmosphericSceneClient";
 import { MotionController } from "./components/MotionController";
 import { ProjectReviewForm } from "./components/ProjectReviewForm";
 
-const problems = [
-  ["01", "The first screen asks visitors to work too hard", "Internal language, broad claims, and competing priorities hide the one thing a visitor needs to understand first."],
-  ["02", "The proof exists, but it is buried", "Research, programs, outcomes, people, publications, and partnerships are present without a system that makes their relationship obvious."],
-  ["03", "The website feels smaller than the organization", "Strong work can look uncertain when the digital experience lacks hierarchy, confidence, polish, or technical discipline."],
-  ["04", "Attention reaches a dead end", "Applicants, partners, funders, clients, and participants can understand the mission and still have no clear next move."],
-];
-
-const evidence = [
-  {
-    type: "Messaging transformation",
-    title: "Turn institutional complexity into a public story",
-    problem: "Most complex organizations know exactly what they do internally. The problem is translating that knowledge into a first-time visitor experience without flattening the substance.",
-    decision: "Build the page around one dominant message, a visible proof layer, and a clear next action—then let deeper detail unfold as the visitor moves.",
-    delivered: ["Audience hierarchy", "Homepage narrative", "Page-level messaging", "CTA system"],
-    note: "Complexity → signal → trust",
-    className: "work-research",
-  },
-  {
-    type: "Information architecture",
-    title: "Make scattered evidence feel like one system",
-    problem: "Research, programs, people, publications, events, and outcomes lose credibility when they live as disconnected islands with no visible logic.",
-    decision: "Map the evidence, define reusable relationships, and organize the experience around the questions visitors actually bring—not the internal org chart.",
-    delivered: ["Evidence inventory", "Sitemap", "Content relationships", "Reusable page modules"],
-    note: "Fragments → structure → coherence",
-    className: "work-architecture",
-  },
-  {
-    type: "Responsive delivery standard",
-    title: "Ship the experience—not just the mockup",
-    problem: "A dramatic desktop concept stops being premium the moment it becomes slow, confusing, inaccessible, or fragile on a real device.",
-    decision: "Treat motion, responsive behavior, keyboard access, reduced-motion support, performance, and form states as part of the design system itself.",
-    delivered: ["Responsive implementation", "Keyboard and focus states", "Reduced-motion support", "Performance fallbacks"],
-    note: "Intent → behavior → dependable delivery",
-    className: "work-delivery",
-  },
-];
-
-const story = [
+const storySteps = [
   {
     number: "01",
-    label: "Signal",
+    kicker: "Signal",
     title: "Make the value legible in seconds.",
-    copy: "The opening experience decides what deserves attention. We strip away internal noise, establish a visual point of view, and make the central value unmistakable before asking the visitor to read deeply.",
-    outcome: "A clear first impression",
+    copy: "We strip away internal language, competing messages, and visual noise until the audience can immediately understand what matters and why.",
+    tags: ["Positioning", "Narrative", "Hierarchy"],
   },
   {
     number: "02",
-    label: "Depth",
-    title: "Let evidence appear exactly when trust needs it.",
-    copy: "Instead of stacking claims, we choreograph proof—programs, people, outcomes, research, process, and detail—so each layer answers the question created by the one before it.",
-    outcome: "A story that earns belief",
+    kicker: "Structure",
+    title: "Turn complexity into a system people can navigate.",
+    copy: "Programs, proof, people, services, research, and resources become one deliberate information architecture instead of a collection of pages.",
+    tags: ["Information architecture", "Content systems", "User paths"],
   },
   {
     number: "03",
-    label: "Movement",
+    kicker: "Depth",
+    title: "Let evidence appear exactly when trust needs it.",
+    copy: "Claims are paired with outcomes, process, people, examples, and standards at the moment a visitor starts asking whether the organization is credible.",
+    tags: ["Proof design", "Trust", "Interaction"],
+  },
+  {
+    number: "04",
+    kicker: "Movement",
     title: "Turn understanding into a next move.",
-    copy: "The experience should not end at admiration. We create obvious pathways for the visitor to apply, partner, contact, donate, explore, register, or hire without breaking the narrative flow.",
-    outcome: "Attention converted into action",
+    copy: "Every screen earns its place by helping the right visitor explore, inquire, apply, partner, buy, attend, or contact with less friction.",
+    tags: ["Conversion paths", "Product thinking", "Delivery"],
   },
 ];
 
 const services = [
   {
     number: "01",
-    title: "Institutional websites",
-    copy: "For organizations, centers, initiatives, and expert-led teams whose real-world credibility is stronger than their current digital presence.",
-    labels: ["Positioning", "Information architecture", "Design and development", "CMS and launch"],
+    label: "Digital flagship",
+    title: "Websites that make serious work feel as strong as it is.",
+    copy: "For companies, institutions, expert teams, programs, and ambitious organizations whose current site undersells their value.",
+    bullets: ["Positioning and messaging", "Custom art direction", "Responsive development", "CMS and launch"],
   },
   {
     number: "02",
-    title: "Program and initiative platforms",
-    copy: "For experiences that need to do real work—applications, resources, directories, events, participation, reporting, and structured public workflows.",
-    labels: ["User flows", "Platform architecture", "Forms and workflows", "Integrations"],
+    label: "Digital product",
+    title: "Platforms that need to work, not just look impressive.",
+    copy: "For portals, directories, applications, resources, reporting, membership, internal tools, and structured public experiences.",
+    bullets: ["User flows", "Product architecture", "Functional interfaces", "Integrations"],
   },
   {
     number: "03",
-    title: "Digital presence improvement",
-    copy: "For organizations that already have a useful foundation and need sharper messaging, stronger UX, better performance, or a more capable visual system—not another unnecessary rebuild.",
-    labels: ["Messaging audit", "UX and accessibility", "Performance", "Ongoing releases"],
+    label: "Transformation",
+    title: "A sharper version of the website you already have.",
+    copy: "For teams that do not need another unnecessary rebuild, but do need stronger clarity, motion, conversion, accessibility, or performance.",
+    bullets: ["UX and messaging audit", "High-impact redesign", "Motion and interaction", "Performance cleanup"],
   },
 ];
 
-const method = [
-  ["01", "Message", "What must become obvious?", "We define the audience, positioning, hierarchy, and core narrative before visual complexity enters the room.", "Messaging brief and page architecture"],
-  ["02", "Evidence", "What earns the visitor's trust?", "We organize outcomes, research, programs, people, publications, partnerships, and proof into a system that can be scanned and explored.", "Evidence map and content system"],
-  ["03", "Action", "What should the visitor do next?", "We design the path from understanding to a concrete action—apply, contact, partner, donate, attend, explore, or hire.", "Conversion paths and measurable actions"],
+const proofSystems = [
+  {
+    index: "01",
+    label: "Narrative system",
+    title: "From internal language to a public story.",
+    before: "Multiple audiences. Department language. No clear first impression.",
+    after: "One hierarchy. One core promise. Proof placed around the questions visitors actually ask.",
+    outcome: "Complexity becomes understandable without making the work feel simplistic.",
+  },
+  {
+    index: "02",
+    label: "Information system",
+    title: "From scattered material to visible relationships.",
+    before: "Programs, people, results, publications, and resources living in separate silos.",
+    after: "A reusable content model that connects the parts and gives every page a clear role.",
+    outcome: "Visitors stop hunting and start understanding how the organization fits together.",
+  },
+  {
+    index: "03",
+    label: "Delivery system",
+    title: "From polished mockup to dependable experience.",
+    before: "Desktop-first design, ornamental motion, slow pages, and interaction states nobody tested.",
+    after: "Responsive behavior, reduced-motion fallbacks, keyboard access, performance discipline, and real launch ownership.",
+    outcome: "The finished site keeps the quality of the concept on actual devices.",
+  },
+];
+
+const standards = [
+  ["No invented proof", "No fake case studies, fabricated metrics, or made-up client quotes to manufacture trust."],
+  ["Direct ownership", "Strategy, design, interaction, and development stay connected instead of disappearing through layers of handoff."],
+  ["Accessible by default", "Keyboard use, contrast, semantics, focus states, and reduced motion are part of the build—not a later checklist."],
+  ["Performance discipline", "3D and motion degrade intentionally on smaller or lower-power devices so spectacle never breaks usability."],
+  ["Responsive art direction", "Mobile is composed deliberately rather than treated as the desktop site squeezed into a narrow column."],
+  ["Launch-ready systems", "The work includes states, content behavior, handoff, and the practical details required to operate after launch."],
+];
+
+const process = [
+  ["01", "Find the signal", "Audience, positioning, competitive context, goals, and the one thing the site must make unmistakable."],
+  ["02", "Build the structure", "Sitemap, page roles, content relationships, conversion paths, and the sequence visitors should experience."],
+  ["03", "Direct the experience", "Typography, interface language, 3D depth, motion choreography, responsive behavior, and visual proof."],
+  ["04", "Engineer the system", "Production components, CMS or data model, interactions, accessibility, performance, analytics, and integrations."],
+  ["05", "Ship and sharpen", "Cross-device testing, launch, measurement, content refinement, and focused post-launch improvements."],
 ];
 
 const engagements = [
-  ["Defined engagement", "Foundation", "A complete website or institutional launch when the message, structure, visual system, and delivery all need to move together.", ["Strategy and positioning", "Custom design and development", "CMS, testing, and launch"]],
-  ["Complex build", "Platform", "A functional digital system when the experience includes structured content, workflows, applications, integrations, or operational logic.", ["User and stakeholder flows", "Functional platform development", "Data, integrations, and deployment"]],
-  ["Ongoing partnership", "Continuous improvement", "Focused digital ownership after launch, guided by clarity, usability, performance, content, and what visitors are actually doing.", ["Content and page improvements", "Accessibility and performance", "Monthly planning and releases"]],
+  ["Flagship build", "A complete strategic website from positioning through production launch."],
+  ["Product build", "A functional platform with structured content, workflows, data, or integrations."],
+  ["Focused transformation", "A targeted engagement for the highest-leverage problems in an existing digital presence."],
 ];
 
 export default function Home() {
@@ -104,208 +115,218 @@ export default function Home() {
       <a className="skip-link" href="#main-content">Skip to content</a>
 
       <nav className="scroll-rail" aria-label="Page chapters">
-        <span className="scroll-rail-progress" />
+        <span className="scroll-rail-track"><span className="scroll-rail-progress" /></span>
         <a href="#overview" data-rail-link="overview"><i>01</i><span>Overview</span></a>
-        <a href="#story" data-rail-link="story"><i>02</i><span>Story</span></a>
-        <a href="#evidence" data-rail-link="evidence"><i>03</i><span>Evidence</span></a>
-        <a href="#services" data-rail-link="services"><i>04</i><span>Services</span></a>
-        <a href="#method" data-rail-link="method"><i>05</i><span>Method</span></a>
-        <a href="#contact" data-rail-link="contact"><i>06</i><span>Contact</span></a>
+        <a href="#story" data-rail-link="story"><i>02</i><span>System</span></a>
+        <a href="#services" data-rail-link="services"><i>03</i><span>Services</span></a>
+        <a href="#work" data-rail-link="work"><i>04</i><span>Proof</span></a>
+        <a href="#contact" data-rail-link="contact"><i>05</i><span>Contact</span></a>
       </nav>
 
       <section className="hero scene-section" id="overview" data-scene="overview" data-scene-strength="1" aria-labelledby="hero-title">
-        <div className="atmosphere" aria-hidden="true"><span className="grid-plane" /><span className="grain" /></div>
+        <div className="hero-grid" aria-hidden="true" />
         <header className="site-header shell">
-          <a className="wordmark" href="#overview" aria-label="Northline home"><span>Northline</span><small>Digital credibility studio</small></a>
+          <a className="wordmark" href="#overview" aria-label="Northline home"><span>Northline</span><small>Digital studio</small></a>
           <nav aria-label="Primary navigation">
             <a href="#story">Approach</a>
-            <a href="#evidence">Evidence</a>
             <a href="#services">Services</a>
-            <a className="nav-cta" href="#contact">Request a review</a>
+            <a href="#work">Proof</a>
+            <a className="nav-cta magnetic" href="#contact">Request a review <span>↗</span></a>
           </nav>
         </header>
 
         <div className="hero-stage shell">
           <div className="hero-copy">
-            <p className="eyebrow" data-hero-support>Strategy, design, development, and digital systems for complex organizations</p>
-            <h1 id="hero-title">
+            <p className="eyebrow" data-hero-support>Strategy · design · interaction · development</p>
+            <h1 id="hero-title" aria-label="Make important work impossible to overlook.">
               <span className="hero-line-mask"><span data-hero-line>Make important work</span></span>
-              <em className="hero-line-mask"><span data-hero-line>impossible to overlook.</span></em>
+              <span className="hero-line-mask hero-line-accent"><span data-hero-line>impossible to overlook.</span></span>
             </h1>
             <p className="hero-description" data-hero-support>
-              Northline turns complex organizations into clear digital experiences—so people understand the value faster, trust the evidence behind it, and know exactly where to go next.
+              Northline turns complicated organizations, products, and ideas into digital experiences that feel clear, credible, and unmistakably considered.
             </p>
             <div className="hero-actions" data-hero-support>
-              <a className="button button-primary" href="#story">See the story system <span aria-hidden="true">↘</span></a>
-              <a className="button button-secondary" href="#contact">Request a project review</a>
+              <a className="button button-primary magnetic" href="#story">Experience the approach <span>↓</span></a>
+              <a className="button button-secondary magnetic" href="#contact">Request a project review <span>↗</span></a>
             </div>
-            <p className="hero-fit" data-hero-support>For universities, research programs, nonprofits, initiatives, and expert organizations whose website should feel as capable as the work behind it.</p>
-          </div>
-
-          <div className="hero-object" aria-label="A fragmented interface becoming a clear website system">
-            <div className="hero-halo" aria-hidden="true" />
-            <div className="interface-fragment fragment-one"><span>Research</span><i/><i/></div>
-            <div className="interface-fragment fragment-two"><span>Programs</span><i/><i/></div>
-            <div className="interface-fragment fragment-three"><span>Outcomes</span><i/><i/></div>
-            <div className="interface-stack interface-stack-back"><span className="interface-label">Evidence</span><div className="interface-lines"><i/><i/><i/></div></div>
-            <div className="interface-stack interface-stack-mid"><span className="interface-label">Message</span><div className="interface-heading" /><div className="interface-copy" /></div>
-            <div className="interface-stack interface-stack-front">
-              <div className="interface-nav"><i/><span/><span/><b/></div>
-              <div className="interface-hero"><strong>Make important work clear.</strong><span/></div>
-              <div className="interface-cards"><i/><i/><i/></div>
-              <div className="interface-action">Clear next step <span>→</span></div>
+            <div className="hero-proof" data-hero-support>
+              <span>Custom direction</span><i />
+              <span>Production build</span><i />
+              <span>Performance-aware motion</span>
             </div>
           </div>
-        </div>
-        <div className="hero-caption shell" data-hero-support><span>Signal</span><i>→</i><span>Depth</span><i>→</i><span>Movement</span></div>
-      </section>
 
-      <section className="proof-strip scene-section" data-scene="proof" data-scene-strength=".42" aria-label="Northline standards">
-        <div className="shell proof-grid">
-          <p><strong>Clear positioning</strong><span>The value is understandable before the visitor starts hunting for it.</span></p>
-          <p><strong>Visible evidence</strong><span>Claims are backed by outcomes, people, process, and real work.</span></p>
-          <p><strong>Functional delivery</strong><span>Motion, responsiveness, accessibility, and performance ship together.</span></p>
-          <p><strong>Direct ownership</strong><span>Strategy and execution stay connected from the first decision through launch.</span></p>
-        </div>
-      </section>
-
-      <section className="story-section scene-section" id="story" data-scene="story" data-scene-strength=".66" aria-labelledby="story-title">
-        <div className="shell story-shell">
-          <header className="section-heading split-heading" data-reveal>
-            <div><p className="eyebrow">A website should unfold like an argument</p><h2 id="story-title">Not more information. Better sequencing.</h2></div>
-            <p>Premium digital experiences feel simple because complexity is revealed in the right order. Each chapter should create the question that the next chapter answers.</p>
-          </header>
-          <div className="story-stage">
-            <div className="story-visual" aria-hidden="true">
-              <div className="story-orbit story-orbit-one" />
-              <div className="story-orbit story-orbit-two" />
-              <div className="story-core"><span>Signal</span><i/><span>Depth</span><i/><span>Movement</span></div>
-            </div>
-            <div className="story-steps">
-              {story.map((item) => (
-                <article className="story-step" data-story-step key={item.number}>
-                  <span className="story-number">{item.number}</span>
-                  <div><p className="story-label">{item.label}</p><h3>{item.title}</h3><p>{item.copy}</p><strong>{item.outcome}</strong></div>
-                </article>
-              ))}
+          <div className="hero-object" aria-hidden="true">
+            <div className="hero-orbit hero-orbit-one" />
+            <div className="hero-orbit hero-orbit-two" />
+            <div className="hero-fragment fragment-a"><span>Research</span><b /><b /></div>
+            <div className="hero-fragment fragment-b"><span>Programs</span><b /><b /></div>
+            <div className="hero-fragment fragment-c"><span>Evidence</span><b /><b /></div>
+            <div className="hero-fragment fragment-d"><span>Action</span><b /><b /></div>
+            <div className="hero-screen screen-back"><span>01 / signal</span><i /><i /><i /></div>
+            <div className="hero-screen screen-mid"><span>02 / structure</span><strong /><i /><i /></div>
+            <div className="hero-screen screen-front">
+              <div className="screen-nav"><i /><span /><span /><b /></div>
+              <div className="screen-copy"><small>Northline system</small><strong>Clear enough to understand. Strong enough to remember.</strong><span /></div>
+              <div className="screen-cards"><i /><i /><i /></div>
+              <div className="screen-action">Useful next action <span>→</span></div>
             </div>
           </div>
         </div>
+
+        <div className="hero-scroll shell" data-hero-support><span>Scroll to turn complexity into clarity</span><i>↓</i></div>
       </section>
 
-      <section className="work-section scene-section" id="evidence" data-scene="work" data-scene-strength=".78" aria-labelledby="evidence-title">
-        <div className="shell">
-          <header className="section-heading split-heading" data-reveal>
-            <div><p className="eyebrow">Evidence in the work</p><h2 id="evidence-title">The proof should look like the thing being sold.</h2></div>
-            <p>Until client case studies are public, Northline shows the strategic and technical standard directly through the site: message hierarchy, information architecture, interaction, accessibility, responsive behavior, and delivery discipline. No invented metrics.</p>
-          </header>
-          <div className="work-list">
-            {evidence.map((item, index) => (
-              <article className="work-card" data-work-card data-reveal key={item.title}>
-                <div className="work-copy">
-                  <span className="work-index">0{index + 1} / {item.type}</span>
-                  <h3>{item.title}</h3>
-                  <dl>
-                    <div><dt>Common failure</dt><dd>{item.problem}</dd></div>
-                    <div><dt>Northline decision</dt><dd>{item.decision}</dd></div>
-                  </dl>
-                  <ul>{item.delivered.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}</ul>
-                  <p className="evidence-label">Demonstrated through this site and the delivery process.</p>
-                </div>
-                <div className={`work-visual ${item.className}`} aria-hidden="true">
-                  <div className="browser-bar"><i/><i/><i/><span/></div>
-                  <div className="work-screen">
-                    <aside><b/><i/><i/><i/></aside>
-                    <section><span className="screen-kicker"/><strong/><p/><div className="screen-grid"><i/><i/><i/></div></section>
-                  </div>
-                  <div className="decision-note">{item.note}</div>
-                </div>
+      <section className="trust-strip scene-section" data-scene="trust" data-scene-strength=".68" aria-label="Northline delivery standards">
+        <div className="shell trust-strip-grid">
+          <p><strong>One line of thinking</strong><span>From strategy through launch.</span></p>
+          <p><strong>Real production</strong><span>Not a static concept handoff.</span></p>
+          <p><strong>Motion with purpose</strong><span>Depth supports the story.</span></p>
+          <p><strong>No fabricated proof</strong><span>Trust without theater.</span></p>
+        </div>
+      </section>
+
+      <section className="story scene-section" id="story" data-scene="story" data-scene-strength=".86" aria-labelledby="story-title">
+        <div className="story-sticky shell">
+          <div className="story-heading">
+            <p className="eyebrow">From complexity → clarity</p>
+            <h2 id="story-title">Not more information. <em>Better sequencing.</em></h2>
+            <p>Northline treats a website as a guided experience. Each scroll should answer the next question, reveal the next layer of proof, and make the next action feel obvious.</p>
+          </div>
+
+          <div className="story-stage" aria-hidden="true">
+            <div className="story-core"><span>Northline</span><strong>Signal</strong></div>
+            <div className="story-plane story-plane-a"><i /><i /><i /></div>
+            <div className="story-plane story-plane-b"><i /><i /><i /><i /></div>
+            <div className="story-plane story-plane-c"><span>Evidence</span><b /><b /><b /></div>
+            <div className="story-path"><i /><i /><i /><i /></div>
+          </div>
+
+          <div className="story-steps">
+            {storySteps.map((step) => (
+              <article key={step.number} data-story-step>
+                <div className="story-step-index"><span>{step.number}</span><small>{step.kicker}</small></div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+                <ul>{step.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="problems-section scene-section" id="problems" data-scene="problems" data-scene-strength=".34" aria-labelledby="problems-title">
-        <div className="shell">
-          <header className="section-heading centered" data-reveal><p className="eyebrow">Where digital credibility breaks</p><h2 id="problems-title">Strong organizations can still look uncertain online.</h2></header>
-          <div className="problem-grid">
-            {problems.map(([number, title, copy]) => <article key={title} data-reveal><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}
-          </div>
-        </div>
-      </section>
-
-      <section className="services-section scene-section" id="services" data-scene="services" data-scene-strength=".3" aria-labelledby="services-title">
+      <section className="services-section scene-section" id="services" data-scene="services" data-scene-strength=".62" aria-labelledby="services-title">
         <div className="shell">
           <header className="section-heading split-heading" data-reveal>
-            <div><p className="eyebrow">What we build</p><h2 id="services-title">Three engagement types. One standard.</h2></div>
-            <p>Every project connects positioning, information architecture, visual design, interaction, engineering, and launch. The work is treated as one experience instead of a relay race between disconnected specialists.</p>
+            <div><p className="eyebrow">What we build</p><h2 id="services-title">Three ways to make the digital presence match the ambition.</h2></div>
+            <p>Every engagement connects message, structure, visual direction, interaction, engineering, and launch. The shape changes. The standard does not.</p>
           </header>
-          <div className="service-showcase">
+
+          <div className="service-stack">
             {services.map((service, index) => (
-              <article key={service.title} className="service-scene" data-service data-reveal>
-                <div className="service-copy"><span>{service.number}</span><h3>{service.title}</h3><p>{service.copy}</p><ul>{service.labels.map((label) => <li key={label}>{label}</li>)}</ul></div>
-                <div className={`service-object service-object-${index + 1}`} aria-hidden="true"><div className="service-frame"><span>{service.title}</span><i/><i/><div><b/><b/><b/></div></div></div>
+              <article className="service-card" data-service-card key={service.number}>
+                <div className="service-copy">
+                  <div className="service-meta"><span>{service.number}</span><small>{service.label}</small></div>
+                  <h3>{service.title}</h3>
+                  <p>{service.copy}</p>
+                  <ul>{service.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
+                </div>
+                <div className={`service-visual visual-${index + 1}`} aria-hidden="true">
+                  <div className="service-browser">
+                    <div className="browser-top"><i /><i /><i /><span /></div>
+                    <div className="browser-body">
+                      <aside><b /><i /><i /><i /></aside>
+                      <section><small>{service.label}</small><strong /><span /><div><i /><i /><i /></div></section>
+                    </div>
+                  </div>
+                  <div className="service-depth depth-one" /><div className="service-depth depth-two" />
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="method-section scene-section" id="method" data-scene="method" data-scene-strength=".62" aria-labelledby="method-title">
-        <div className="shell method-shell">
-          <header className="section-heading centered" data-reveal><p className="eyebrow">The credibility system</p><h2 id="method-title">Message <i>→</i> Evidence <i>→</i> Action</h2><p>One framework translated into concrete decisions, interfaces, and deliverables.</p></header>
-          <div className="method-stage">
-            <div className="method-preview" aria-hidden="true">
-              <div className="method-layer method-message"><span>Message</span><strong>What must be understood?</strong></div>
-              <div className="method-layer method-evidence"><span>Evidence</span><div><i/><i/><i/></div></div>
-              <div className="method-layer method-action"><span>Action</span><b>Participate →</b></div>
-            </div>
-            <div className="method-flow">
-              {method.map(([number, title, question, copy, output]) => (
-                <article key={title} data-method-card data-reveal><span>{number}</span><p className="method-question">{question}</p><h3>{title}</h3><p>{copy}</p><strong>Output: {output}</strong></article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="engagements scene-section" id="engagements" data-scene="engagements" data-scene-strength=".4" aria-labelledby="engagements-title">
+      <section className="work-section scene-section" id="work" data-scene="work" data-scene-strength=".78" aria-labelledby="work-title">
         <div className="shell">
-          <header className="section-heading split-heading" data-reveal><div><p className="eyebrow">Ways to work together</p><h2 id="engagements-title">Build what is missing. Improve what is already working.</h2></div><p>The right engagement depends on whether the gap is the public presence, a functional platform, or ongoing digital ownership after launch.</p></header>
-          <div className="engagement-grid">
-            {engagements.map(([label, title, copy, items], index) => (
-              <article className={index === 1 ? "featured" : ""} data-reveal key={String(title)}><span>{label}</span><h3>{title}</h3><p>{copy}</p><ul>{(items as string[]).map((item) => <li key={item}>{item}</li>)}</ul></article>
+          <header className="section-heading split-heading" data-reveal>
+            <div><p className="eyebrow">Evidence in the work</p><h2 id="work-title">The proof should look like the thing being sold.</h2></div>
+            <p>Until public client case studies can be shown with permission, Northline demonstrates the actual strategic and technical systems behind the work—without fake outcomes or unrelated portfolio filler.</p>
+          </header>
+
+          <div className="proof-system-list">
+            {proofSystems.map((item) => (
+              <article className="proof-system" data-proof-system key={item.index}>
+                <div className="proof-system-head"><span>{item.index}</span><small>{item.label}</small><h3>{item.title}</h3></div>
+                <div className="proof-transition" aria-hidden="true">
+                  <div className="proof-before"><small>Before</small><i /><i /><i /><i /><i /></div>
+                  <div className="proof-arrow">→</div>
+                  <div className="proof-after"><small>Northline</small><strong /><span /><div><i /><i /><i /></div></div>
+                </div>
+                <div className="proof-system-copy">
+                  <p><span>Common state</span>{item.before}</p>
+                  <p><span>Design decision</span>{item.after}</p>
+                  <p><span>What changes</span>{item.outcome}</p>
+                </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="about-section scene-section" id="about" data-scene="about" data-scene-strength=".28" aria-labelledby="about-title">
-        <div className="shell about-grid">
-          <div className="section-heading" data-reveal><p className="eyebrow">How Northline operates</p><h2 id="about-title">One line of thinking from strategy through launch.</h2></div>
-          <div className="about-copy" data-reveal>
-            <p>Northline keeps strategy, content structure, interaction design, and development close enough that the original communication problem survives every design and technical decision.</p>
-            <div className="standards-grid">
-              <article><strong>Direct collaboration</strong><span>You stay close to the people making the strategic and technical decisions instead of working through layers of account handoff.</span></article>
-              <article><strong>Accessible by default</strong><span>Keyboard use, reduced motion, contrast, semantics, and responsive behavior are treated as product quality—not a cleanup pass.</span></article>
-              <article><strong>Performance discipline</strong><span>Motion and 3D are used to deepen hierarchy and narrative, with deliberate fallbacks for lower-power devices.</span></article>
-              <article><strong>Ownership after launch</strong><span>The system is documented and structured so the organization can operate, update, and extend it without becoming trapped by the build.</span></article>
-            </div>
+      <section className="standards-section scene-section" data-scene="standards" data-scene-strength=".48" aria-labelledby="standards-title">
+        <div className="shell standards-layout">
+          <header className="section-heading" data-reveal><p className="eyebrow">Trust, without theater</p><h2 id="standards-title">What you can verify before hiring Northline.</h2><p>A premium site should be more than an expensive-looking homepage. These standards are part of how the work is built.</p></header>
+          <div className="standards-grid">
+            {standards.map(([title, copy], index) => <article data-reveal key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}
           </div>
         </div>
       </section>
 
-      <section className="contact-section scene-section" id="contact" data-scene="contact" data-scene-strength=".22" aria-labelledby="contact-title">
+      <section className="process-section scene-section" id="process" data-scene="process" data-scene-strength=".66" aria-labelledby="process-title">
+        <div className="shell">
+          <header className="section-heading centered" data-reveal><p className="eyebrow">How the work moves</p><h2 id="process-title">One line of thinking from strategy through launch.</h2><p>Each phase hands a clearer system to the next. No strategic deck that gets forgotten when design starts. No visual concept that collapses when development begins.</p></header>
+          <div className="process-track">
+            <div className="process-line" aria-hidden="true"><span /></div>
+            {process.map(([number, title, copy]) => (
+              <article data-process-step key={number}><span>{number}</span><div><h3>{title}</h3><p>{copy}</p></div></article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="engagement-section scene-section" data-scene="engagements" data-scene-strength=".38" aria-labelledby="engagement-title">
+        <div className="shell">
+          <header className="section-heading split-heading" data-reveal><div><p className="eyebrow">Ways to work together</p><h2 id="engagement-title">Build what is needed. Nothing ornamental in the scope.</h2></div><p>Northline scopes around the actual digital problem: a flagship presence, a functional product, or a focused transformation.</p></header>
+          <div className="engagement-grid">
+            {engagements.map(([title, copy], index) => <article data-reveal key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><a href="#contact">Discuss the fit <i>↗</i></a></article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="studio-section scene-section" data-scene="studio" data-scene-strength=".3" aria-labelledby="studio-title">
+        <div className="shell studio-grid">
+          <div className="studio-statement" data-reveal><p className="eyebrow">Northline studio</p><h2 id="studio-title">Sophisticated does not mean complicated.</h2></div>
+          <div className="studio-copy" data-reveal><p>The best digital experiences can feel rich without feeling busy, animated without becoming distracting, and technically ambitious without forcing visitors to understand the technology underneath.</p><p>Northline uses depth, motion, interface systems, and development to make the message easier to feel—not harder to find.</p></div>
+        </div>
+      </section>
+
+      <section className="contact-section scene-section" id="contact" data-scene="contact" data-scene-strength=".92" aria-labelledby="contact-title">
+        <div className="contact-orbit" aria-hidden="true"><i /><i /><i /></div>
         <div className="shell contact-grid">
-          <div className="contact-copy" data-reveal><p className="eyebrow">Start with the gap</p><h2 id="contact-title">Where is the current digital experience losing trust, clarity, or momentum?</h2><p>Share the existing site, the audience that matters, and what is not working. Northline will use that context to identify the most useful next step rather than forcing every inquiry into the same sales process.</p><ul><li>Institutional websites</li><li>Program and initiative platforms</li><li>Focused digital improvements</li></ul></div>
+          <div className="contact-copy" data-reveal>
+            <p className="eyebrow">Start with the gap</p>
+            <h2 id="contact-title">Where is the current digital experience losing trust, clarity, or momentum?</h2>
+            <p>Share the existing site, the audience that matters, and what needs to become stronger. Northline will respond with the most useful next step—not an automatic sales script.</p>
+            <div className="contact-points"><span>Clear recommendation</span><span>No forced sales call</span><span>No inflated scope</span></div>
+          </div>
           <ProjectReviewForm />
         </div>
       </section>
 
       <footer className="site-footer shell">
-        <a className="wordmark" href="#overview"><span>Northline</span><small>Digital credibility studio</small></a>
-        <p>Signal. Evidence. Action.</p>
+        <a className="wordmark" href="#overview"><span>Northline</span><small>Digital studio</small></a>
+        <p>Signal. Structure. Depth. Movement.</p>
         <a href="mailto:hello@northline.studio">hello@northline.studio</a>
       </footer>
     </main>

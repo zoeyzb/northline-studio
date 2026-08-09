@@ -1,59 +1,54 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "./motion-polish.css";
-import "./story.css";
-import "./visual-variants.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://northline-studio-two.vercel.app"),
+  metadataBase: new URL("https://northline-studio-wheat.vercel.app"),
+  applicationName: "Northline",
   title: {
-    default: "Northline — Make important work impossible to overlook",
+    default: "Northline — Digital experiences for ambitious organizations",
     template: "%s — Northline",
   },
   description:
-    "Northline turns complex organizations into clear digital experiences through strategy, information architecture, design, development, and motion-led storytelling.",
-  applicationName: "Northline",
-  category: "design",
+    "Northline is a digital studio for strategy, websites, products, interaction, and development—turning complex organizations and ideas into clear, credible digital experiences.",
   keywords: [
-    "institutional website design",
-    "university website design",
-    "research program website",
-    "nonprofit digital platform",
+    "digital studio",
+    "website strategy",
+    "custom website design",
+    "interactive website development",
+    "digital product design",
     "information architecture",
-    "digital storytelling",
-    "digital credibility",
+    "3D web design",
+    "motion design",
+    "institutional website design",
   ],
+  category: "design",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Northline — Make important work impossible to overlook",
     description:
-      "Digital experiences that make complex organizations easier to understand, trust, and act on.",
+      "Strategy, design, interaction, and development for digital experiences that feel clear, credible, and unmistakably considered.",
     url: "/",
     siteName: "Northline",
     type: "website",
     locale: "en_US",
   },
   twitter: {
-    card: "summary",
-    title: "Northline — Make important work impossible to overlook",
+    card: "summary_large_image",
+    title: "Northline — Digital experiences for ambitious organizations",
     description:
-      "Strategy, design, development, and digital storytelling for complex organizations.",
+      "Strategy, design, interaction, and development for websites and digital products built around signal, structure, depth, and movement.",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
-  },
+  robots: { index: true, follow: true },
   other: { "codex-preview": "development" },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050b12",
+  themeColor: "#040a11",
   colorScheme: "dark",
 };
 
