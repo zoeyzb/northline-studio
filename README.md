@@ -56,7 +56,7 @@ Nothing is submitted to a server or third-party form service by this repository 
 
 ## Local commands
 
-Prerequisite: Node.js `>=22.13.0`.
+Prerequisite: Node.js 24.x, matching the production Vercel project runtime.
 
 ```bash
 npm run dev
