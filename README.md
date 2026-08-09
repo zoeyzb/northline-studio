@@ -1,108 +1,74 @@
-# vinext-starter
+# Northline Studio
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Northline is a digital credibility studio website for complex organizations: universities, research programs, nonprofits, initiatives, and expert-led teams.
 
-## Prerequisites
+The site is designed as a scrolling narrative rather than a stack of static sections. It combines messaging, evidence, service positioning, conversion paths, 3D atmosphere, and motion while preserving accessibility and reduced-motion fallbacks.
 
-- Node.js `>=22.13.0`
-- Linux with `flock`, `curl`, and GNU `timeout`
+## Experience architecture
 
-## Sites Lifecycle
+The homepage follows a deliberate sequence:
 
-The Sites lifecycle CLI runs the locked dependency install before returning this checkout. Edit the source under `app/`, then checkpoint when a coherent milestone is ready to inspect or share. The remote Sites builder runs `npm run build` against the pushed commit. Do not repeat install or build as a normal pre-checkpoint step.
+1. **Signal** — establish the core value proposition immediately.
+2. **Depth** — reveal evidence and structure as trust needs to increase.
+3. **Movement** — turn understanding into a clear next action.
 
-This starter does not use `wrangler.jsonc`.
+The public story then expands into evidence standards, common credibility failures, service types, the Northline method, engagement models, operating principles, and the project-review conversion path.
 
-`install:ci` is intentionally a single, non-retrying `npm ci`. It refuses a concurrent install for the same project, consumes a matching image-seeded npm cache with `--prefer-offline` while retaining registry fallback for a missing cache object, otherwise downloads and verifies the complete vinext tarball recorded in `package-lock.json`, limits npm to one socket, and terminates a stalled install. `build` applies a short timeout and then validates the Sites artifact. These helpers target Linux and use GNU `timeout`; they are not native macOS scripts.
+## Core stack
 
-Scripts that need writable project-scoped home, npm, XDG, and temporary paths use `scripts/sites-env.sh`. The `dev` and `start` scripts honor the caller's runtime environment and keep Wrangler logs inside the checkout. The generated `.sites-runtime/` directory is disposable and ignored by Git.
+- Next.js 16 / React 19
+- TypeScript
+- GSAP + ScrollTrigger for scroll choreography
+- Lenis for smooth scrolling
+- Three.js + React Three Fiber + Drei for the atmospheric 3D scene
+- CSS-first responsive and reduced-motion fallbacks
+- Vinext / Vite build tooling retained by the project runtime
 
-## Included Shape
+## Important files
 
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
+- `app/page.tsx` — homepage content, hierarchy, sections, and conversion narrative
+- `app/components/MotionController.tsx` — page-wide GSAP, Lenis, pointer depth, reveals, scroll progress, and cleanup
+- `app/components/AtmosphericScene.tsx` — particle depth fields, pathways, spatial core, pointer/scroll response, and scene transitions
+- `app/components/StoryMotion.tsx` — dedicated Signal → Depth → Movement storytelling choreography
+- `app/components/RailController.tsx` — logical chapter state for the fixed scroll rail
+- `app/components/ProjectReviewForm.tsx` — validated project-review email preparation flow
+- `app/globals.css` — core visual system and responsive layout
+- `app/motion-polish.css` — depth, light, interaction, hover, and progress polish
+- `app/story.css` — storytelling chapter layout and 3D visual treatment
+- `app/visual-variants.css` — evidence-scene differentiation and form-state polish
+- `tests/rendered-html.test.mjs` — rendered homepage regression checks
 
-## Workspace Auth Headers
+## Motion and performance rules
 
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
+The motion system is progressive enhancement, not a hard dependency for understanding the site.
 
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
+- `prefers-reduced-motion: reduce` disables the Three.js atmosphere and collapses animation timing.
+- Coarse-pointer/mobile and lower-core devices use a smaller particle field and lower canvas DPR.
+- The Three.js canvas is client-only and does not block server rendering of the page content.
+- Pointer listeners, IntersectionObservers, GSAP contexts, and Lenis ticker hooks are cleaned up on unmount.
+- Decorative 3D/story visuals are hidden from assistive technology while the content remains semantic HTML.
 
-Treat the full name as optional and fall back to email when it is absent:
+## Project review form
 
-```tsx
-import { headers } from "next/headers";
+The current contact flow validates the organization, project gap, desired outcome, name, email, and optional website URL. It then prepares a `mailto:` draft addressed to `hello@northline.studio` and attempts to copy the project details to the clipboard as a fallback.
 
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
+Nothing is submitted to a server or third-party form service by this repository today. A direct-send form would require a verified mail/form backend and deployment credentials rather than silently pretending a message was delivered.
 
-  const displayName = fullName ?? email;
-  // ...
-}
+## Local commands
+
+Prerequisite: Node.js `>=22.13.0`.
+
+```bash
+npm run dev
+npm run lint
+npm run build
+npm test
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+The existing build helpers under `scripts/` target the project runtime and may depend on Linux utilities such as GNU `timeout`.
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+## Verification
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+`npm test` builds the deployable artifact and runs the rendered homepage assertions in `tests/rendered-html.test.mjs`. The test protects the current Northline positioning and major page chapters from accidental regressions or unrelated project content leaking into the site.
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Diagnostic Commands
-
-- `npm run install:ci`: perform the one bounded lockfile install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build and validate the deployable Sites artifact
-- `npm run start`: start the built Vinext application
-- `npm test`: build, validate, and verify the rendered development-preview metadata
-- `npm run validate:artifact`: recheck an existing artifact's manifest and ESM `default.fetch` export
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-Use build and validation commands for targeted diagnosis after a remote failure, not as part of the normal checkpoint path.
-
-The timeout defaults can be overridden for a controlled canary with `SITES_INSTALL_TIMEOUT`, `SITES_INSTALL_KILL_AFTER`, `SITES_BUILD_TIMEOUT`, and `SITES_BUILD_KILL_AFTER`. A timeout fails the command; the helpers never retry an unchanged install or build.
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+Production deployment should always be checked against the Git commit SHA rather than assuming a successful push has already reached the live Vercel URL.
