@@ -1,13 +1,20 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
+
+const EMAIL = "hello@northline.studio";
 
 export function ProjectReviewForm() {
   const [status, setStatus] = useState("");
+  const [busy, setBusy] = useState(false);
+  const emailPattern = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/, []);
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    if (busy) return;
+
+    const element = event.currentTarget;
+    const form = new FormData(element);
     const organization = String(form.get("organization") || "").trim();
     const website = String(form.get("website") || "").trim();
     const gap = String(form.get("gap") || "").trim();
@@ -17,12 +24,28 @@ export function ProjectReviewForm() {
     const email = String(form.get("email") || "").trim();
 
     if (!organization || !gap || !outcome || !name || !email) {
-      setStatus("Please complete the required fields.");
+      setStatus("Complete the required fields before continuing.");
+      element.reportValidity();
       return;
     }
 
-    const subject = encodeURIComponent(`Project review — ${organization}`);
-    const body = encodeURIComponent([
+    if (!emailPattern.test(email)) {
+      setStatus("Enter a valid email address.");
+      element.querySelector<HTMLInputElement>('input[name="email"]')?.focus();
+      return;
+    }
+
+    if (website) {
+      try {
+        new URL(website);
+      } catch {
+        setStatus("Enter the website as a full URL, including https://");
+        element.querySelector<HTMLInputElement>('input[name="website"]')?.focus();
+        return;
+      }
+    }
+
+    const plainText = [
       `Organization: ${organization}`,
       `Website: ${website || "Not provided"}`,
       `Name: ${name}`,
@@ -34,27 +57,46 @@ export function ProjectReviewForm() {
       "",
       "What needs to happen next?",
       outcome,
-    ].join("\n"));
+    ].join("\n");
 
-    setStatus("Opening your email app with the project details prepared.");
-    window.location.href = `mailto:hello@northline.studio?subject=${subject}&body=${body}`;
+    const subject = encodeURIComponent(`Project review — ${organization}`);
+    const body = encodeURIComponent(plainText);
+
+    setBusy(true);
+    setStatus("Preparing your project review…");
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(plainText);
+        setStatus("Project details copied. Opening your email app…");
+      } else {
+        setStatus("Opening your email app with the project details prepared…");
+      }
+    } catch {
+      setStatus("Opening your email app with the project details prepared…");
+    }
+
+    window.location.assign(`mailto:${EMAIL}?subject=${subject}&body=${body}`);
+    window.setTimeout(() => setBusy(false), 1200);
   };
 
   return (
-    <form className="review-form" onSubmit={submit} data-reveal noValidate>
+    <form className="review-form" onSubmit={submit} data-reveal>
       <div className="form-row">
         <label>Organization <span>*</span><input name="organization" autoComplete="organization" required /></label>
-        <label>Existing website<input name="website" type="url" inputMode="url" placeholder="https://" /></label>
+        <label>Existing website<input name="website" type="url" inputMode="url" placeholder="https://example.org" /></label>
       </div>
-      <label>What is unclear or underperforming? <span>*</span><textarea name="gap" rows={4} required /></label>
-      <label>What needs to happen next? <span>*</span><textarea name="outcome" rows={4} required /></label>
+      <label>What is unclear or underperforming? <span>*</span><textarea name="gap" rows={4} required placeholder="What feels confusing, dated, difficult to navigate, or too hard to explain?" /></label>
+      <label>What needs to happen next? <span>*</span><textarea name="outcome" rows={4} required placeholder="What should the new experience make easier, clearer, or more credible?" /></label>
       <label>Desired timeline<select name="timeline" defaultValue=""><option value="">Select one</option><option>Within 4–6 weeks</option><option>Within 2–3 months</option><option>Within 3–6 months</option><option>Exploring options</option></select></label>
       <div className="form-row">
         <label>Your name <span>*</span><input name="name" autoComplete="name" required /></label>
-        <label>Email <span>*</span><input name="email" type="email" autoComplete="email" required /></label>
+        <label>Email <span>*</span><input name="email" type="email" inputMode="email" autoComplete="email" required /></label>
       </div>
-      <button className="button button-primary" type="submit">Prepare project review <span aria-hidden="true">↗</span></button>
-      <p className="form-note">Your details stay in your email app until you choose to send them.</p>
+      <button className="button button-primary" type="submit" disabled={busy} aria-busy={busy}>
+        {busy ? "Preparing…" : "Open project review email"} <span aria-hidden="true">↗</span>
+      </button>
+      <p className="form-note">This prepares an email draft on your device. Nothing is sent until you choose to send it.</p>
       <p className="form-status" role="status" aria-live="polite">{status}</p>
     </form>
   );
