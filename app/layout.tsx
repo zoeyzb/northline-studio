@@ -9,38 +9,45 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://northline-studio-wheat.vercel.app"),
+  metadataBase: new URL("https://northline-studio-two.vercel.app"),
   title: {
-    default: "Northline — Clear digital presence for complex organizations",
+    default: "Northline — Make important work impossible to overlook",
     template: "%s — Northline",
   },
   description:
-    "Northline designs and builds clear, credible websites and digital platforms for universities, research programs, nonprofits, and expert organizations.",
+    "Northline turns complex organizations into clear digital experiences through strategy, information architecture, design, development, and motion-led storytelling.",
+  applicationName: "Northline",
+  category: "design",
   keywords: [
     "institutional website design",
     "university website design",
     "research program website",
     "nonprofit digital platform",
     "information architecture",
+    "digital storytelling",
     "digital credibility",
   ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Northline — Turn complex work into a clear digital presence",
+    title: "Northline — Make important work impossible to overlook",
     description:
-      "Websites and digital platforms that connect a clear message, visible evidence, and a useful next action.",
+      "Digital experiences that make complex organizations easier to understand, trust, and act on.",
     url: "/",
     siteName: "Northline",
     type: "website",
     locale: "en_US",
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Northline — Clear digital presence for complex organizations",
+    card: "summary",
+    title: "Northline — Make important work impossible to overlook",
     description:
-      "Institutional websites and digital platforms organized around message, evidence, and action.",
+      "Strategy, design, development, and digital storytelling for complex organizations.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
   other: { "codex-preview": "development" },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
