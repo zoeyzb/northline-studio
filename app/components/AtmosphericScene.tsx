@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Line, Points, PointMaterial } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -11,7 +11,6 @@ type SceneTarget = {
   opacity: number;
   depth: number;
   spread: number;
-  camera: number;
   rotation: number;
 };
 
@@ -21,7 +20,6 @@ function seeded(index: number, salt: number) {
 }
 
 function SpatialWorld({ compact }: { compact: boolean }) {
-  const { camera } = useThree();
   const rig = useRef<THREE.Group>(null);
   const deepField = useRef<THREE.Points>(null);
   const nearField = useRef<THREE.Points>(null);
@@ -40,7 +38,6 @@ function SpatialWorld({ compact }: { compact: boolean }) {
     opacity: .7,
     depth: 0,
     spread: 1,
-    camera: 6.2,
     rotation: 0,
   });
 
@@ -91,16 +88,16 @@ function SpatialWorld({ compact }: { compact: boolean }) {
     };
 
     const scenes: Record<string, Omit<SceneTarget, "color" | "secondary"> & { color: string; secondary: string }> = {
-      overview: { color: "#72d9f2", secondary: "#2e749a", opacity: .78, depth: 0, spread: 1, camera: 6.2, rotation: 0 },
-      trust: { color: "#8fe5f8", secondary: "#356f8c", opacity: .48, depth: .45, spread: .92, camera: 6.35, rotation: .08 },
-      story: { color: "#63d6f2", secondary: "#285e89", opacity: .72, depth: 1.2, spread: 1.16, camera: 5.7, rotation: .22 },
-      services: { color: "#79cbea", secondary: "#375b91", opacity: .54, depth: 2.0, spread: 1.05, camera: 6.05, rotation: -.12 },
-      work: { color: "#a7e8f7", secondary: "#3f7f9e", opacity: .68, depth: 2.7, spread: .82, camera: 5.8, rotation: .16 },
-      standards: { color: "#8bd7ea", secondary: "#315a78", opacity: .38, depth: 3.25, spread: 1.25, camera: 6.4, rotation: -.2 },
-      process: { color: "#70dcf6", secondary: "#2a6d93", opacity: .58, depth: 3.85, spread: .9, camera: 5.9, rotation: .28 },
-      engagements: { color: "#86cbe0", secondary: "#31546c", opacity: .36, depth: 4.35, spread: 1.18, camera: 6.35, rotation: -.08 },
-      studio: { color: "#a6dce8", secondary: "#385568", opacity: .3, depth: 4.75, spread: .78, camera: 6.55, rotation: .12 },
-      contact: { color: "#d2f6ff", secondary: "#4a9fc0", opacity: .78, depth: 5.5, spread: .62, camera: 5.35, rotation: .34 },
+      overview: { color: "#72d9f2", secondary: "#2e749a", opacity: .78, depth: 0, spread: 1, rotation: 0 },
+      trust: { color: "#8fe5f8", secondary: "#356f8c", opacity: .48, depth: .45, spread: .92, rotation: .08 },
+      story: { color: "#63d6f2", secondary: "#285e89", opacity: .72, depth: 1.2, spread: 1.16, rotation: .22 },
+      services: { color: "#79cbea", secondary: "#375b91", opacity: .54, depth: 2, spread: 1.05, rotation: -.12 },
+      work: { color: "#a7e8f7", secondary: "#3f7f9e", opacity: .68, depth: 2.7, spread: .82, rotation: .16 },
+      standards: { color: "#8bd7ea", secondary: "#315a78", opacity: .38, depth: 3.25, spread: 1.25, rotation: -.2 },
+      process: { color: "#70dcf6", secondary: "#2a6d93", opacity: .58, depth: 3.85, spread: .9, rotation: .28 },
+      engagements: { color: "#86cbe0", secondary: "#31546c", opacity: .36, depth: 4.35, spread: 1.18, rotation: -.08 },
+      studio: { color: "#a6dce8", secondary: "#385568", opacity: .3, depth: 4.75, spread: .78, rotation: .12 },
+      contact: { color: "#d2f6ff", secondary: "#4a9fc0", opacity: .78, depth: 5.5, spread: .62, rotation: .34 },
     };
 
     const onScene = (event: Event) => {
@@ -139,14 +136,10 @@ function SpatialWorld({ compact }: { compact: boolean }) {
     rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, -y * .06, 2.8, delta);
     rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, x * .36, 2.5, delta);
     rig.current.position.y = THREE.MathUtils.damp(rig.current.position.y, y * .2 + page * 1.2, 2.2, delta);
-    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, next.depth + page * .75, 2, delta);
+    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, next.depth + page * 1.15, 2, delta);
     rig.current.scale.x = THREE.MathUtils.damp(rig.current.scale.x, next.spread, 2.1, delta);
     rig.current.scale.y = THREE.MathUtils.damp(rig.current.scale.y, next.spread, 2.1, delta);
-
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, next.camera, 2, delta);
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, x * .15, 2.3, delta);
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, y * .08, 2.3, delta);
-    camera.lookAt(0, 0, -3.5);
+    rig.current.scale.z = THREE.MathUtils.damp(rig.current.scale.z, 1 + next.depth * .018, 2.1, delta);
 
     if (nearMaterial.current && deepMaterial.current && dustMaterial.current) {
       nearMaterial.current.color.lerp(next.color, Math.min(delta * 2.2, 1));
