@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { StoryMotion } from "./StoryMotion";
 
 const AtmosphericScene = dynamic(
   () =>
@@ -11,5 +12,10 @@ const AtmosphericScene = dynamic(
 );
 
 export function AtmosphericSceneClient() {
-  return <AtmosphericScene />;
+  return (
+    <>
+      <AtmosphericScene />
+      <StoryMotion />
+    </>
+  );
 }
