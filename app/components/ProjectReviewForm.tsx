@@ -3,6 +3,8 @@
 import { FormEvent, useMemo, useState } from "react";
 
 const EMAIL = "hello@northline.studio";
+const NOTE_ID = "project-review-note";
+const STATUS_ID = "project-review-status";
 
 export function ProjectReviewForm() {
   const [status, setStatus] = useState("");
@@ -81,23 +83,23 @@ export function ProjectReviewForm() {
   };
 
   return (
-    <form className="review-form" onSubmit={submit} data-reveal>
+    <form className="review-form" onSubmit={submit} data-reveal aria-describedby={`${NOTE_ID} ${STATUS_ID}`}>
       <div className="form-row">
-        <label>Organization <span>*</span><input name="organization" autoComplete="organization" required /></label>
+        <label>Organization <span aria-hidden="true">*</span><input name="organization" autoComplete="organization" required /></label>
         <label>Existing website<input name="website" type="url" inputMode="url" placeholder="https://example.org" /></label>
       </div>
-      <label>What is unclear or underperforming? <span>*</span><textarea name="gap" rows={4} required placeholder="What feels confusing, dated, difficult to navigate, or too hard to explain?" /></label>
-      <label>What needs to happen next? <span>*</span><textarea name="outcome" rows={4} required placeholder="What should the new experience make easier, clearer, or more credible?" /></label>
+      <label>What is unclear or underperforming? <span aria-hidden="true">*</span><textarea name="gap" rows={4} required placeholder="What feels confusing, dated, difficult to navigate, or too hard to explain?" /></label>
+      <label>What needs to happen next? <span aria-hidden="true">*</span><textarea name="outcome" rows={4} required placeholder="What should the new experience make easier, clearer, or more credible?" /></label>
       <label>Desired timeline<select name="timeline" defaultValue=""><option value="">Select one</option><option>Within 4–6 weeks</option><option>Within 2–3 months</option><option>Within 3–6 months</option><option>Exploring options</option></select></label>
       <div className="form-row">
-        <label>Your name <span>*</span><input name="name" autoComplete="name" required /></label>
-        <label>Email <span>*</span><input name="email" type="email" inputMode="email" autoComplete="email" required /></label>
+        <label>Your name <span aria-hidden="true">*</span><input name="name" autoComplete="name" required /></label>
+        <label>Email <span aria-hidden="true">*</span><input name="email" type="email" inputMode="email" autoComplete="email" required /></label>
       </div>
       <button className="button button-primary" type="submit" disabled={busy} aria-busy={busy}>
         {busy ? "Preparing…" : "Open project review email"} <span aria-hidden="true">↗</span>
       </button>
-      <p className="form-note">This prepares an email draft on your device. Nothing is sent until you choose to send it.</p>
-      <p className="form-status" role="status" aria-live="polite">{status}</p>
+      <p className="form-note" id={NOTE_ID}>Required fields are marked with an asterisk. This prepares an email draft on your device; nothing is sent until you choose to send it.</p>
+      <p className="form-status" id={STATUS_ID} role="status" aria-live="polite">{status}</p>
     </form>
   );
 }
