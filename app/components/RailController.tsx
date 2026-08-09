@@ -24,7 +24,11 @@ export function RailController() {
       document.querySelectorAll<HTMLElement>("[data-rail-link]").forEach((link) => {
         const active = link.dataset.railLink === chapter;
         link.classList.toggle("is-current", active);
-        active ? link.setAttribute("aria-current", "location") : link.removeAttribute("aria-current");
+        if (active) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
       });
     };
 
