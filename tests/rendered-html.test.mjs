@@ -36,6 +36,7 @@ test("renders the Northline credibility homepage", async () => {
   assert.match(html, /Ship the experience—not just the mockup/);
   assert.doesNotMatch(html, /Recover Revenue/);
   assert.doesNotMatch(html, /NextRole/);
+  assert.doesNotMatch(html, /vinext-starter/);
   assert.match(html, /Institutional websites/);
   assert.match(html, /Program and initiative platforms/);
   assert.match(html, /Digital presence improvement/);
@@ -47,7 +48,8 @@ test("renders the Northline credibility homepage", async () => {
   assert.match(html, /One line of thinking from strategy through launch/);
   assert.match(html, /Where is the current digital experience losing trust, clarity, or momentum/);
   assert.match(html, /Open project review email/);
-  assert.match(html, /Nothing is sent until you choose to send it/);
+  assert.match(html, /nothing is sent until you choose to send it/i);
+  assert.match(html, /Required fields are marked with an asterisk/);
   assert.match(html, /scroll-rail-progress/);
   assert.match(html, /Page chapters/);
   assert.match(html, /data-scene="story"/);
