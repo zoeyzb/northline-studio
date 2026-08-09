@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { RailController } from "./RailController";
 import { StoryMotion } from "./StoryMotion";
 
 const AtmosphericScene = dynamic(
@@ -16,6 +17,7 @@ export function AtmosphericSceneClient() {
     <>
       <AtmosphericScene />
       <StoryMotion />
+      <RailController />
     </>
   );
 }
