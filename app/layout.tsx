@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: "%s — Northline",
   },
   description:
-    "Northline is a digital studio for strategy, websites, products, interaction, and development—turning complex organizations and ideas into clear, credible digital experiences.",
+    "Northline is a digital studio for strategy, websites, products, interaction, and development—turning complex organizations and ideas into clear, credible, spatial digital experiences.",
   keywords: [
     "digital studio",
     "website strategy",
