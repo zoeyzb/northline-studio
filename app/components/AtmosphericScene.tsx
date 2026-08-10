@@ -35,7 +35,7 @@ function SpatialWorld({ compact }: { compact: boolean }) {
   const target = useRef<SceneTarget>({
     color: new THREE.Color("#72d9f2"),
     secondary: new THREE.Color("#2e749a"),
-    opacity: .7,
+    opacity: .82,
     depth: 0,
     spread: 1,
     rotation: 0,
@@ -54,9 +54,9 @@ function SpatialWorld({ compact }: { compact: boolean }) {
     return values;
   };
 
-  const deepPositions = useMemo(() => makeField(compact ? 380 : 980, 15, 30, 7), [compact]);
-  const nearPositions = useMemo(() => makeField(compact ? 220 : 620, 8, 16, 13), [compact]);
-  const dustPositions = useMemo(() => makeField(compact ? 160 : 420, 4.5, 10, 29), [compact]);
+  const deepPositions = useMemo(() => makeField(compact ? 420 : 1100, 15, 30, 7), [compact]);
+  const nearPositions = useMemo(() => makeField(compact ? 260 : 720, 8, 16, 13), [compact]);
+  const dustPositions = useMemo(() => makeField(compact ? 190 : 500, 4.5, 10, 29), [compact]);
 
   const pathPrimary = useMemo(() => [
     new THREE.Vector3(-5.2, -1.8, -.8),
@@ -88,16 +88,13 @@ function SpatialWorld({ compact }: { compact: boolean }) {
     };
 
     const scenes: Record<string, Omit<SceneTarget, "color" | "secondary"> & { color: string; secondary: string }> = {
-      overview: { color: "#72d9f2", secondary: "#2e749a", opacity: .78, depth: 0, spread: 1, rotation: 0 },
-      trust: { color: "#8fe5f8", secondary: "#356f8c", opacity: .48, depth: .45, spread: .92, rotation: .08 },
-      story: { color: "#63d6f2", secondary: "#285e89", opacity: .72, depth: 1.2, spread: 1.16, rotation: .22 },
-      services: { color: "#79cbea", secondary: "#375b91", opacity: .54, depth: 2, spread: 1.05, rotation: -.12 },
-      work: { color: "#a7e8f7", secondary: "#3f7f9e", opacity: .68, depth: 2.7, spread: .82, rotation: .16 },
-      standards: { color: "#8bd7ea", secondary: "#315a78", opacity: .38, depth: 3.25, spread: 1.25, rotation: -.2 },
-      process: { color: "#70dcf6", secondary: "#2a6d93", opacity: .58, depth: 3.85, spread: .9, rotation: .28 },
-      engagements: { color: "#86cbe0", secondary: "#31546c", opacity: .36, depth: 4.35, spread: 1.18, rotation: -.08 },
-      studio: { color: "#a6dce8", secondary: "#385568", opacity: .3, depth: 4.75, spread: .78, rotation: .12 },
-      contact: { color: "#d2f6ff", secondary: "#4a9fc0", opacity: .78, depth: 5.5, spread: .62, rotation: .34 },
+      overview: { color: "#7de3fa", secondary: "#2e749a", opacity: .88, depth: 0, spread: 1, rotation: 0 },
+      trust: { color: "#96eafb", secondary: "#356f8c", opacity: .56, depth: .55, spread: .94, rotation: .08 },
+      system: { color: "#67ddf7", secondary: "#285e89", opacity: .82, depth: 1.45, spread: 1.2, rotation: .25 },
+      services: { color: "#83d9f2", secondary: "#375b91", opacity: .72, depth: 2.3, spread: 1.08, rotation: -.14 },
+      proof: { color: "#b9effa", secondary: "#3f7f9e", opacity: .8, depth: 3.25, spread: .86, rotation: .2 },
+      standards: { color: "#92e1f2", secondary: "#315a78", opacity: .5, depth: 4.1, spread: 1.24, rotation: -.22 },
+      contact: { color: "#e0fbff", secondary: "#4a9fc0", opacity: .9, depth: 5.35, spread: .66, rotation: .36 },
     };
 
     const onScene = (event: Event) => {
@@ -132,59 +129,62 @@ function SpatialWorld({ compact }: { compact: boolean }) {
     const page = scroll.current;
     const next = target.current;
 
-    rig.current.rotation.y = THREE.MathUtils.damp(rig.current.rotation.y, x * .12 + next.rotation, 2.4, delta);
-    rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, -y * .06, 2.8, delta);
-    rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, x * .36, 2.5, delta);
-    rig.current.position.y = THREE.MathUtils.damp(rig.current.position.y, y * .2 + page * 1.2, 2.2, delta);
-    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, next.depth + page * 1.15, 2, delta);
-    rig.current.scale.x = THREE.MathUtils.damp(rig.current.scale.x, next.spread, 2.1, delta);
-    rig.current.scale.y = THREE.MathUtils.damp(rig.current.scale.y, next.spread, 2.1, delta);
-    rig.current.scale.z = THREE.MathUtils.damp(rig.current.scale.z, 1 + next.depth * .018, 2.1, delta);
+    rig.current.rotation.y = THREE.MathUtils.damp(rig.current.rotation.y, x * .17 + next.rotation, 2.6, delta);
+    rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, -y * .09, 2.9, delta);
+    rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, x * .52, 2.7, delta);
+    rig.current.position.y = THREE.MathUtils.damp(rig.current.position.y, y * .3 + page * 1.55, 2.35, delta);
+    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, next.depth + page * 1.45, 2.15, delta);
+    rig.current.scale.x = THREE.MathUtils.damp(rig.current.scale.x, next.spread, 2.2, delta);
+    rig.current.scale.y = THREE.MathUtils.damp(rig.current.scale.y, next.spread, 2.2, delta);
+    rig.current.scale.z = THREE.MathUtils.damp(rig.current.scale.z, 1 + next.depth * .024, 2.2, delta);
 
     if (nearMaterial.current && deepMaterial.current && dustMaterial.current) {
-      nearMaterial.current.color.lerp(next.color, Math.min(delta * 2.2, 1));
-      nearMaterial.current.opacity = THREE.MathUtils.damp(nearMaterial.current.opacity, next.opacity, 2.2, delta);
-      deepMaterial.current.color.lerp(next.secondary, Math.min(delta * 1.45, 1));
-      deepMaterial.current.opacity = THREE.MathUtils.damp(deepMaterial.current.opacity, next.opacity * .3, 1.8, delta);
-      dustMaterial.current.color.lerp(next.color, Math.min(delta * 1.8, 1));
-      dustMaterial.current.opacity = THREE.MathUtils.damp(dustMaterial.current.opacity, next.opacity * .18, 1.9, delta);
+      nearMaterial.current.color.lerp(next.color, Math.min(delta * 2.4, 1));
+      nearMaterial.current.opacity = THREE.MathUtils.damp(nearMaterial.current.opacity, next.opacity, 2.4, delta);
+      deepMaterial.current.color.lerp(next.secondary, Math.min(delta * 1.6, 1));
+      deepMaterial.current.opacity = THREE.MathUtils.damp(deepMaterial.current.opacity, next.opacity * .36, 1.9, delta);
+      dustMaterial.current.color.lerp(next.color, Math.min(delta * 2, 1));
+      dustMaterial.current.opacity = THREE.MathUtils.damp(dustMaterial.current.opacity, next.opacity * .24, 2, delta);
     }
 
-    nearField.current.rotation.z += delta * .0045;
-    deepField.current.rotation.z -= delta * .0012;
-    dustField.current.rotation.y += delta * .0025;
-    architecture.current.rotation.z = THREE.MathUtils.damp(architecture.current.rotation.z, next.rotation * .28, 2, delta);
-    core.current.rotation.x += delta * .012;
-    core.current.rotation.y -= delta * .018;
+    nearField.current.rotation.z += delta * .0075;
+    nearField.current.rotation.x += delta * .0015;
+    deepField.current.rotation.z -= delta * .002;
+    dustField.current.rotation.y += delta * .004;
+    architecture.current.rotation.z = THREE.MathUtils.damp(architecture.current.rotation.z, next.rotation * .34, 2.1, delta);
+    architecture.current.position.x = THREE.MathUtils.damp(architecture.current.position.x, x * .28, 2.3, delta);
+    core.current.rotation.x += delta * .018;
+    core.current.rotation.y -= delta * .025;
+    core.current.position.y = Math.sin(_state.clock.elapsedTime * .32) * .08;
   });
 
   return (
     <group ref={rig}>
       <Points ref={deepField} positions={deepPositions} stride={3} frustumCulled>
-        <PointMaterial ref={deepMaterial} transparent color="#2e749a" size={.018} sizeAttenuation depthWrite={false} opacity={.2} />
+        <PointMaterial ref={deepMaterial} transparent color="#2e749a" size={.02} sizeAttenuation depthWrite={false} opacity={.24} />
       </Points>
       <Points ref={nearField} positions={nearPositions} stride={3} frustumCulled>
-        <PointMaterial ref={nearMaterial} transparent color="#72d9f2" size={.032} sizeAttenuation depthWrite={false} opacity={.7} />
+        <PointMaterial ref={nearMaterial} transparent color="#72d9f2" size={.038} sizeAttenuation depthWrite={false} opacity={.78} />
       </Points>
       <Points ref={dustField} positions={dustPositions} stride={3} frustumCulled>
-        <PointMaterial ref={dustMaterial} transparent color="#d2f6ff" size={.055} sizeAttenuation depthWrite={false} opacity={.12} />
+        <PointMaterial ref={dustMaterial} transparent color="#d2f6ff" size={.062} sizeAttenuation depthWrite={false} opacity={.16} />
       </Points>
 
       <group ref={architecture}>
-        <Line points={pathPrimary} color="#83dff4" lineWidth={.65} transparent opacity={.36} />
-        <Line points={pathSecondary} color="#477d9f" lineWidth={.4} transparent opacity={.18} />
+        <Line points={pathPrimary} color="#83dff4" lineWidth={.72} transparent opacity={.42} />
+        <Line points={pathSecondary} color="#477d9f" lineWidth={.45} transparent opacity={.22} />
         {pathPrimary.map((point, index) => (
-          <Float key={`primary-${index}`} speed={.45 + index * .08} rotationIntensity={.08} floatIntensity={.24}>
+          <Float key={`primary-${index}`} speed={.58 + index * .09} rotationIntensity={.1} floatIntensity={.3}>
             <mesh position={point}>
-              <sphereGeometry args={[index === pathPrimary.length - 1 ? .11 : .065, 14, 14]} />
-              <meshBasicMaterial color={index === pathPrimary.length - 1 ? "#d2f6ff" : "#73cce7"} transparent opacity={.75} />
+              <sphereGeometry args={[index === pathPrimary.length - 1 ? .12 : .07, 14, 14]} />
+              <meshBasicMaterial color={index === pathPrimary.length - 1 ? "#dffbff" : "#73cce7"} transparent opacity={.84} />
             </mesh>
           </Float>
         ))}
         {pathSecondary.map((point, index) => (
           <mesh position={point} key={`secondary-${index}`}>
-            <octahedronGeometry args={[.045, 0]} />
-            <meshBasicMaterial color="#6caac5" transparent opacity={.42} />
+            <octahedronGeometry args={[.05, 0]} />
+            <meshBasicMaterial color="#6caac5" transparent opacity={.5} />
           </mesh>
         ))}
       </group>
@@ -192,19 +192,19 @@ function SpatialWorld({ compact }: { compact: boolean }) {
       <group ref={core} position={[3.7, .4, -2.8]}>
         <mesh>
           <icosahedronGeometry args={[1.15, 1]} />
-          <meshBasicMaterial color="#59b7d8" wireframe transparent opacity={.13} />
+          <meshBasicMaterial color="#59b7d8" wireframe transparent opacity={.16} />
         </mesh>
         <mesh rotation={[.4, .1, .7]}>
           <torusGeometry args={[1.72, .012, 8, 100]} />
-          <meshBasicMaterial color="#c4eff8" transparent opacity={.27} />
+          <meshBasicMaterial color="#c4eff8" transparent opacity={.32} />
         </mesh>
         <mesh rotation={[-.65, .35, -.2]}>
           <torusGeometry args={[2.18, .008, 8, 100]} />
-          <meshBasicMaterial color="#65b7d5" transparent opacity={.16} />
+          <meshBasicMaterial color="#65b7d5" transparent opacity={.2} />
         </mesh>
         <mesh rotation={[.2, 1.1, .4]}>
           <ringGeometry args={[2.62, 2.635, 96]} />
-          <meshBasicMaterial color="#497d9a" transparent opacity={.11} side={THREE.DoubleSide} />
+          <meshBasicMaterial color="#497d9a" transparent opacity={.14} side={THREE.DoubleSide} />
         </mesh>
       </group>
     </group>
@@ -219,7 +219,7 @@ export function AtmosphericScene() {
   return (
     <div className="spatial-canvas" aria-hidden="true">
       <Canvas
-        dpr={compact ? [1, 1] : [1, 1.35]}
+        dpr={compact ? [1, 1] : [1, 1.4]}
         camera={{ position: [0, 0, 6.2], fov: 50, near: .1, far: 80 }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       >
