@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./clarity.css";
+import "./motion-v2.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -29,9 +30,9 @@ export const metadata: Metadata = {
   category: "design",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Northline — Make important work impossible to overlook",
+    title: "Northline — Make the digital presence impossible to ignore",
     description:
-      "Strategy, design, interaction, and development for digital experiences that feel clear, credible, and unmistakably considered.",
+      "Strategy, design, motion, and development for digital experiences that feel clear, dimensional, and premium.",
     url: "/",
     siteName: "Northline",
     type: "website",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Northline — Digital experiences for ambitious organizations",
     description:
-      "Strategy, design, interaction, and development for websites and digital products built around signal, structure, depth, and movement.",
+      "Strategy, design, motion, and development for websites and digital products built around clarity, depth, and action.",
   },
   robots: { index: true, follow: true },
   other: { "codex-preview": "development" },
