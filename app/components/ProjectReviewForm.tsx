@@ -8,96 +8,51 @@ export function ProjectReviewForm() {
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const organization = String(form.get("organization") || "").trim();
-    const website = String(form.get("website") || "").trim();
-    const projectType = String(form.get("projectType") || "").trim();
-    const gap = String(form.get("gap") || "").trim();
-    const outcome = String(form.get("outcome") || "").trim();
-    const timeline = String(form.get("timeline") || "").trim();
-    const budget = String(form.get("budget") || "").trim();
     const name = String(form.get("name") || "").trim();
     const email = String(form.get("email") || "").trim();
+    const website = String(form.get("website") || "").trim();
+    const need = String(form.get("need") || "").trim();
 
-    if (!organization || !projectType || !gap || !outcome || !name || !email) {
-      setStatus("Please complete the required fields before opening the review email.");
+    if (!name || !email || !need) {
+      setStatus("Add your name, email, and a short note about what you want to improve.");
       return;
     }
 
-    const subject = encodeURIComponent(`Northline project review — ${organization}`);
+    const subject = encodeURIComponent(`Northline project inquiry — ${name}`);
     const body = encodeURIComponent([
-      `Organization: ${organization}`,
-      `Existing website: ${website || "Not provided"}`,
-      `Project type: ${projectType}`,
-      `Desired timeline: ${timeline || "Not specified"}`,
-      `Budget range: ${budget || "Not specified"}`,
-      `Contact: ${name} (${email})`,
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Website: ${website || "Not provided"}`,
       "",
-      "Where is the current digital experience losing trust, clarity, or momentum?",
-      gap,
-      "",
-      "What should be stronger when the work is finished?",
-      outcome,
+      "What I want to improve or build:",
+      need,
     ].join("\n"));
 
-    setStatus("Your project review is prepared. Nothing is sent until you choose to send it in your email app.");
+    setStatus("Ready. Your email app will open with the message prepared.");
     window.location.href = `mailto:hello@northline.studio?subject=${subject}&body=${body}`;
   };
 
   return (
-    <form className="review-form" onSubmit={submit} data-reveal noValidate>
+    <form className="review-form simplified-form" onSubmit={submit} data-reveal noValidate>
       <div className="form-intro">
-        <span>Project review</span>
-        <h3>Give us the useful context.</h3>
-        <p>Required fields are marked with an asterisk. The form prepares an email on your device; nothing is sent automatically.</p>
+        <span>Project inquiry</span>
+        <h3>Keep it simple.</h3>
+        <p>Tell us what you are building or what feels wrong with the current site. That is enough to start.</p>
       </div>
 
       <div className="form-row">
-        <label>Organization <span>*</span><input name="organization" autoComplete="organization" required /></label>
-        <label>Existing website<input name="website" type="url" inputMode="url" placeholder="https://" /></label>
+        <label>Your name <span>*</span><input name="name" autoComplete="name" placeholder="Your name" required /></label>
+        <label>Email <span>*</span><input name="email" type="email" autoComplete="email" placeholder="you@company.com" required /></label>
       </div>
 
-      <label>What kind of project is this? <span>*</span>
-        <select name="projectType" defaultValue="" required>
-          <option value="" disabled>Select one</option>
-          <option>Flagship website</option>
-          <option>Digital product or platform</option>
-          <option>Existing-site transformation</option>
-          <option>Not sure yet</option>
-        </select>
+      <label>Current website <small>optional</small><input name="website" type="url" inputMode="url" placeholder="https://" /></label>
+
+      <label>What do you want to improve or build? <span>*</span>
+        <textarea name="need" rows={5} placeholder="Example: Our site feels outdated and confusing. We want a clearer story, stronger visuals, and a better way for people to contact us." required />
       </label>
 
-      <label>Where is the current experience losing trust, clarity, or momentum? <span>*</span><textarea name="gap" rows={4} required /></label>
-      <label>What should be stronger when the work is finished? <span>*</span><textarea name="outcome" rows={4} required /></label>
-
-      <div className="form-row">
-        <label>Desired timeline
-          <select name="timeline" defaultValue="">
-            <option value="">Select one</option>
-            <option>Within 4–6 weeks</option>
-            <option>Within 2–3 months</option>
-            <option>Within 3–6 months</option>
-            <option>Exploring options</option>
-          </select>
-        </label>
-        <label>Planned investment
-          <select name="budget" defaultValue="">
-            <option value="">Select one</option>
-            <option>Under $5k</option>
-            <option>$5k–$10k</option>
-            <option>$10k–$25k</option>
-            <option>$25k+</option>
-            <option>Need help scoping</option>
-          </select>
-        </label>
-      </div>
-
-      <div className="form-row">
-        <label>Your name <span>*</span><input name="name" autoComplete="name" required /></label>
-        <label>Email <span>*</span><input name="email" type="email" autoComplete="email" required /></label>
-      </div>
-
-      <button className="button button-primary magnetic" type="submit">Open project review email <span aria-hidden="true">↗</span></button>
-      <p className="form-note">Privacy by design: your answers stay in your browser until your email app opens, and nothing is sent until you choose to send it.</p>
+      <button className="button button-primary magnetic" type="submit">Send project details <span aria-hidden="true">↗</span></button>
+      <p className="form-note">Nothing is submitted automatically. This prepares an email for you to review and send.</p>
       <p className="form-status" role="status" aria-live="polite">{status}</p>
     </form>
   );
