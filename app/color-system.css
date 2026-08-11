@@ -1,0 +1,118 @@
+/* Northline color system v2 — richer section identity without losing the cyan core. */
+.motion-rebuild{
+  --nl-cyan:#72d9f2;
+  --nl-violet:#a78bfa;
+  --nl-amber:#f6c86b;
+  --nl-coral:#ff8f7a;
+  --nl-mint:#7ee7c4;
+  --nl-rose:#f0a7c4;
+  --nl-paper:#ecf8f5;
+}
+
+/* Hero keeps the Northline core but gains a subtle violet secondary light. */
+.motion-rebuild .rr-hero::before{
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.54),transparent 24% 76%,rgba(0,0,0,.48)),
+    radial-gradient(ellipse 42% 34% at 72% 42%,rgba(93,202,237,.14),transparent 72%),
+    radial-gradient(ellipse 28% 30% at 88% 68%,rgba(167,139,250,.1),transparent 74%)!important;
+}
+.motion-rebuild .rr-accent-line{
+  background:linear-gradient(90deg,#dffbff 5%,#a7eaf7 52%,#c7b8ff 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.motion-rebuild .nl-preview-glow{
+  background:radial-gradient(circle at 44% 42%,rgba(95,210,243,.2),transparent 52%),radial-gradient(circle at 70% 62%,rgba(167,139,250,.13),transparent 58%)!important;
+}
+
+/* Outcome strip becomes a subtle spectrum instead of five identical labels. */
+.motion-rebuild .rr-outcome-bar span:nth-child(1){color:#bff4ff}
+.motion-rebuild .rr-outcome-bar span:nth-child(2){color:#d1c5ff}
+.motion-rebuild .rr-outcome-bar span:nth-child(3){color:#ffd1c8}
+.motion-rebuild .rr-outcome-bar span:nth-child(4){color:#b5f3dc}
+.motion-rebuild .rr-outcome-bar span:nth-child(5){color:#f8dca1}
+.motion-rebuild .rr-outcome-bar span{position:relative}
+.motion-rebuild .rr-outcome-bar span::before{content:"";display:inline-block;width:.38rem;aspect-ratio:1;margin-right:.55rem;border-radius:50%;background:currentColor;box-shadow:0 0 16px currentColor;opacity:.8;vertical-align:.06rem}
+
+/* Story cards each own a color identity. */
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(1){--box-accent:114,217,242;--box-accent-solid:#72d9f2}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(2){--box-accent:167,139,250;--box-accent-solid:#a78bfa}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(3){--box-accent:255,143,122;--box-accent-solid:#ff8f7a}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(4){--box-accent:126,231,196;--box-accent-solid:#7ee7c4}
+.box-motion-rebuild .rr-story-stage .box-motion{background:radial-gradient(430px circle at var(--box-x) var(--box-y),rgba(var(--box-accent),.09),transparent 58%),linear-gradient(145deg,rgba(17,40,56,.9),rgba(5,15,23,.91))!important}
+.box-motion-rebuild .rr-story-stage .box-motion>span{color:var(--box-accent-solid)!important}
+.box-motion-rebuild .rr-story-stage .box-motion:hover{border-color:rgba(var(--box-accent),.5)!important;box-shadow:0 36px 92px rgba(0,0,0,.4),0 0 42px rgba(var(--box-accent),.12),inset 0 1px rgba(255,255,255,.09)!important}
+
+/* Capability cards: controlled jewel-tone rotation. */
+.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(6n+1){--box-accent:114,217,242;--box-accent-solid:#72d9f2}
+.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(6n+2){--box-accent:167,139,250;--box-accent-solid:#a78bfa}
+.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(6n+3){--box-accent:246,200,107;--box-accent-solid:#f6c86b}
+.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(6n+4){--box-accent:126,231,196;--box-accent-solid:#7ee7c4}
+.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(6n+5){--box-accent:255,143,122;--box-accent-solid:#ff8f7a}
+.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(6n){--box-accent:240,167,196;--box-accent-solid:#f0a7c4}
+.box-motion-rebuild .rr-capability-grid .box-motion{
+  background:radial-gradient(480px circle at var(--box-x) var(--box-y),rgba(var(--box-accent),.075),transparent 60%),linear-gradient(145deg,rgba(14,34,48,.95),rgba(4,13,20,.97))!important;
+}
+.box-motion-rebuild .rr-capability-grid .box-motion>div:first-child span,
+.box-motion-rebuild .rr-capability-grid .box-motion>div:first-child i{color:var(--box-accent-solid)!important}
+.box-motion-rebuild .rr-capability-grid .box-motion:hover{border-color:rgba(var(--box-accent),.48)!important;box-shadow:0 34px 90px rgba(0,0,0,.4),0 0 40px rgba(var(--box-accent),.1),inset 0 1px rgba(255,255,255,.09)!important}
+
+/* Make the light process section warmer and less icy. */
+.motion-rebuild .rr-process{
+  background:
+    radial-gradient(circle at 8% 16%,rgba(255,255,255,.92),transparent 25%),
+    radial-gradient(circle at 92% 18%,rgba(246,200,107,.27),transparent 27%),
+    radial-gradient(circle at 74% 88%,rgba(255,143,122,.16),transparent 30%),
+    linear-gradient(135deg,#edf9f6 0%,#d9f0ec 48%,#d8e8f4 100%)!important;
+}
+.motion-rebuild .rr-process-copy>span{color:#7a5a12!important}
+.motion-rebuild .rr-process li:nth-child(1)>b{color:#137b8f!important}
+.motion-rebuild .rr-process li:nth-child(2)>b{color:#6d55b4!important}
+.motion-rebuild .rr-process li:nth-child(3)>b{color:#a76518!important}
+.motion-rebuild .rr-process li:nth-child(4)>b{color:#b65448!important}
+
+/* Service choices intentionally separate into three visual moods. */
+.box-motion-rebuild .rr-service-cards .box-motion:nth-child(1){--box-accent:114,217,242;--box-accent-solid:#72d9f2}
+.box-motion-rebuild .rr-service-cards .box-motion:nth-child(2){--box-accent:167,139,250;--box-accent-solid:#a78bfa}
+.box-motion-rebuild .rr-service-cards .box-motion:nth-child(3){--box-accent:246,200,107;--box-accent-solid:#f6c86b}
+.box-motion-rebuild .rr-service-cards .box-motion{background:radial-gradient(460px circle at var(--box-x) var(--box-y),rgba(var(--box-accent),.085),transparent 62%),linear-gradient(150deg,rgba(15,38,53,.95),rgba(3,12,19,.98))!important}
+.box-motion-rebuild .rr-service-cards .box-motion>span{color:var(--box-accent-solid)!important}
+.box-motion-rebuild .rr-service-cards .box-motion>div small{border-color:rgba(var(--box-accent),.2)!important;background:rgba(var(--box-accent),.055)!important}
+.box-motion-rebuild .rr-service-cards .box-motion:hover>div small{color:#f8feff;border-color:rgba(var(--box-accent),.38)!important;background:rgba(var(--box-accent),.1)!important}
+.box-motion-rebuild .rr-service-cards .box-motion:hover{border-color:rgba(var(--box-accent),.52)!important;box-shadow:0 34px 90px rgba(0,0,0,.4),0 0 46px rgba(var(--box-accent),.11),inset 0 1px rgba(255,255,255,.09)!important}
+
+/* Trust/proof uses softer color so it feels editorial rather than another services grid. */
+.box-motion-rebuild .rr-proof-cards .box-motion:nth-child(1){--box-accent:126,231,196;--box-accent-solid:#7ee7c4}
+.box-motion-rebuild .rr-proof-cards .box-motion:nth-child(2){--box-accent:240,167,196;--box-accent-solid:#f0a7c4}
+.box-motion-rebuild .rr-proof-cards .box-motion:nth-child(3){--box-accent:246,200,107;--box-accent-solid:#f6c86b}
+.box-motion-rebuild .rr-proof-cards .box-motion:nth-child(4){--box-accent:167,139,250;--box-accent-solid:#a78bfa}
+.box-motion-rebuild .rr-proof-cards .box-motion{background:radial-gradient(360px circle at var(--box-x) var(--box-y),rgba(var(--box-accent),.075),transparent 62%),linear-gradient(150deg,rgba(12,30,42,.93),rgba(3,11,17,.98))!important}
+.box-motion-rebuild .rr-proof-cards .box-motion>span,
+.box-motion-rebuild .rr-proof-cards .box-motion>i{color:var(--box-accent-solid)!important}
+.box-motion-rebuild .rr-proof-cards .box-motion:hover{border-color:rgba(var(--box-accent),.46)!important;box-shadow:0 30px 82px rgba(0,0,0,.38),0 0 38px rgba(var(--box-accent),.1),inset 0 1px rgba(255,255,255,.08)!important}
+
+/* Shared animated border inherits the family accent when available. */
+.box-motion-rebuild .box-motion::before{
+  background:conic-gradient(from var(--box-angle,0deg),transparent 0deg,transparent 245deg,rgba(var(--box-accent,114,217,242),.12) 270deg,rgba(var(--box-accent,114,217,242),.98) 292deg,rgba(var(--box-accent,114,217,242),.26) 312deg,transparent 338deg)!important;
+  filter:drop-shadow(0 0 10px rgba(var(--box-accent,114,217,242),.34))!important;
+}
+.box-motion-rebuild .box-motion::after{
+  background:radial-gradient(360px circle at var(--box-x) var(--box-y),rgba(var(--box-accent,114,217,242),calc(.08 + var(--box-glow))),transparent 58%),linear-gradient(108deg,transparent 24%,rgba(255,255,255,.045) 46%,transparent 65%)!important;
+  background-size:auto,220% 100%!important;
+  background-position:center,-120% 0!important;
+}
+.box-motion-rebuild .box-motion:hover::after{background-position:center,80% 0!important}
+
+/* Closing moment mixes cyan + violet + warm coral instead of one cyan bloom. */
+.motion-rebuild .rr-closing{
+  background:
+    radial-gradient(circle at 22% 42%,rgba(95,209,238,.15),transparent 34%),
+    radial-gradient(circle at 78% 24%,rgba(167,139,250,.11),transparent 31%),
+    radial-gradient(circle at 72% 88%,rgba(255,143,122,.08),transparent 30%),
+    linear-gradient(180deg,#02070c,#07131d)!important;
+}
+
+@media(max-width:640px){
+  .motion-rebuild .rr-outcome-bar span::before{display:none}
+}
