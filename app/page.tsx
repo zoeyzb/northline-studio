@@ -52,7 +52,7 @@ export default function Home() {
         <a className="nlx-nav-cta magnetic" href="#contact">Start a project <i>↗</i></a>
       </header>
 
-      <section className="nlx-hero nlx-scene" id="hero" data-scene="hero" data-scene-strength="1">
+      <section className="nlx-hero nlx-scene hero-light" id="hero" data-scene="hero" data-scene-strength="1">
         <div className="nlx-hero-aura" aria-hidden="true" />
         <div className="nlx-shell nlx-hero-grid">
           <div className="nlx-hero-copy">
@@ -68,17 +68,31 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="nlx-hero-object hero-sculpture" data-hero-object aria-hidden="true">
-            <div className="nlx-hero-orbit orbit-a" />
-            <div className="nlx-hero-orbit orbit-b" />
-            <div className="nlx-hero-plane plane-back" />
-            <div className="nlx-hero-plane plane-mid" />
-            <div className="nlx-hero-plane plane-front" />
-            <i className="sculpture-line line-a" />
-            <i className="sculpture-line line-b" />
-            <i className="sculpture-dot dot-a" />
-            <i className="sculpture-dot dot-b" />
-            <i className="sculpture-dot dot-c" />
+          <div className="nlx-hero-object hero-build" data-hero-object aria-hidden="true">
+            <div className="nlx-hero-plane plane-back build-layer build-strategy">
+              <span>01 · STRATEGY</span>
+              <strong>Find the signal.</strong>
+              <i /><i /><i />
+            </div>
+            <div className="nlx-hero-plane plane-mid build-layer build-structure">
+              <span>02 · STRUCTURE</span>
+              <div className="build-wireframe">
+                <b /><b /><b /><b />
+              </div>
+            </div>
+            <div className="nlx-hero-plane plane-front build-layer build-finish">
+              <div className="nlx-browser-bar"><i /><i /><i /><span /></div>
+              <small>03 · MOTION + BUILD</small>
+              <strong>One clear digital experience.</strong>
+              <div className="build-finished-grid">
+                <i /><i /><i />
+              </div>
+            </div>
+            <div className="build-connector connector-a" />
+            <div className="build-connector connector-b" />
+            <div className="nlx-float-chip chip-a">STRATEGY</div>
+            <div className="nlx-float-chip chip-b">STRUCTURE</div>
+            <div className="nlx-float-chip chip-c">LAUNCH</div>
           </div>
         </div>
         <div className="nlx-hero-scroll nlx-shell"><span>Scroll to enter</span><i>↓</i></div>

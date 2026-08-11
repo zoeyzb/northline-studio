@@ -1,27 +1,72 @@
-/* Minimal contrast tuning only — preserve the cinematic layout and motion. */
+/* Minimal contrast tuning + hero-specific art direction. Keep the rest of the cinematic site intact. */
 .cinematic-site{--ink:#ffffff;--muted:#c0ced6}
 .nlx-hero-lede,.nlx-service-card p,.nlx-case-copy>p:last-child,.nlx-case-step p,.nlx-project-copy>p:last-of-type,.nlx-cta-copy>p:last-child{color:#c3d0d7!important}
-.nlx-nav nav,.nlx-footer,.nlx-tags small{color:#aebfc8!important}
+.nlx-footer,.nlx-tags small{color:#aebfc8!important}
 .nlx-section-head h2,.nlx-case-copy h2,.nlx-project-copy h2,.nlx-cta-copy h2,.nlx-service-card h3,.nlx-case-step h3{color:#f9fbfc!important;text-shadow:0 2px 24px rgba(0,0,0,.22)}
-.nlx-kicker{color:#8be8f8!important}
-.nlx-hero h1{color:#fff;text-shadow:0 3px 34px rgba(0,0,0,.32)}
-.nlx-hero-accent{background:linear-gradient(90deg,#ffffff 0%,#d9d2ff 46%,#94ebfa 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
 
-/* Hero sculpture: no dashboard/browser UI. Keep the existing motion hooks. */
-.nlx-hero-object.hero-sculpture{min-height:40rem;display:grid;place-items:center;isolation:isolate}
-.hero-sculpture .nlx-hero-orbit{left:50%;top:50%;border-color:rgba(164,225,246,.19);box-shadow:0 0 90px rgba(96,213,246,.07),inset 0 0 70px rgba(151,124,255,.035)}
-.hero-sculpture .orbit-a{width:31rem;transform:translate(-50%,-50%) rotateX(68deg) rotateZ(-12deg)}
-.hero-sculpture .orbit-b{width:23rem;transform:translate(-50%,-50%) rotateY(70deg) rotateZ(23deg);border-color:rgba(177,156,255,.22)}
-.hero-sculpture .nlx-hero-plane{left:50%;top:50%;padding:0;border:0;background:none;backdrop-filter:none;box-shadow:none;overflow:visible;aspect-ratio:auto}
-.hero-sculpture .plane-back{width:22rem;height:22rem;border-radius:50%;opacity:.8;transform:translate(-50%,-50%) translateZ(-170px) scale(.84);background:radial-gradient(circle,rgba(149,127,255,.16),rgba(98,217,246,.05) 43%,transparent 70%);filter:blur(2px);box-shadow:0 0 120px rgba(140,122,255,.14)}
-.hero-sculpture .plane-mid{width:14rem;height:14rem;border-radius:50%;opacity:1;transform:translate(-50%,-50%) translateZ(-60px);background:conic-gradient(from 45deg,rgba(111,222,248,.08),rgba(186,163,255,.45),rgba(111,222,248,.08),rgba(255,255,255,.24),rgba(111,222,248,.08));-webkit-mask:radial-gradient(circle,transparent 59%,#000 61%);mask:radial-gradient(circle,transparent 59%,#000 61%);filter:drop-shadow(0 0 24px rgba(136,219,247,.22))}
-.hero-sculpture .plane-front{width:7.2rem;height:7.2rem;border-radius:50%;display:grid;place-items:center;opacity:1;transform:translate(-50%,-50%) translateZ(70px);background:radial-gradient(circle at 38% 30%,rgba(255,255,255,.95),rgba(142,230,249,.88) 12%,rgba(86,163,221,.38) 35%,rgba(47,35,92,.45) 60%,rgba(2,7,13,.24) 72%);border:1px solid rgba(211,247,255,.54);box-shadow:0 0 24px rgba(148,229,248,.52),0 0 72px rgba(114,208,245,.28),0 0 150px rgba(164,137,255,.17),inset 0 0 24px rgba(255,255,255,.18)}
-.hero-sculpture .plane-front::before{content:"N";font-family:Georgia,serif;font-size:2.7rem;color:#f7fdff;text-shadow:0 0 18px rgba(255,255,255,.7)}
-.hero-sculpture .sculpture-line{position:absolute;left:50%;top:50%;width:27rem;height:1px;transform-origin:center;background:linear-gradient(90deg,transparent,rgba(127,225,247,.34),rgba(195,169,255,.4),transparent);box-shadow:0 0 16px rgba(120,219,247,.2)}
-.hero-sculpture .line-a{transform:translate(-50%,-50%) rotate(-27deg) translateZ(20px)}
-.hero-sculpture .line-b{transform:translate(-50%,-50%) rotate(34deg) translateZ(-20px);opacity:.65}
-.hero-sculpture .sculpture-dot{position:absolute;width:.48rem;aspect-ratio:1;border-radius:50%;background:#d8f9ff;box-shadow:0 0 10px #d8f9ff,0 0 24px #7bdff4}
-.hero-sculpture .dot-a{left:24%;top:35%}.hero-sculpture .dot-b{right:20%;top:59%;background:#d9ccff;box-shadow:0 0 10px #e1d8ff,0 0 24px #a88fff}.hero-sculpture .dot-c{left:39%;bottom:15%;width:.34rem}
-.hero-sculpture .nlx-float-chip{display:none!important}
+/* HERO: warm-light chapter, rich black typography. */
+.nlx-nav{background:rgba(244,241,233,.92)!important;border-bottom-color:rgba(20,18,15,.11)!important;color:#11100e!important;backdrop-filter:blur(18px)}
+.nlx-nav .nlx-brand strong,.nlx-nav nav,.nlx-nav nav a{color:#171512!important}
+.nlx-nav .nlx-brand>span{color:#171512!important;border-color:rgba(17,16,14,.24)!important;background:rgba(255,255,255,.52)!important}
+.nlx-nav-cta{color:#11100e!important;border-color:rgba(17,16,14,.18)!important;background:rgba(255,255,255,.58)!important}
+.nlx-nav nav a:hover{color:#6c55bd!important}
 
-@media(max-width:960px){.nlx-hero-object.hero-sculpture{min-height:30rem}.hero-sculpture .orbit-a{width:24rem}.hero-sculpture .orbit-b{width:18rem}.hero-sculpture .sculpture-line{width:21rem}}
+.nlx-hero.hero-light{background:
+  radial-gradient(circle at 77% 24%,rgba(169,145,255,.18),transparent 30%),
+  radial-gradient(circle at 72% 68%,rgba(91,208,244,.14),transparent 31%),
+  linear-gradient(180deg,#f4f1e9 0%,#eee9de 73%,#dad8d0 100%)!important;
+  color:#11100e!important;
+}
+.hero-light .nlx-hero-aura{opacity:.62;background:radial-gradient(circle at 82% 26%,rgba(151,123,235,.17),transparent 30%),radial-gradient(circle at 66% 67%,rgba(71,180,208,.13),transparent 35%),radial-gradient(circle at 20% 76%,rgba(255,181,150,.1),transparent 27%)!important}
+.hero-light .nlx-kicker{color:#5c479e!important}
+.hero-light .nlx-kicker i{background:#5c479e!important}
+.hero-light .nlx-hero h1,.hero-light h1{color:#11100e!important;text-shadow:none!important}
+.hero-light .nlx-hero-accent{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#11100e!important}
+.hero-light .nlx-hero-lede{color:#3d3932!important}
+.hero-light .nlx-button-primary{background:#15130f!important;color:#f8f5ee!important;box-shadow:0 18px 44px rgba(18,16,13,.18)!important}
+.hero-light .nlx-button-ghost{background:rgba(255,255,255,.52)!important;border-color:rgba(17,16,14,.2)!important;color:#171512!important;backdrop-filter:blur(12px)}
+.hero-light .nlx-hero-scroll{color:#5e5a52!important}.hero-light .nlx-hero-scroll i{color:#5c479e!important}
+
+/* Replace unrelated abstract sculpture with a website-build sequence. */
+.hero-build{min-height:41rem;isolation:isolate}
+.hero-build .nlx-hero-plane{border-radius:1rem;backdrop-filter:blur(16px);overflow:hidden;box-shadow:0 35px 90px rgba(45,39,31,.14),inset 0 1px rgba(255,255,255,.65)}
+.hero-build .build-layer>span,.hero-build .build-layer>small{display:block;font:700 .56rem var(--font-geist-mono);letter-spacing:.14em;text-transform:uppercase}
+.hero-build .build-layer>strong{display:block;font-family:Georgia,serif;font-weight:400;letter-spacing:-.04em}
+
+.hero-build .plane-back{top:7%;padding:1.2rem;opacity:.52;background:rgba(255,255,255,.52);border:1px solid rgba(91,71,158,.22);color:#5c479e}
+.hero-build .plane-back strong{margin-top:1rem;color:#1b1814;font-size:1.7rem}
+.hero-build .plane-back>i{display:block;height:.44rem;margin-top:.62rem;border-radius:99px;background:rgba(27,24,20,.12)}
+.hero-build .plane-back>i:nth-of-type(1){width:72%}.hero-build .plane-back>i:nth-of-type(2){width:54%}.hero-build .plane-back>i:nth-of-type(3){width:38%}
+
+.hero-build .plane-mid{top:17%;padding:1.2rem;opacity:.76;background:rgba(238,233,222,.8);border:1px solid rgba(31,29,25,.16);color:#6654a6}
+.hero-build .build-wireframe{display:grid;grid-template-columns:1.35fr .65fr;grid-template-rows:1fr 1fr;gap:.65rem;margin-top:1.1rem;height:12rem}
+.hero-build .build-wireframe b{display:block;border:1px solid rgba(20,18,15,.18);border-radius:.45rem;background:rgba(255,255,255,.46)}
+.hero-build .build-wireframe b:first-child{grid-row:1/3;background:linear-gradient(145deg,rgba(108,84,166,.1),rgba(255,255,255,.35))}
+
+.hero-build .plane-front{top:27%;padding:1rem;background:linear-gradient(145deg,rgba(26,24,21,.97),rgba(42,36,54,.95))!important;border:1px solid rgba(31,29,25,.32);color:#fff;opacity:1}
+.hero-build .plane-front .nlx-browser-bar{border-bottom-color:rgba(255,255,255,.1)}
+.hero-build .plane-front .nlx-browser-bar i{background:#817a72}.hero-build .plane-front .nlx-browser-bar i:first-child{background:#a995ff;box-shadow:0 0 14px rgba(169,149,255,.45)}
+.hero-build .plane-front>small{margin:1.5rem 0 .65rem;color:#a995ff!important}
+.hero-build .plane-front>strong{max-width:18rem;color:#fff;font-size:clamp(1.85rem,2.5vw,2.8rem);line-height:1.02}
+.hero-build .build-finished-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:.55rem;margin-top:1.5rem}
+.hero-build .build-finished-grid i{height:6rem;border-radius:.48rem;border:1px solid rgba(255,255,255,.1);background:linear-gradient(145deg,rgba(169,149,255,.19),rgba(111,214,237,.08))}
+.hero-build .build-finished-grid i:nth-child(2){background:linear-gradient(145deg,rgba(255,155,126,.18),rgba(255,255,255,.04))}
+.hero-build .build-finished-grid i:nth-child(3){background:linear-gradient(145deg,rgba(112,220,192,.17),rgba(255,255,255,.04))}
+
+.hero-build .build-connector{position:absolute;left:50%;width:1px;height:5.5rem;z-index:6;background:linear-gradient(180deg,rgba(91,71,158,0),rgba(91,71,158,.48),rgba(91,71,158,0));transform-origin:center;pointer-events:none}
+.hero-build .connector-a{top:17%;transform:translateX(-50%) rotate(23deg)}
+.hero-build .connector-b{top:43%;transform:translateX(-50%) rotate(-18deg)}
+.hero-build .nlx-float-chip{background:rgba(255,255,255,.7)!important;border-color:rgba(24,21,18,.14)!important;color:#211d18!important;box-shadow:0 14px 34px rgba(50,42,32,.11)!important}
+.hero-build .chip-a{top:6%;left:0}.hero-build .chip-b{top:27%;right:-1%}.hero-build .chip-c{bottom:4%;left:10%;color:#5c479e!important}
+
+/* Keep WebGL atmospheric elsewhere; make it subtle beneath the light hero. */
+.hero-light~.nlx-services{border-top:1px solid rgba(255,255,255,.04)}
+
+@media(max-width:960px){
+  .nlx-nav{background:rgba(244,241,233,.96)!important}
+  .hero-light .nlx-hero-grid{padding-top:4rem}
+  .hero-build{min-height:31rem}
+  .hero-build .nlx-float-chip{display:none!important}
+  .hero-build .build-wireframe{height:8rem}
+  .hero-build .build-finished-grid i{height:4.2rem}
+}
