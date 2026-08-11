@@ -34,7 +34,7 @@ const promises = [
 
 export default function Home() {
   return (
-    <main id="main-content" className="northline-home premium-v2 recover-inspired motion-rebuild">
+    <main id="main-content" className="northline-home premium-v2 recover-inspired motion-rebuild box-motion-rebuild">
       <MotionController />
       <AtmosphericSceneClient />
       <a className="skip-link" href="#main-content">Skip to content</a>
@@ -74,12 +74,12 @@ export default function Home() {
             <h2>A premium site should feel simple even while a lot is happening underneath.</h2>
             <p>The visitor should never have to understand the animation system. They should only feel that the page is clearer, smoother, more responsive, and more intentional.</p>
           </div>
-          <div className="rr-story-stage interactive-card" data-showcase data-parallax>
+          <div className="rr-story-stage" data-parallax>
             <div className="rr-story-orbit" />
-            <article><span>01</span><small>Signal</small><strong>One message leads.</strong><p>The first screen makes the value obvious.</p></article>
-            <article><span>02</span><small>Structure</small><strong>The story unfolds naturally.</strong><p>Each section answers the next question.</p></article>
-            <article><span>03</span><small>Depth</small><strong>Motion creates memory.</strong><p>Parallax, reveals, and 3D support attention.</p></article>
-            <article><span>04</span><small>Action</small><strong>The next step is clear.</strong><p>Explore, inquire, apply, buy, or contact without friction.</p></article>
+            <article className="box-motion" data-box-motion data-box-kind="story" data-box-index="0"><span>01</span><small>Signal</small><strong>One message leads.</strong><p>The first screen makes the value obvious.</p></article>
+            <article className="box-motion" data-box-motion data-box-kind="story" data-box-index="1"><span>02</span><small>Structure</small><strong>The story unfolds naturally.</strong><p>Each section answers the next question.</p></article>
+            <article className="box-motion" data-box-motion data-box-kind="story" data-box-index="2"><span>03</span><small>Depth</small><strong>Motion creates memory.</strong><p>Parallax, reveals, and 3D support attention.</p></article>
+            <article className="box-motion" data-box-motion data-box-kind="story" data-box-index="3"><span>04</span><small>Action</small><strong>The next step is clear.</strong><p>Explore, inquire, apply, buy, or contact without friction.</p></article>
           </div>
         </div>
       </section>
@@ -88,7 +88,11 @@ export default function Home() {
         <div className="shell">
           <div className="rr-section-heading" data-reveal><span>ONE DIGITAL STUDIO</span><h2>The work between “we need a better site” and “this finally feels right.”</h2><p>Northline handles the parts that usually get split across strategy, design, motion, and development.</p></div>
           <div className="rr-capability-grid">
-            {capabilities.map(([number, title, heading, copy], index) => <article className={`interactive-card ${index === 0 || index === 3 || index === 5 ? "rr-wide" : ""}`} data-reveal key={title}><div><span>{number}</span><i>↗</i></div><small>{title}</small><h3>{heading}</h3><p>{copy}</p></article>)}
+            {capabilities.map(([number, title, heading, copy], index) => (
+              <article className={`box-motion ${index === 0 || index === 3 || index === 5 ? "rr-wide" : ""}`} data-box-motion data-box-kind="capability" data-box-index={index} key={title}>
+                <div><span>{number}</span><i>↗</i></div><small>{title}</small><h3>{heading}</h3><p>{copy}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -101,11 +105,27 @@ export default function Home() {
       </section>
 
       <section className="rr-services scene-section" data-scene="services" data-scene-strength=".68">
-        <div className="shell"><div className="rr-section-heading" data-reveal><span>WAYS TO WORK TOGETHER</span><h2>Choose the kind of problem—not a confusing package.</h2></div><div className="rr-service-cards">{services.map(([title, copy, tags], index) => <article className="interactive-card" data-showcase key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><div>{tags.map(tag => <small key={tag}>{tag}</small>)}</div><a href="#contact">Talk about this <b>↗</b></a></article>)}</div></div>
+        <div className="shell">
+          <div className="rr-section-heading" data-reveal><span>WAYS TO WORK TOGETHER</span><h2>Choose the kind of problem—not a confusing package.</h2></div>
+          <div className="rr-service-cards">
+            {services.map(([title, copy, tags], index) => (
+              <article className="box-motion" data-box-motion data-box-kind="service" data-box-index={index} key={title}>
+                <span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><div>{tags.map(tag => <small key={tag}>{tag}</small>)}</div><a href="#contact">Talk about this <b>↗</b></a>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="rr-proof scene-section" id="standard" data-scene="standards" data-scene-strength=".58">
-        <div className="shell rr-proof-grid"><div className="rr-proof-copy" data-reveal><span>WHAT YOU CAN HOLD NORTHLINE TO</span><h2>Trust should come from the work, not made-up reviews.</h2><p>Until there are real client testimonials worth showing, the site should earn trust through specific promises, visible craft, and a process that can be checked.</p></div><div className="rr-proof-cards">{promises.map(([title, copy], index) => <article className="interactive-card" data-reveal key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><i>↗</i></article>)}</div></div>
+        <div className="shell rr-proof-grid">
+          <div className="rr-proof-copy" data-reveal><span>WHAT YOU CAN HOLD NORTHLINE TO</span><h2>Trust should come from the work, not made-up reviews.</h2><p>Until there are real client testimonials worth showing, the site should earn trust through specific promises, visible craft, and a process that can be checked.</p></div>
+          <div className="rr-proof-cards">
+            {promises.map(([title, copy], index) => (
+              <article className="box-motion" data-box-motion data-box-kind="proof" data-box-index={index} key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><i>↗</i></article>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="rr-closing scene-section" id="contact" data-scene="contact" data-scene-strength="1">
