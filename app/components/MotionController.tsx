@@ -15,7 +15,7 @@ export function MotionController() {
 
     root.classList.add("motion-ready");
 
-    const revealElements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal], [data-showcase], [data-transform-item]"));
+    const revealElements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     revealElements.forEach((element) => element.classList.add("motion-pending"));
     const revealObserver = new IntersectionObserver((entries) => {
       for (const entry of entries) {
@@ -40,7 +40,9 @@ export function MotionController() {
 
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
     const sceneObserver = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (!visible) return;
       const section = visible.target as HTMLElement;
       const scene = section.dataset.scene ?? "overview";
@@ -66,7 +68,7 @@ export function MotionController() {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true, limitCallbacks: true });
 
-    const lenis = new Lenis({ duration: 1.05, smoothWheel: true, wheelMultiplier: .88, touchMultiplier: 1 });
+    const lenis = new Lenis({ duration: 1.02, smoothWheel: true, wheelMultiplier: .88, touchMultiplier: 1 });
     const onLenis = () => ScrollTrigger.update();
     lenis.on("scroll", onLenis);
     const tick = (time: number) => lenis.raf(time * 1000);
@@ -92,66 +94,93 @@ export function MotionController() {
 
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element, index) => {
         const variant = index % 3;
-        gsap.fromTo(element,
-          variant === 0
-            ? { y: 42, opacity: .12, filter: "blur(10px)" }
-            : variant === 1
-              ? { x: -34, opacity: .12 }
-              : { y: 26, z: -70, scale: .97, opacity: .12 },
-          { x: 0, y: 0, z: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: .8, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 91%", once: true } },
-        );
+        const fromVars = variant === 0
+          ? { y: 38, opacity: .14, filter: "blur(9px)" }
+          : variant === 1
+            ? { x: -28, opacity: .14, filter: "blur(5px)" }
+            : { y: 24, z: -55, opacity: .14, filter: "blur(7px)" };
+        gsap.fromTo(element, fromVars, {
+          x: 0, y: 0, z: 0, opacity: 1, filter: "blur(0px)", duration: .78, ease: "power3.out",
+          scrollTrigger: { trigger: element, start: "top 91%", once: true },
+        });
       });
 
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((element, index) => {
         gsap.fromTo(element,
-          { yPercent: index % 2 ? 6 : -4 },
-          { yPercent: index % 2 ? -7 : 7, ease: "none", scrollTrigger: { trigger: element, start: "top bottom", end: "bottom top", scrub: .65 } },
+          { yPercent: index % 2 ? 5 : -3 },
+          { yPercent: index % 2 ? -6 : 6, ease: "none", scrollTrigger: { trigger: element, start: "top bottom", end: "bottom top", scrub: .62 } },
         );
       });
 
       const storyStage = document.querySelector<HTMLElement>(".rr-story-stage");
       if (storyStage) {
-        const cards = gsap.utils.toArray<HTMLElement>(".rr-story-stage article");
+        const cards = gsap.utils.toArray<HTMLElement>(".rr-story-stage [data-box-motion]");
+        const ladderY = [-18, 26, -6, 34];
+        const ladderZ = [28, 64, 46, 86];
+        const storyTimeline = gsap.timeline({
+          scrollTrigger: { trigger: storyStage, start: "top 88%", end: "bottom 38%", scrub: .72, invalidateOnRefresh: true },
+        });
         cards.forEach((card, index) => {
           const side = index % 2 ? 1 : -1;
-          gsap.fromTo(card,
-            { x: side * 58, y: 70 + index * 12, z: -150 - index * 32, rotateY: side * 10, rotateX: 7, opacity: .08, scale: .9 },
-            { x: 0, y: desktop ? (index % 2 ? 24 : -12) : 0, z: desktop ? 18 + index * 24 : 0, rotateY: desktop ? side * 2 : 0, rotateX: 0, opacity: 1, scale: 1, ease: "none", scrollTrigger: { trigger: storyStage, start: "top 88%", end: "bottom 44%", scrub: .75 } },
+          storyTimeline.fromTo(card,
+            { x: side * 84, y: 96 + index * 12, z: -210 - index * 36, rotateY: side * 12, rotateX: 10, opacity: .05, scale: .88 },
+            { x: 0, y: desktop ? ladderY[index] : 0, z: desktop ? ladderZ[index] : 0, rotateY: desktop ? side * 2 : 0, rotateX: 0, opacity: 1, scale: 1, ease: "power2.out" },
+            index * .1,
           );
+          storyTimeline.to(card, { opacity: 1, onStart: () => card.classList.add("box-entered") }, index * .1 + .2);
         });
-        gsap.to(".rr-story-orbit", { rotateZ: 220, scale: 1.15, ease: "none", scrollTrigger: { trigger: storyStage, start: "top bottom", end: "bottom top", scrub: .8 } });
+        gsap.to(".rr-story-orbit", { rotateZ: 260, scale: 1.2, ease: "none", scrollTrigger: { trigger: storyStage, start: "top bottom", end: "bottom top", scrub: .8 } });
       }
 
-      gsap.utils.toArray<HTMLElement>(".rr-capability-grid article").forEach((card, index) => {
-        const side = index % 2 ? 1 : -1;
-        gsap.fromTo(card,
-          { x: side * 36, y: 48, z: -95, rotateY: side * 7, opacity: .08, scale: .95 },
-          { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, scale: 1, duration: .8, ease: "power3.out", scrollTrigger: { trigger: card, start: "top 92%", once: true } },
+      const capabilityGrid = document.querySelector<HTMLElement>(".rr-capability-grid");
+      if (capabilityGrid) {
+        const cards = gsap.utils.toArray<HTMLElement>(".rr-capability-grid [data-box-motion]");
+        gsap.fromTo(cards,
+          { y: 72, z: -145, rotateX: 11, opacity: .05, scale: .94, transformOrigin: "50% 100%" },
+          {
+            y: 0, z: 0, rotateX: 0, opacity: 1, scale: 1, duration: .95, stagger: .09, ease: "power3.out",
+            scrollTrigger: { trigger: capabilityGrid, start: "top 84%", once: true },
+            onComplete: () => cards.forEach((card) => card.classList.add("box-entered")),
+          },
         );
-      });
+      }
 
       gsap.utils.toArray<HTMLElement>(".rr-process li").forEach((item, index) => {
         gsap.fromTo(item,
-          { x: index % 2 ? 44 : -44, opacity: .12, rotateX: -8, transformOrigin: "top center" },
+          { x: index % 2 ? 42 : -42, opacity: .14, rotateX: -7, transformOrigin: "top center" },
           { x: 0, opacity: 1, rotateX: 0, duration: .72, ease: "power3.out", scrollTrigger: { trigger: item, start: "top 90%", once: true } },
         );
       });
-      gsap.to(".rr-process-copy", { y: desktop ? 70 : 0, ease: "none", scrollTrigger: { trigger: ".rr-process", start: "top bottom", end: "bottom top", scrub: .8 } });
+      gsap.to(".rr-process-copy", { y: desktop ? 60 : 0, ease: "none", scrollTrigger: { trigger: ".rr-process", start: "top bottom", end: "bottom top", scrub: .8 } });
 
-      gsap.utils.toArray<HTMLElement>(".rr-service-cards article").forEach((card, index) => {
-        const side = index === 1 ? 0 : index === 0 ? -1 : 1;
-        gsap.fromTo(card,
-          { x: side * 70, y: 62, z: -130, rotateY: side * 9, opacity: .08, scale: .92 },
-          { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, scale: 1, ease: "none", scrollTrigger: { trigger: card, start: "top 96%", end: "center 62%", scrub: .65 } },
-        );
-      });
+      const serviceGrid = document.querySelector<HTMLElement>(".rr-service-cards");
+      if (serviceGrid) {
+        const cards = gsap.utils.toArray<HTMLElement>(".rr-service-cards [data-box-motion]");
+        cards.forEach((card, index) => {
+          const side = index === 0 ? -1 : index === 2 ? 1 : 0;
+          gsap.fromTo(card,
+            { x: side * 94, y: 86, z: -175 - index * 24, rotateY: side * 12, rotateX: 7, opacity: .04, scale: .9 },
+            {
+              x: 0, y: 0, z: 0, rotateY: 0, rotateX: 0, opacity: 1, scale: 1, ease: "power2.out",
+              scrollTrigger: { trigger: serviceGrid, start: "top 86%", end: "center 56%", scrub: .66 },
+              onComplete: () => card.classList.add("box-entered"),
+            },
+          );
+        });
+      }
 
-      gsap.utils.toArray<HTMLElement>(".rr-proof-cards article").forEach((card, index) => {
-        gsap.fromTo(card,
-          { y: 38 + index * 10, z: -80 - index * 20, rotateX: 8, opacity: .08 },
-          { y: 0, z: 0, rotateX: 0, opacity: 1, duration: .75, ease: "power3.out", scrollTrigger: { trigger: card, start: "top 92%", once: true } },
+      const proofGrid = document.querySelector<HTMLElement>(".rr-proof-cards");
+      if (proofGrid) {
+        const cards = gsap.utils.toArray<HTMLElement>(".rr-proof-cards [data-box-motion]");
+        gsap.fromTo(cards,
+          { x: (index) => index % 2 ? 44 : -44, y: 54, z: -105, rotateX: 9, opacity: .05 },
+          {
+            x: 0, y: 0, z: 0, rotateX: 0, opacity: 1, duration: .82, stagger: .1, ease: "power3.out",
+            scrollTrigger: { trigger: proofGrid, start: "top 86%", once: true },
+            onComplete: () => cards.forEach((card) => card.classList.add("box-entered")),
+          },
         );
-      });
+      }
 
       gsap.timeline({ scrollTrigger: { trigger: ".rr-closing", start: "top 90%", end: "center 52%", scrub: .65 } })
         .fromTo(".rr-closing-copy", { x: -58, opacity: .16 }, { x: 0, opacity: 1, ease: "none" }, 0)
@@ -174,16 +203,40 @@ export function MotionController() {
         });
       });
 
-      document.querySelectorAll<HTMLElement>(".interactive-card").forEach((card) => {
+      document.querySelectorAll<HTMLElement>("[data-box-motion]").forEach((card) => {
+        const move = (event: PointerEvent) => {
+          const rect = card.getBoundingClientRect();
+          const nx = (event.clientX - rect.left) / rect.width;
+          const ny = (event.clientY - rect.top) / rect.height;
+          card.style.setProperty("--box-x", `${nx * 100}%`);
+          card.style.setProperty("--box-y", `${ny * 100}%`);
+          card.style.setProperty("--content-x", `${(nx - .5) * 8}px`);
+          card.style.setProperty("--content-y", `${(ny - .5) * 7}px`);
+        };
+        const leave = () => {
+          card.style.setProperty("--box-x", "50%");
+          card.style.setProperty("--box-y", "50%");
+          card.style.setProperty("--content-x", "0px");
+          card.style.setProperty("--content-y", "0px");
+        };
+        card.addEventListener("pointermove", move);
+        card.addEventListener("pointerleave", leave);
+        cleanups.push(() => {
+          card.removeEventListener("pointermove", move);
+          card.removeEventListener("pointerleave", leave);
+        });
+      });
+
+      document.querySelectorAll<HTMLElement>(".interactive-card:not([data-box-motion])").forEach((card) => {
         const move = (event: PointerEvent) => {
           const rect = card.getBoundingClientRect();
           const x = (event.clientX - rect.left) / rect.width - .5;
           const y = (event.clientY - rect.top) / rect.height - .5;
           card.style.setProperty("--card-x", `${(x + .5) * 100}%`);
           card.style.setProperty("--card-y", `${(y + .5) * 100}%`);
-          gsap.to(card, { rotateY: x * 5.5, rotateX: -y * 4.4, y: -6, scale: 1.008, duration: .24, ease: "power2.out", transformPerspective: 1300 });
+          gsap.to(card, { rotateY: x * 4.5, rotateX: -y * 3.6, y: -5, scale: 1.006, duration: .24, ease: "power2.out", transformPerspective: 1300 });
         };
-        const leave = () => gsap.to(card, { rotateY: 0, rotateX: 0, y: 0, scale: 1, duration: .52, ease: "power3.out" });
+        const leave = () => gsap.to(card, { rotateY: 0, rotateX: 0, y: 0, scale: 1, duration: .5, ease: "power3.out" });
         card.addEventListener("pointermove", move);
         card.addEventListener("pointerleave", leave);
         cleanups.push(() => {
