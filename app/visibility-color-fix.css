@@ -1,0 +1,167 @@
+/* Visibility + resting color correction.
+   The Three canvas must live above the page paint but below all readable content. */
+
+.recover-inspired{
+  background:
+    radial-gradient(circle at 12% 12%,rgba(114,217,242,.07),transparent 24%),
+    radial-gradient(circle at 86% 28%,rgba(167,139,250,.055),transparent 28%),
+    #040a11!important;
+}
+
+/* Root cause fix: the old Recover layer forced this to -3, behind the main background. */
+.recover-inspired .spatial-canvas{
+  z-index:0!important;
+  opacity:calc(var(--scene-opacity) * .96)!important;
+  background:transparent!important;
+  mix-blend-mode:screen;
+}
+.recover-inspired .spatial-canvas::before{
+  background:linear-gradient(180deg,rgba(4,10,17,.02),transparent 58%,rgba(2,6,10,.18))!important;
+}
+.recover-inspired .spatial-canvas::after{
+  background:radial-gradient(620px circle at var(--cursor-x) var(--cursor-y),rgba(114,217,242,.09),transparent 72%)!important;
+}
+.recover-inspired .cursor-light{
+  z-index:1!important;
+  opacity:.32!important;
+}
+
+/* Everything a visitor reads stays safely above the scene. */
+.recover-inspired .rr-nav,
+.recover-inspired .scene-section,
+.recover-inspired .rr-stack-strip,
+.recover-inspired .rr-footer{
+  position:relative;
+  z-index:3;
+}
+
+/* Dark chapters are now translucent atmospheric panes instead of opaque paint. */
+.motion-rebuild .rr-hero{
+  background:
+    radial-gradient(circle at 78% 22%,rgba(114,217,242,.12),transparent 29%),
+    radial-gradient(circle at 87% 70%,rgba(167,139,250,.08),transparent 30%),
+    linear-gradient(180deg,rgba(2,7,12,.18),rgba(3,9,15,.68))!important;
+}
+.motion-rebuild .rr-walkthrough{
+  background:
+    radial-gradient(circle at 78% 42%,rgba(167,139,250,.12),transparent 31%),
+    radial-gradient(circle at 12% 76%,rgba(114,217,242,.08),transparent 30%),
+    linear-gradient(180deg,rgba(4,10,17,.68),rgba(6,16,26,.72))!important;
+}
+.motion-rebuild .rr-section{
+  background:
+    radial-gradient(circle at 13% 18%,rgba(114,217,242,.08),transparent 26%),
+    radial-gradient(circle at 83% 30%,rgba(167,139,250,.10),transparent 29%),
+    radial-gradient(circle at 68% 86%,rgba(126,231,196,.06),transparent 27%),
+    rgba(5,12,20,.74)!important;
+}
+.motion-rebuild .rr-services{
+  background:
+    radial-gradient(circle at 12% 28%,rgba(255,143,122,.075),transparent 25%),
+    radial-gradient(circle at 52% 16%,rgba(167,139,250,.085),transparent 27%),
+    radial-gradient(circle at 88% 70%,rgba(246,200,107,.075),transparent 26%),
+    rgba(4,10,17,.72)!important;
+}
+.motion-rebuild .rr-proof{
+  background:
+    radial-gradient(circle at 18% 34%,rgba(126,231,196,.08),transparent 27%),
+    radial-gradient(circle at 82% 20%,rgba(240,167,196,.075),transparent 28%),
+    radial-gradient(circle at 66% 84%,rgba(167,139,250,.065),transparent 25%),
+    rgba(4,11,18,.73)!important;
+}
+.motion-rebuild .rr-closing{
+  background:
+    radial-gradient(circle at 18% 34%,rgba(114,217,242,.13),transparent 30%),
+    radial-gradient(circle at 78% 24%,rgba(167,139,250,.12),transparent 30%),
+    radial-gradient(circle at 70% 86%,rgba(255,143,122,.09),transparent 29%),
+    linear-gradient(180deg,rgba(2,7,12,.68),rgba(7,19,29,.76))!important;
+}
+
+/* Keep the deliberate light process chapter opaque for contrast, but make it clearly warm. */
+.motion-rebuild .rr-process{
+  background:
+    radial-gradient(circle at 8% 16%,rgba(255,255,255,.95),transparent 24%),
+    radial-gradient(circle at 91% 16%,rgba(246,200,107,.32),transparent 29%),
+    radial-gradient(circle at 75% 88%,rgba(255,143,122,.19),transparent 31%),
+    linear-gradient(135deg,#eefaf6 0%,#d9f1eb 42%,#dbe7f8 100%)!important;
+}
+
+/* Resting card color is now visible before hover. */
+.box-motion-rebuild .box-motion{
+  border-color:rgba(var(--box-accent,114,217,242),.26)!important;
+  box-shadow:
+    0 24px 64px rgba(0,0,0,.26),
+    0 0 30px rgba(var(--box-accent,114,217,242),.045),
+    inset 0 1px rgba(255,255,255,.055)!important;
+}
+
+.box-motion-rebuild .rr-story-stage .box-motion{
+  background:
+    linear-gradient(145deg,rgba(var(--box-accent),.16),rgba(var(--box-accent),.035) 42%,rgba(5,15,23,.84) 76%),
+    rgba(8,22,32,.84)!important;
+}
+.box-motion-rebuild .rr-capability-grid .box-motion{
+  background:
+    linear-gradient(145deg,rgba(var(--box-accent),.145),rgba(var(--box-accent),.03) 40%,rgba(4,13,20,.86) 78%),
+    rgba(8,22,32,.85)!important;
+}
+.box-motion-rebuild .rr-service-cards .box-motion{
+  background:
+    linear-gradient(150deg,rgba(var(--box-accent),.16),rgba(var(--box-accent),.035) 43%,rgba(3,12,19,.88) 80%),
+    rgba(7,20,30,.86)!important;
+}
+.box-motion-rebuild .rr-proof-cards .box-motion{
+  background:
+    linear-gradient(150deg,rgba(var(--box-accent),.14),rgba(var(--box-accent),.028) 42%,rgba(3,11,17,.88) 79%),
+    rgba(7,19,28,.84)!important;
+}
+
+/* Persistent colored edge / corner light so the palette is readable at rest. */
+.box-motion-rebuild .box-motion::after{
+  opacity:.94!important;
+  background:
+    radial-gradient(420px circle at 18% 8%,rgba(var(--box-accent,114,217,242),.13),transparent 58%),
+    radial-gradient(360px circle at var(--box-x) var(--box-y),rgba(var(--box-accent,114,217,242),calc(.075 + var(--box-glow))),transparent 58%),
+    linear-gradient(108deg,transparent 24%,rgba(255,255,255,.045) 46%,transparent 65%)!important;
+  background-size:auto,auto,220% 100%!important;
+}
+
+/* Labels/tags show the family accent even without hover. */
+.box-motion-rebuild .rr-story-stage .box-motion>small,
+.box-motion-rebuild .rr-capability-grid .box-motion>small,
+.box-motion-rebuild .rr-service-cards .box-motion>span,
+.box-motion-rebuild .rr-proof-cards .box-motion>span{
+  color:var(--box-accent-solid,#72d9f2)!important;
+  opacity:.92;
+}
+.box-motion-rebuild .rr-service-cards .box-motion>div small{
+  border-color:rgba(var(--box-accent),.27)!important;
+  background:rgba(var(--box-accent),.085)!important;
+  color:rgba(237,248,251,.88)!important;
+}
+
+/* Make section headings carry the color rhythm too, not just cards. */
+.motion-rebuild .rr-walk-copy .rr-eyebrow{color:#b8a7ff!important}
+.motion-rebuild .rr-section-heading>span{color:#8ae9ff!important}
+.motion-rebuild .rr-services .rr-section-heading>span{color:#f6c86b!important}
+.motion-rebuild .rr-proof-copy>span{color:#7ee7c4!important}
+.motion-rebuild .rr-closing-copy>span{color:#f0a7c4!important}
+
+/* Footer becomes a true window into the same particle world, not the only place it appears. */
+.recover-inspired .rr-footer{
+  background:rgba(2,7,12,.36)!important;
+  backdrop-filter:blur(4px);
+}
+
+@media(max-width:960px){
+  .recover-inspired .spatial-canvas{opacity:calc(var(--scene-opacity) * .78)!important}
+  .motion-rebuild .rr-walkthrough,
+  .motion-rebuild .rr-section,
+  .motion-rebuild .rr-services,
+  .motion-rebuild .rr-proof,
+  .motion-rebuild .rr-closing{background-color:rgba(4,10,17,.82)!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .recover-inspired .spatial-canvas{opacity:.42!important}
+}
