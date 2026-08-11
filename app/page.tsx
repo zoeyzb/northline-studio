@@ -18,7 +18,7 @@ const steps = [
   ["04", "Build, test, launch", "The experience is developed, tuned across devices, tested for motion and performance, and shipped as a working production site."],
 ];
 
-const services = [
+const services: [string, string, string[]][] = [
   ["Flagship website", "For a company, institution, product, or ambitious project that needs a new digital presence from the ground up.", ["Strategy", "Art direction", "UX", "Motion", "Development"]],
   ["Product experience", "For platforms and tools that need cleaner workflows, stronger interfaces, and a more premium feel.", ["Product UX", "Systems", "Interface design", "Development"]],
   ["Website transformation", "For a site that already has useful content or infrastructure but feels dated, weak, flat, or confusing.", ["Audit", "Redesign", "Motion", "Performance", "Conversion"]],
@@ -114,7 +114,7 @@ export default function Home() {
       </section>
 
       <section className="rr-services scene-section" data-scene="services" data-scene-strength=".68">
-        <div className="shell"><div className="rr-section-heading" data-reveal><span>WAYS TO WORK TOGETHER</span><h2>Choose the kind of problem—not a confusing package.</h2></div><div className="rr-service-cards">{services.map(([title, copy, tags], index) => <article className="interactive-card" data-showcase key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><div>{(tags as string[]).map(tag => <small key={tag}>{tag}</small>)}</div><a href="#contact">Talk about this <b>↗</b></a></article>)}</div></div>
+        <div className="shell"><div className="rr-section-heading" data-reveal><span>WAYS TO WORK TOGETHER</span><h2>Choose the kind of problem—not a confusing package.</h2></div><div className="rr-service-cards">{services.map(([title, copy, tags], index) => <article className="interactive-card" data-showcase key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p><div>{tags.map(tag => <small key={tag}>{tag}</small>)}</div><a href="#contact">Talk about this <b>↗</b></a></article>)}</div></div>
       </section>
 
       <section className="rr-proof scene-section" id="standard" data-scene="standards" data-scene-strength=".58">
