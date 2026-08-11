@@ -1,0 +1,35 @@
+/* Dark typography for light cinematic scenes. Motion/layout stay unchanged. */
+.nlx-case,
+.nlx-transition{
+  color:#15130f;
+}
+
+.nlx-case .nlx-kicker,
+.nlx-transition .nlx-transition-copy>span{
+  color:#5c479e!important;
+}
+
+.nlx-case .nlx-kicker i{
+  background:#5c479e!important;
+}
+
+.nlx-case-copy h2,
+.nlx-case-step h3,
+.nlx-transition-copy strong{
+  color:#15130f!important;
+  text-shadow:none!important;
+}
+
+.nlx-case-copy>p:last-child,
+.nlx-case-step p{
+  color:#4f4a42!important;
+}
+
+.nlx-case-step>span{
+  color:#6952b5!important;
+}
+
+.nlx-case-step{
+  border-top-color:rgba(21,19,15,.16)!important;
+  background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)!important;
+}
