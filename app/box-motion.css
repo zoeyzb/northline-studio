@@ -1,47 +1,70 @@
-/* Dedicated box motion system. Outer cards own scroll choreography; inner content owns interaction. */
+/* Box motion v3 — scroll owns transform; interaction owns independent translate/scale + inner depth. */
 .box-motion-rebuild .box-motion{
   --box-x:50%;
   --box-y:50%;
   --content-x:0px;
   --content-y:0px;
-  --edge-opacity:.28;
-  --box-glow:.06;
+  --edge-opacity:.38;
+  --box-glow:.08;
+  --box-lift:0px;
   position:relative;
   isolation:isolate;
   overflow:hidden;
   transform-style:preserve-3d;
   backface-visibility:hidden;
-  will-change:transform,opacity;
-  transition:border-color .35s ease,box-shadow .35s ease,background .35s ease;
+  will-change:transform,opacity,translate,scale;
+  translate:0 var(--box-lift);
+  scale:1;
+  transition:
+    translate .42s cubic-bezier(.22,1,.36,1),
+    scale .42s cubic-bezier(.22,1,.36,1),
+    border-color .35s ease,
+    box-shadow .42s ease,
+    background .42s ease,
+    filter .42s ease;
 }
 
+/* fast, visible border sweep */
 .box-motion-rebuild .box-motion::before{
   content:"";
   position:absolute;
-  z-index:0;
-  left:-42%;
-  top:0;
-  width:42%;
-  height:1px;
-  opacity:var(--edge-opacity);
+  z-index:4;
+  inset:-1px;
+  border-radius:inherit;
   pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(199,247,255,.96),transparent);
-  filter:drop-shadow(0 0 12px rgba(114,217,242,.5));
-  animation:box-edge-scan 6.8s cubic-bezier(.22,.8,.22,1) infinite;
-  animation-delay:calc(var(--box-index,0) * -620ms);
+  padding:1px;
+  opacity:var(--edge-opacity);
+  background:conic-gradient(
+    from var(--box-angle,0deg),
+    transparent 0deg,
+    transparent 245deg,
+    rgba(178,242,255,.12) 270deg,
+    rgba(211,250,255,.96) 292deg,
+    rgba(114,217,242,.25) 312deg,
+    transparent 338deg
+  );
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  filter:drop-shadow(0 0 10px rgba(114,217,242,.34));
+  animation:box-border-orbit 4.4s linear infinite;
+  animation-delay:calc(var(--box-index,0) * -360ms);
 }
 
+/* pointer-following light + passing glass reflection */
 .box-motion-rebuild .box-motion::after{
   content:"";
   position:absolute;
-  z-index:0;
-  inset:-1px;
+  z-index:1;
+  inset:-2px;
   pointer-events:none;
-  opacity:.5;
+  opacity:.72;
   background:
-    radial-gradient(320px circle at var(--box-x) var(--box-y),rgba(166,239,255,calc(.06 + var(--box-glow))),transparent 62%),
-    linear-gradient(120deg,transparent 20%,rgba(255,255,255,.025) 48%,transparent 75%);
-  transition:opacity .3s ease;
+    radial-gradient(360px circle at var(--box-x) var(--box-y),rgba(170,241,255,calc(.08 + var(--box-glow))),transparent 58%),
+    linear-gradient(108deg,transparent 24%,rgba(255,255,255,.045) 46%,transparent 65%);
+  background-size:auto,220% 100%;
+  background-position:center,-120% 0;
+  transition:opacity .3s ease,background-position .65s cubic-bezier(.22,1,.36,1);
 }
 
 .box-motion-rebuild .box-motion > *{
@@ -49,93 +72,179 @@
   z-index:2;
 }
 
+/* real inner parallax — content moves at different depths */
 .box-motion-rebuild .box-motion > h3,
-.box-motion-rebuild .box-motion > strong,
+.box-motion-rebuild .box-motion > strong{
+  transform:translate3d(var(--content-x),var(--content-y),34px);
+  transition:transform .34s cubic-bezier(.22,1,.36,1),color .28s ease,text-shadow .28s ease;
+}
+
 .box-motion-rebuild .box-motion > div,
 .box-motion-rebuild .box-motion > a{
-  transform:translate3d(var(--content-x),var(--content-y),18px);
-  transition:transform .28s cubic-bezier(.22,1,.36,1),color .28s ease,opacity .28s ease;
+  transform:translate3d(calc(var(--content-x) * .72),calc(var(--content-y) * .72),20px);
+  transition:transform .34s cubic-bezier(.22,1,.36,1),color .28s ease,opacity .28s ease;
 }
 
 .box-motion-rebuild .box-motion > p,
 .box-motion-rebuild .box-motion > small,
 .box-motion-rebuild .box-motion > span{
-  transform:translate3d(calc(var(--content-x) * .45),calc(var(--content-y) * .45),8px);
-  transition:transform .32s cubic-bezier(.22,1,.36,1),color .28s ease,opacity .28s ease;
+  transform:translate3d(calc(var(--content-x) * .38),calc(var(--content-y) * .38),10px);
+  transition:transform .38s cubic-bezier(.22,1,.36,1),color .28s ease,opacity .28s ease;
 }
 
+/* box itself now visibly reacts without overwriting GSAP transform */
 .box-motion-rebuild .box-motion:hover{
-  --edge-opacity:.9;
-  --box-glow:.11;
-  border-color:rgba(130,229,250,.42)!important;
-  box-shadow:0 30px 85px rgba(0,0,0,.34),0 0 0 1px rgba(143,234,252,.06),inset 0 1px rgba(255,255,255,.07)!important;
+  --edge-opacity:1;
+  --box-glow:.18;
+  --box-lift:-11px;
+  translate:calc(var(--content-x) * .18) calc(var(--box-lift) + var(--content-y) * .16);
+  scale:1.018;
+  border-color:rgba(145,235,252,.52)!important;
+  box-shadow:
+    0 34px 90px rgba(0,0,0,.4),
+    0 0 42px rgba(99,208,239,.09),
+    0 0 0 1px rgba(158,239,255,.08),
+    inset 0 1px rgba(255,255,255,.1)!important;
+  filter:saturate(1.08) brightness(1.035);
 }
 
-.box-motion-rebuild .box-motion:hover::after{opacity:1}
-.box-motion-rebuild .box-motion:hover > h3,
-.box-motion-rebuild .box-motion:hover > strong{color:#f3fdff}
-.box-motion-rebuild .box-motion:hover > a{color:#dffbff}
-.box-motion-rebuild .box-motion:hover > a b,
-.box-motion-rebuild .box-motion:hover > i{transform:translate3d(5px,-3px,24px)}
+.box-motion-rebuild .box-motion:hover::after{
+  opacity:1;
+  background-position:center,80% 0;
+}
 
+.box-motion-rebuild .box-motion:hover > h3,
+.box-motion-rebuild .box-motion:hover > strong{
+  color:#f5feff;
+  text-shadow:0 8px 24px rgba(137,230,248,.09);
+  transform:translate3d(var(--content-x),calc(var(--content-y) - 5px),48px);
+}
+
+.box-motion-rebuild .box-motion:hover > p{color:#a8beca}
+.box-motion-rebuild .box-motion:hover > a{color:#e7fcff}
+
+/* arrows get a real acceleration cue */
 .box-motion-rebuild .rr-capability-grid .box-motion > div:first-child i,
 .box-motion-rebuild .rr-proof-cards .box-motion > i,
 .box-motion-rebuild .rr-service-cards .box-motion a b{
   display:inline-block;
-  transition:transform .3s cubic-bezier(.22,1,.36,1),color .3s ease;
+  transform-origin:center;
+  transition:transform .36s cubic-bezier(.22,1,.36,1),color .3s ease,filter .3s ease;
 }
 
 .box-motion-rebuild .rr-capability-grid .box-motion:hover > div:first-child i,
 .box-motion-rebuild .rr-proof-cards .box-motion:hover > i,
 .box-motion-rebuild .rr-service-cards .box-motion:hover a b{
-  transform:translate3d(5px,-4px,22px) rotate(7deg);
-  color:#dffbff;
+  transform:translate3d(9px,-8px,32px) rotate(9deg) scale(1.14);
+  color:#eaffff;
+  filter:drop-shadow(0 0 12px rgba(114,217,242,.4));
 }
 
+/* STORY — ladder boxes feel like separate physical planes */
+.box-motion-rebuild .rr-story-stage .box-motion{
+  min-height:18rem;
+  backdrop-filter:blur(18px);
+  transform-origin:50% 70%;
+}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(1){--idle-rotate:-.45deg}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(2){--idle-rotate:.55deg}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(3){--idle-rotate:.35deg}
+.box-motion-rebuild .rr-story-stage .box-motion:nth-of-type(4){--idle-rotate:-.5deg}
+.box-motion-rebuild .rr-story-stage .box-motion strong{display:block}
+.box-motion-rebuild .rr-story-stage .box-motion:hover p{color:#b6cbd5}
+.box-motion-rebuild .rr-story-stage .box-motion.box-entered{animation:box-arrival-pulse .75s cubic-bezier(.22,1,.36,1) both}
+.box-motion-rebuild .rr-story-stage .box-motion.box-entered > span{animation:box-child-pop .55s .04s both}
+.box-motion-rebuild .rr-story-stage .box-motion.box-entered > small{animation:box-child-pop .55s .1s both}
+.box-motion-rebuild .rr-story-stage .box-motion.box-entered > strong{animation:box-child-pop .65s .16s both}
+.box-motion-rebuild .rr-story-stage .box-motion.box-entered > p{animation:box-child-pop .65s .23s both}
+
+/* CAPABILITIES — each large panel gets a stronger post-entry settle */
+.box-motion-rebuild .rr-capability-grid .box-motion{
+  background:
+    radial-gradient(480px circle at var(--box-x) var(--box-y),rgba(112,216,241,.045),transparent 62%),
+    linear-gradient(145deg,rgba(14,34,48,.95),rgba(4,13,20,.97));
+}
+.box-motion-rebuild .rr-capability-grid .box-motion.box-entered{animation:box-settle .82s cubic-bezier(.22,1,.36,1) both}
+.box-motion-rebuild .rr-capability-grid .box-motion.box-entered > div{animation:box-child-slide .62s .05s both}
+.box-motion-rebuild .rr-capability-grid .box-motion.box-entered > small{animation:box-child-slide .62s .12s both}
+.box-motion-rebuild .rr-capability-grid .box-motion.box-entered > h3{animation:box-child-slide .7s .18s both}
+.box-motion-rebuild .rr-capability-grid .box-motion.box-entered > p{animation:box-child-slide .7s .25s both}
+
+/* SERVICES — cards feel spring-loaded instead of dead after scrub */
+.box-motion-rebuild .rr-service-cards .box-motion{
+  background:
+    radial-gradient(420px circle at var(--box-x) var(--box-y),rgba(103,213,242,.045),transparent 62%),
+    linear-gradient(150deg,rgba(15,38,53,.95),rgba(3,12,19,.98));
+}
+.box-motion-rebuild .rr-service-cards .box-motion:nth-child(1){transform-origin:100% 70%}
+.box-motion-rebuild .rr-service-cards .box-motion:nth-child(2){transform-origin:50% 70%}
+.box-motion-rebuild .rr-service-cards .box-motion:nth-child(3){transform-origin:0 70%}
+.box-motion-rebuild .rr-service-cards .box-motion.box-entered{animation:box-service-lock .72s cubic-bezier(.22,1,.36,1) both}
 .box-motion-rebuild .rr-service-cards .box-motion > div small{
   position:relative;
   overflow:hidden;
-  transition:transform .26s cubic-bezier(.22,1,.36,1),border-color .26s ease,background .26s ease,color .26s ease;
+  transition:translate .3s cubic-bezier(.22,1,.36,1),scale .3s cubic-bezier(.22,1,.36,1),border-color .26s ease,background .26s ease,color .26s ease;
 }
-.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(1){transform:translateY(-3px)}
-.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(2){transform:translateY(-5px)}
-.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(3){transform:translateY(-4px)}
-.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(4){transform:translateY(-6px)}
-.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(5){transform:translateY(-3px)}
+.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(1){translate:0 -4px;scale:1.02}
+.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(2){translate:0 -7px;scale:1.035}
+.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(3){translate:0 -5px;scale:1.025}
+.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(4){translate:0 -8px;scale:1.04}
+.box-motion-rebuild .rr-service-cards .box-motion:hover > div small:nth-child(5){translate:0 -5px;scale:1.025}
 
-.box-motion-rebuild .rr-story-stage .box-motion{
-  min-height:18rem;
-  backdrop-filter:blur(16px);
-}
-.box-motion-rebuild .rr-story-stage .box-motion strong{display:block}
-.box-motion-rebuild .rr-story-stage .box-motion:hover strong{transform:translate3d(var(--content-x),calc(var(--content-y) - 3px),28px)}
-.box-motion-rebuild .rr-story-stage .box-motion:hover p{color:#abc0cb}
-
-.box-motion-rebuild .rr-capability-grid .box-motion{
-  background:
-    linear-gradient(145deg,rgba(14,34,48,.94),rgba(4,13,20,.95)),
-    radial-gradient(circle at 20% 0,rgba(114,217,242,.08),transparent 42%);
-}
-.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(3n+2)::before{animation-duration:7.8s}
-.box-motion-rebuild .rr-capability-grid .box-motion:nth-child(3n+3)::before{animation-duration:8.6s}
-
+/* PROOF — small cards get a sharper magnetic response */
 .box-motion-rebuild .rr-proof-cards .box-motion{
-  background:linear-gradient(150deg,rgba(12,30,42,.91),rgba(3,11,17,.95));
+  background:
+    radial-gradient(320px circle at var(--box-x) var(--box-y),rgba(122,224,247,.05),transparent 62%),
+    linear-gradient(150deg,rgba(12,30,42,.93),rgba(3,11,17,.98));
+}
+.box-motion-rebuild .rr-proof-cards .box-motion:hover{--box-lift:-8px;scale:1.025}
+.box-motion-rebuild .rr-proof-cards .box-motion.box-entered{animation:box-proof-snap .7s cubic-bezier(.22,1,.36,1) both}
+
+/* entered state gets a short energy pulse, not endless floating */
+.box-motion-rebuild .box-motion.box-entered{--edge-opacity:.58}
+
+@keyframes box-border-orbit{
+  to{--box-angle:360deg}
 }
 
-.box-motion-rebuild .rr-service-cards .box-motion{
-  background:linear-gradient(150deg,rgba(15,38,53,.94),rgba(3,12,19,.96));
+@property --box-angle{
+  syntax:"<angle>";
+  inherits:false;
+  initial-value:0deg;
 }
 
-.box-motion-rebuild .box-motion.box-entered{
-  --edge-opacity:.46;
+@keyframes box-arrival-pulse{
+  0%{filter:brightness(.88);box-shadow:0 12px 30px rgba(0,0,0,.18)}
+  55%{filter:brightness(1.08);box-shadow:0 34px 90px rgba(0,0,0,.34),0 0 34px rgba(114,217,242,.12)}
+  100%{filter:brightness(1);box-shadow:0 28px 70px rgba(0,0,0,.25)}
 }
 
-@keyframes box-edge-scan{
-  0%,12%{left:-42%;opacity:0}
-  22%{opacity:var(--edge-opacity)}
-  58%{left:104%;opacity:var(--edge-opacity)}
-  70%,100%{left:104%;opacity:0}
+@keyframes box-settle{
+  0%{translate:0 12px;scale:.985;filter:brightness(.9)}
+  62%{translate:0 -4px;scale:1.008;filter:brightness(1.07)}
+  100%{translate:0 0;scale:1;filter:brightness(1)}
+}
+
+@keyframes box-service-lock{
+  0%{translate:0 16px;scale:.975}
+  65%{translate:0 -5px;scale:1.012}
+  100%{translate:0 0;scale:1}
+}
+
+@keyframes box-proof-snap{
+  0%{translate:0 10px;scale:.97;filter:brightness(.9)}
+  60%{translate:0 -4px;scale:1.02;filter:brightness(1.08)}
+  100%{translate:0 0;scale:1;filter:brightness(1)}
+}
+
+@keyframes box-child-pop{
+  from{opacity:.2;filter:blur(6px);translate:0 16px}
+  to{opacity:1;filter:blur(0);translate:0 0}
+}
+
+@keyframes box-child-slide{
+  from{opacity:.25;filter:blur(5px);translate:-12px 10px}
+  to{opacity:1;filter:blur(0);translate:0 0}
 }
 
 @media (hover:hover) and (pointer:fine){
@@ -143,11 +252,15 @@
 }
 
 @media(max-width:960px){
-  .box-motion-rebuild .box-motion::before{animation-duration:8.5s}
+  .box-motion-rebuild .box-motion{translate:0 0!important;scale:1!important}
+  .box-motion-rebuild .box-motion::before{animation-duration:6.4s}
   .box-motion-rebuild .box-motion > *{transform:none!important}
+  .box-motion-rebuild .box-motion.box-entered{animation:none!important}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .box-motion-rebuild .box-motion::before{animation:none!important;opacity:.16;left:0;width:100%}
-  .box-motion-rebuild .box-motion > *{transform:none!important;transition:none!important}
+  .box-motion-rebuild .box-motion{translate:0 0!important;scale:1!important;filter:none!important}
+  .box-motion-rebuild .box-motion::before{animation:none!important;opacity:.2}
+  .box-motion-rebuild .box-motion > *{transform:none!important;transition:none!important;animation:none!important}
+  .box-motion-rebuild .box-motion.box-entered{animation:none!important}
 }
