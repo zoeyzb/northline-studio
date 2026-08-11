@@ -1,0 +1,27 @@
+/* Minimal contrast tuning only — preserve the cinematic layout and motion. */
+.cinematic-site{--ink:#ffffff;--muted:#c0ced6}
+.nlx-hero-lede,.nlx-service-card p,.nlx-case-copy>p:last-child,.nlx-case-step p,.nlx-project-copy>p:last-of-type,.nlx-cta-copy>p:last-child{color:#c3d0d7!important}
+.nlx-nav nav,.nlx-footer,.nlx-tags small{color:#aebfc8!important}
+.nlx-section-head h2,.nlx-case-copy h2,.nlx-project-copy h2,.nlx-cta-copy h2,.nlx-service-card h3,.nlx-case-step h3{color:#f9fbfc!important;text-shadow:0 2px 24px rgba(0,0,0,.22)}
+.nlx-kicker{color:#8be8f8!important}
+.nlx-hero h1{color:#fff;text-shadow:0 3px 34px rgba(0,0,0,.32)}
+.nlx-hero-accent{background:linear-gradient(90deg,#ffffff 0%,#d9d2ff 46%,#94ebfa 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+
+/* Hero sculpture: no dashboard/browser UI. Keep the existing motion hooks. */
+.nlx-hero-object.hero-sculpture{min-height:40rem;display:grid;place-items:center;isolation:isolate}
+.hero-sculpture .nlx-hero-orbit{left:50%;top:50%;border-color:rgba(164,225,246,.19);box-shadow:0 0 90px rgba(96,213,246,.07),inset 0 0 70px rgba(151,124,255,.035)}
+.hero-sculpture .orbit-a{width:31rem;transform:translate(-50%,-50%) rotateX(68deg) rotateZ(-12deg)}
+.hero-sculpture .orbit-b{width:23rem;transform:translate(-50%,-50%) rotateY(70deg) rotateZ(23deg);border-color:rgba(177,156,255,.22)}
+.hero-sculpture .nlx-hero-plane{left:50%;top:50%;padding:0;border:0;background:none;backdrop-filter:none;box-shadow:none;overflow:visible;aspect-ratio:auto}
+.hero-sculpture .plane-back{width:22rem;height:22rem;border-radius:50%;opacity:.8;transform:translate(-50%,-50%) translateZ(-170px) scale(.84);background:radial-gradient(circle,rgba(149,127,255,.16),rgba(98,217,246,.05) 43%,transparent 70%);filter:blur(2px);box-shadow:0 0 120px rgba(140,122,255,.14)}
+.hero-sculpture .plane-mid{width:14rem;height:14rem;border-radius:50%;opacity:1;transform:translate(-50%,-50%) translateZ(-60px);background:conic-gradient(from 45deg,rgba(111,222,248,.08),rgba(186,163,255,.45),rgba(111,222,248,.08),rgba(255,255,255,.24),rgba(111,222,248,.08));-webkit-mask:radial-gradient(circle,transparent 59%,#000 61%);mask:radial-gradient(circle,transparent 59%,#000 61%);filter:drop-shadow(0 0 24px rgba(136,219,247,.22))}
+.hero-sculpture .plane-front{width:7.2rem;height:7.2rem;border-radius:50%;display:grid;place-items:center;opacity:1;transform:translate(-50%,-50%) translateZ(70px);background:radial-gradient(circle at 38% 30%,rgba(255,255,255,.95),rgba(142,230,249,.88) 12%,rgba(86,163,221,.38) 35%,rgba(47,35,92,.45) 60%,rgba(2,7,13,.24) 72%);border:1px solid rgba(211,247,255,.54);box-shadow:0 0 24px rgba(148,229,248,.52),0 0 72px rgba(114,208,245,.28),0 0 150px rgba(164,137,255,.17),inset 0 0 24px rgba(255,255,255,.18)}
+.hero-sculpture .plane-front::before{content:"N";font-family:Georgia,serif;font-size:2.7rem;color:#f7fdff;text-shadow:0 0 18px rgba(255,255,255,.7)}
+.hero-sculpture .sculpture-line{position:absolute;left:50%;top:50%;width:27rem;height:1px;transform-origin:center;background:linear-gradient(90deg,transparent,rgba(127,225,247,.34),rgba(195,169,255,.4),transparent);box-shadow:0 0 16px rgba(120,219,247,.2)}
+.hero-sculpture .line-a{transform:translate(-50%,-50%) rotate(-27deg) translateZ(20px)}
+.hero-sculpture .line-b{transform:translate(-50%,-50%) rotate(34deg) translateZ(-20px);opacity:.65}
+.hero-sculpture .sculpture-dot{position:absolute;width:.48rem;aspect-ratio:1;border-radius:50%;background:#d8f9ff;box-shadow:0 0 10px #d8f9ff,0 0 24px #7bdff4}
+.hero-sculpture .dot-a{left:24%;top:35%}.hero-sculpture .dot-b{right:20%;top:59%;background:#d9ccff;box-shadow:0 0 10px #e1d8ff,0 0 24px #a88fff}.hero-sculpture .dot-c{left:39%;bottom:15%;width:.34rem}
+.hero-sculpture .nlx-float-chip{display:none!important}
+
+@media(max-width:960px){.nlx-hero-object.hero-sculpture{min-height:30rem}.hero-sculpture .orbit-a{width:24rem}.hero-sculpture .orbit-b{width:18rem}.hero-sculpture .sculpture-line{width:21rem}}
