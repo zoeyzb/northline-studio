@@ -51,10 +51,14 @@ test("renders the Northline Recover and Sierra inspired premium homepage", async
   assert.match(html, /Keep it simple/);
   assert.match(html, /Send project details/);
   assert.match(html, /Nothing is submitted automatically/);
-  assert.match(html, /recover-inspired motion-rebuild/);
+  assert.match(html, /recover-inspired motion-rebuild box-motion-rebuild/);
   assert.match(html, /data-hero-preview/);
   assert.match(html, /data-scene="system"/);
-  assert.match(html, /data-showcase/);
+  assert.match(html, /data-box-motion/);
+  assert.match(html, /data-box-kind="story"/);
+  assert.match(html, /data-box-kind="capability"/);
+  assert.match(html, /data-box-kind="service"/);
+  assert.match(html, /data-box-kind="proof"/);
   assert.match(html, /data-transform-item/);
   assert.match(html, /data-scene="contact"/);
   assert.match(html, /id="contact"/);
