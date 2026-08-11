@@ -15,18 +15,17 @@ export function MotionController() {
 
     root.classList.add("motion-ready");
 
-    const revealElements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal], [data-flow-card], [data-showcase], [data-transform-item]"));
+    const revealElements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal], [data-showcase], [data-transform-item]"));
     revealElements.forEach((element) => element.classList.add("motion-pending"));
-
     const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
         const element = entry.target as HTMLElement;
         element.classList.add("is-inview");
         element.classList.remove("motion-pending");
         revealObserver.unobserve(element);
-      });
-    }, { rootMargin: "0px 0px -7% 0px", threshold: .08 });
+      }
+    }, { rootMargin: "0px 0px -8% 0px", threshold: .08 });
     revealElements.forEach((element) => revealObserver.observe(element));
     cleanups.push(() => revealObserver.disconnect());
 
@@ -46,15 +45,9 @@ export function MotionController() {
       const section = visible.target as HTMLElement;
       const scene = section.dataset.scene ?? "overview";
       root.dataset.activeScene = scene;
-      root.style.setProperty("--scene-opacity", section.dataset.sceneStrength ?? ".62");
+      root.style.setProperty("--scene-opacity", section.dataset.sceneStrength ?? ".7");
       window.dispatchEvent(new CustomEvent("northline:scene", { detail: { scene } }));
-      document.querySelectorAll<HTMLElement>("[data-rail-link]").forEach((link) => {
-        const active = link.dataset.railLink === section.id;
-        link.classList.toggle("is-current", active);
-        if (active) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
-      });
-    }, { rootMargin: "-26% 0px -48% 0px", threshold: [0, .15, .35] });
+    }, { rootMargin: "-32% 0px -38% 0px", threshold: [0, .15, .35, .6] });
     sections.forEach((section) => sceneObserver.observe(section));
     cleanups.push(() => sceneObserver.disconnect());
 
@@ -73,7 +66,7 @@ export function MotionController() {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true, limitCallbacks: true });
 
-    const lenis = new Lenis({ duration: .92, smoothWheel: true, wheelMultiplier: .9, touchMultiplier: 1 });
+    const lenis = new Lenis({ duration: 1.05, smoothWheel: true, wheelMultiplier: .88, touchMultiplier: 1 });
     const onLenis = () => ScrollTrigger.update();
     lenis.on("scroll", onLenis);
     const tick = (time: number) => lenis.raf(time * 1000);
@@ -83,96 +76,102 @@ export function MotionController() {
     const context = gsap.context(() => {
       const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
       intro
-        .from(".site-header", { y: -18, opacity: 0, duration: .6 })
-        .from("[data-hero-line]", { yPercent: 105, rotateX: -12, opacity: 0, duration: .9, stagger: .1 }, "-=.25")
-        .from("[data-hero-support]", { y: 22, opacity: 0, duration: .5, stagger: .06 }, "-=.45")
-        .from(".hero-screen", { y: 80, z: -160, rotateX: 12, opacity: 0, duration: .8, stagger: .09 }, "-=.55")
-        .from(".hero-fragment", { x: (index) => index % 2 ? 48 : -48, scale: .8, opacity: 0, duration: .55, stagger: .04 }, "-=.5");
+        .from(".rr-nav", { y: -20, opacity: 0, duration: .65 })
+        .from("[data-hero-line]", { yPercent: 115, rotateX: -14, opacity: 0, filter: "blur(8px)", duration: .95, stagger: .12 }, "-=.28")
+        .from("[data-hero-support]", { y: 24, opacity: 0, duration: .55, stagger: .08 }, "-=.5")
+        .from("[data-hero-preview]", { y: 80, z: -180, rotateX: 11, rotateY: -8, opacity: 0, scale: .94, duration: 1 }, "-=.62")
+        .from(".nl-preview-float", { y: 22, scale: .78, opacity: 0, stagger: .08, duration: .5 }, "-=.4");
 
-      gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .65 } })
-        .to(".hero-copy", { yPercent: 9, scale: .97, opacity: .38, ease: "none" }, 0)
-        .to(".hero-object", { yPercent: -8, z: 105, rotateY: -5, ease: "none" }, 0)
-        .to(".screen-front", { y: -48, z: 105, rotateX: 31, ease: "none" }, 0)
-        .to(".screen-mid", { y: 16, z: -105, opacity: .5, ease: "none" }, 0)
-        .to(".screen-back", { y: 34, z: -230, opacity: .15, ease: "none" }, 0);
+      gsap.timeline({ scrollTrigger: { trigger: ".rr-hero", start: "top top", end: "bottom top", scrub: .7 } })
+        .to(".rr-hero-copy", { yPercent: 10, scale: .965, opacity: .42, ease: "none" }, 0)
+        .to("[data-hero-preview]", { yPercent: -8, z: 120, rotateY: 5, scale: 1.035, ease: "none" }, 0)
+        .to(".nl-preview-shell", { rotateX: 2.5, rotateY: -3.5, ease: "none" }, 0)
+        .to(".nl-preview-float.float-one", { x: -36, y: -24, ease: "none" }, 0)
+        .to(".nl-preview-float.float-two", { x: 32, y: -10, ease: "none" }, 0)
+        .to(".nl-preview-float.float-three", { x: -18, y: 32, ease: "none" }, 0);
 
-      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
+      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element, index) => {
+        const variant = index % 3;
         gsap.fromTo(element,
-          { y: 32, opacity: .25 },
-          { y: 0, opacity: 1, duration: .72, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 92%", once: true } },
+          variant === 0
+            ? { y: 42, opacity: .12, filter: "blur(10px)" }
+            : variant === 1
+              ? { x: -34, opacity: .12 }
+              : { y: 26, z: -70, scale: .97, opacity: .12 },
+          { x: 0, y: 0, z: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: .8, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 91%", once: true } },
         );
       });
 
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((element, index) => {
         gsap.fromTo(element,
-          { yPercent: index % 2 ? 4 : -3 },
-          { yPercent: index % 2 ? -5 : 6, ease: "none", scrollTrigger: { trigger: element, start: "top bottom", end: "bottom top", scrub: .55 } },
+          { yPercent: index % 2 ? 6 : -4 },
+          { yPercent: index % 2 ? -7 : 7, ease: "none", scrollTrigger: { trigger: element, start: "top bottom", end: "bottom top", scrub: .65 } },
         );
       });
 
-      const flowCards = gsap.utils.toArray<HTMLElement>("[data-flow-card]");
-      flowCards.forEach((card, index) => {
-        const direction = index % 2 === 0 ? -1 : 1;
-        gsap.fromTo(card,
-          { x: direction * 54, y: 72 + index * 10, z: -130 - index * 28, rotateY: direction * 8, rotateX: 5, scale: .92, opacity: .18 },
-          { x: 0, y: desktop ? index * 18 : 0, z: desktop ? index * 18 : 0, rotateY: desktop ? direction * 1.5 : 0, rotateX: 0, scale: 1, opacity: 1, ease: "none", scrollTrigger: { trigger: card, start: "top 96%", end: "center 64%", scrub: .55, invalidateOnRefresh: true } },
-        );
-      });
-
-      gsap.to(".flow-backdrop i:nth-child(1)", { xPercent: 13, yPercent: -12, rotate: 28, ease: "none", scrollTrigger: { trigger: ".flow-section", start: "top bottom", end: "bottom top", scrub: .7 } });
-      gsap.to(".flow-backdrop i:nth-child(2)", { xPercent: -16, yPercent: 12, rotate: -32, ease: "none", scrollTrigger: { trigger: ".flow-section", start: "top bottom", end: "bottom top", scrub: .7 } });
-
-      gsap.utils.toArray<HTMLElement>("[data-showcase]").forEach((showcase, index) => {
-        const copy = showcase.querySelector<HTMLElement>(".showcase-copy");
-        const scene = showcase.querySelector<HTMLElement>(".showcase-scene");
-        const back = showcase.querySelector<HTMLElement>(".scene-window-back");
-        const mid = showcase.querySelector<HTMLElement>(".scene-window-mid");
-        const front = showcase.querySelector<HTMLElement>(".scene-window-front");
-        const direction = index % 2 === 0 ? 1 : -1;
-        const timeline = gsap.timeline({ scrollTrigger: { trigger: showcase, start: "top 94%", end: "center 56%", scrub: .65, invalidateOnRefresh: true } });
-        if (copy) timeline.fromTo(copy, { x: direction * -48, opacity: .2 }, { x: 0, opacity: 1, ease: "none" }, 0);
-        if (scene) timeline.fromTo(scene, { x: direction * 72, z: -130, rotateY: direction * -9, scale: .94, opacity: .24 }, { x: 0, z: 0, rotateY: 0, scale: 1, opacity: 1, ease: "none" }, 0);
-        if (back) timeline.fromTo(back, { y: 52, z: -210 }, { y: 28, z: -125, ease: "none" }, .05);
-        if (mid) timeline.fromTo(mid, { y: 32, z: -125 }, { y: 12, z: -55, ease: "none" }, .08);
-        if (front) timeline.fromTo(front, { y: 24, z: -50, scale: .97 }, { y: -3, z: 26, scale: 1, ease: "none" }, .1);
-        timeline.fromTo(showcase.querySelectorAll(".scene-chip"), { scale: .55, opacity: 0 }, { scale: 1, opacity: 1, stagger: .06, ease: "back.out(1.5)" }, .34);
-      });
-
-      const transformStage = document.querySelector<HTMLElement>("[data-transform-stage]");
-      if (transformStage) {
-        gsap.timeline({ scrollTrigger: { trigger: transformStage, start: "top 86%", end: "bottom 42%", scrub: .65 } })
-          .fromTo(".transform-before", { xPercent: 0, z: 10, opacity: 1 }, { xPercent: -12, z: -110, rotateY: 6, opacity: .25, ease: "none" }, 0)
-          .fromTo(".transform-beam", { scaleX: .08, opacity: .1 }, { scaleX: 1, opacity: .9, ease: "none" }, .06)
-          .fromTo(".transform-after", { xPercent: 13, z: -110, rotateY: -7, opacity: .2 }, { xPercent: 0, z: 32, rotateY: 0, opacity: 1, ease: "none" }, .1);
+      const storyStage = document.querySelector<HTMLElement>(".rr-story-stage");
+      if (storyStage) {
+        const cards = gsap.utils.toArray<HTMLElement>(".rr-story-stage article");
+        cards.forEach((card, index) => {
+          const side = index % 2 ? 1 : -1;
+          gsap.fromTo(card,
+            { x: side * 58, y: 70 + index * 12, z: -150 - index * 32, rotateY: side * 10, rotateX: 7, opacity: .08, scale: .9 },
+            { x: 0, y: desktop ? (index % 2 ? 24 : -12) : 0, z: desktop ? 18 + index * 24 : 0, rotateY: desktop ? side * 2 : 0, rotateX: 0, opacity: 1, scale: 1, ease: "none", scrollTrigger: { trigger: storyStage, start: "top 88%", end: "bottom 44%", scrub: .75 } },
+          );
+        });
+        gsap.to(".rr-story-orbit", { rotateZ: 220, scale: 1.15, ease: "none", scrollTrigger: { trigger: storyStage, start: "top bottom", end: "bottom top", scrub: .8 } });
       }
 
-      gsap.utils.toArray<HTMLElement>("[data-transform-item]").forEach((item, index) => {
-        gsap.fromTo(item,
-          { x: index % 2 ? 34 : -34, opacity: .15 },
-          { x: 0, opacity: 1, duration: .65, ease: "power3.out", scrollTrigger: { trigger: item, start: "top 92%", once: true } },
+      gsap.utils.toArray<HTMLElement>(".rr-capability-grid article").forEach((card, index) => {
+        const side = index % 2 ? 1 : -1;
+        gsap.fromTo(card,
+          { x: side * 36, y: 48, z: -95, rotateY: side * 7, opacity: .08, scale: .95 },
+          { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, scale: 1, duration: .8, ease: "power3.out", scrollTrigger: { trigger: card, start: "top 92%", once: true } },
         );
       });
 
-      gsap.to(".standards-marquee span", { xPercent: -22, ease: "none", scrollTrigger: { trigger: ".standards-v2", start: "top bottom", end: "bottom top", scrub: .45 } });
+      gsap.utils.toArray<HTMLElement>(".rr-process li").forEach((item, index) => {
+        gsap.fromTo(item,
+          { x: index % 2 ? 44 : -44, opacity: .12, rotateX: -8, transformOrigin: "top center" },
+          { x: 0, opacity: 1, rotateX: 0, duration: .72, ease: "power3.out", scrollTrigger: { trigger: item, start: "top 90%", once: true } },
+        );
+      });
+      gsap.to(".rr-process-copy", { y: desktop ? 70 : 0, ease: "none", scrollTrigger: { trigger: ".rr-process", start: "top bottom", end: "bottom top", scrub: .8 } });
 
-      gsap.timeline({ scrollTrigger: { trigger: ".contact-v2", start: "top 92%", end: "center 56%", scrub: .6 } })
-        .fromTo(".contact-beam", { scaleY: .2, opacity: 0 }, { scaleY: 1, opacity: .55, ease: "none" }, 0)
-        .fromTo(".contact-orbit i", { scale: .55, opacity: 0 }, { scale: 1, opacity: .2, stagger: .05, ease: "none" }, .04)
-        .fromTo(".review-form", { y: 44, z: -60, opacity: .35 }, { y: 0, z: 0, opacity: 1, ease: "none" }, .05);
+      gsap.utils.toArray<HTMLElement>(".rr-service-cards article").forEach((card, index) => {
+        const side = index === 1 ? 0 : index === 0 ? -1 : 1;
+        gsap.fromTo(card,
+          { x: side * 70, y: 62, z: -130, rotateY: side * 9, opacity: .08, scale: .92 },
+          { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, scale: 1, ease: "none", scrollTrigger: { trigger: card, start: "top 96%", end: "center 62%", scrub: .65 } },
+        );
+      });
 
-      gsap.to(".scroll-rail-progress", { scaleY: 1, transformOrigin: "top", ease: "none", scrollTrigger: { trigger: "main", start: "top top", end: "bottom bottom", scrub: .1 } });
+      gsap.utils.toArray<HTMLElement>(".rr-proof-cards article").forEach((card, index) => {
+        gsap.fromTo(card,
+          { y: 38 + index * 10, z: -80 - index * 20, rotateX: 8, opacity: .08 },
+          { y: 0, z: 0, rotateX: 0, opacity: 1, duration: .75, ease: "power3.out", scrollTrigger: { trigger: card, start: "top 92%", once: true } },
+        );
+      });
+
+      gsap.timeline({ scrollTrigger: { trigger: ".rr-closing", start: "top 90%", end: "center 52%", scrub: .65 } })
+        .fromTo(".rr-closing-copy", { x: -58, opacity: .16 }, { x: 0, opacity: 1, ease: "none" }, 0)
+        .fromTo(".review-form", { x: 72, y: 42, z: -100, rotateY: -7, opacity: .16 }, { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, ease: "none" }, 0)
+        .fromTo(".rr-closing-orbit i", { scale: .5, opacity: 0 }, { scale: 1, opacity: .22, stagger: .06, ease: "none" }, .08);
     });
 
     if (finePointer) {
       document.querySelectorAll<HTMLElement>(".magnetic").forEach((element) => {
         const move = (event: PointerEvent) => {
           const rect = element.getBoundingClientRect();
-          gsap.to(element, { x: (event.clientX - rect.left - rect.width / 2) * .1, y: (event.clientY - rect.top - rect.height / 2) * .12, duration: .22, ease: "power2.out" });
+          gsap.to(element, { x: (event.clientX - rect.left - rect.width / 2) * .12, y: (event.clientY - rect.top - rect.height / 2) * .14, duration: .22, ease: "power2.out" });
         };
-        const leave = () => gsap.to(element, { x: 0, y: 0, duration: .45, ease: "power3.out" });
+        const leave = () => gsap.to(element, { x: 0, y: 0, duration: .5, ease: "power3.out" });
         element.addEventListener("pointermove", move);
         element.addEventListener("pointerleave", leave);
-        cleanups.push(() => { element.removeEventListener("pointermove", move); element.removeEventListener("pointerleave", leave); });
+        cleanups.push(() => {
+          element.removeEventListener("pointermove", move);
+          element.removeEventListener("pointerleave", leave);
+        });
       });
 
       document.querySelectorAll<HTMLElement>(".interactive-card").forEach((card) => {
@@ -182,24 +181,25 @@ export function MotionController() {
           const y = (event.clientY - rect.top) / rect.height - .5;
           card.style.setProperty("--card-x", `${(x + .5) * 100}%`);
           card.style.setProperty("--card-y", `${(y + .5) * 100}%`);
-          gsap.to(card, { rotateY: x * 4.5, rotateX: -y * 3.8, y: -5, scale: 1.006, duration: .26, ease: "power2.out", transformPerspective: 1200 });
+          gsap.to(card, { rotateY: x * 5.5, rotateX: -y * 4.4, y: -6, scale: 1.008, duration: .24, ease: "power2.out", transformPerspective: 1300 });
         };
-        const leave = () => gsap.to(card, { rotateY: 0, rotateX: 0, y: 0, scale: 1, duration: .48, ease: "power3.out" });
+        const leave = () => gsap.to(card, { rotateY: 0, rotateX: 0, y: 0, scale: 1, duration: .52, ease: "power3.out" });
         card.addEventListener("pointermove", move);
         card.addEventListener("pointerleave", leave);
-        cleanups.push(() => { card.removeEventListener("pointermove", move); card.removeEventListener("pointerleave", leave); });
+        cleanups.push(() => {
+          card.removeEventListener("pointermove", move);
+          card.removeEventListener("pointerleave", leave);
+        });
       });
     }
 
     const refresh = () => ScrollTrigger.refresh(true);
-    const refreshTimer = window.setTimeout(refresh, 250);
-    const secondRefreshTimer = window.setTimeout(refresh, 900);
+    const timers = [window.setTimeout(refresh, 180), window.setTimeout(refresh, 700), window.setTimeout(refresh, 1500)];
     window.addEventListener("load", refresh, { once: true });
     window.addEventListener("resize", refresh, { passive: true });
     document.fonts?.ready.then(refresh).catch(() => undefined);
     cleanups.push(() => {
-      window.clearTimeout(refreshTimer);
-      window.clearTimeout(secondRefreshTimer);
+      timers.forEach((timer) => window.clearTimeout(timer));
       window.removeEventListener("load", refresh);
       window.removeEventListener("resize", refresh);
     });
