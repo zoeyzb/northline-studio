@@ -8,6 +8,8 @@ import * as THREE from "three";
 type SceneName = "hero" | "services" | "case" | "transition" | "project" | "cta";
 type Formation = "depth" | "lanes" | "column" | "tunnel" | "frame" | "mark";
 
+const FORMATIONS: Formation[] = ["depth", "lanes", "column", "tunnel", "frame", "mark"];
+
 type SceneTarget = {
   formation: Formation;
   color: THREE.Color;
@@ -126,36 +128,6 @@ function makeFormation(base: Float32Array, name: Formation, radius: number) {
   return out;
 }
 
-function GlowField({ positions, scales, size, color, opacity, materialRef }: {
-  positions: Float32Array;
-  scales: Float32Array;
-  size: number;
-  color: string;
-  opacity: number;
-  materialRef: React.RefObject<THREE.ShaderMaterial | null>;
-}) {
-  const uniforms = useMemo(() => ({
-    uSize: { value: size },
-    uColor: { value: new THREE.Color(color) },
-    uOpacity: { value: opacity },
-  }), [size, color, opacity]);
-
-  return (
-    <Points positions={positions} stride={3} frustumCulled={false}>
-      <bufferAttribute attach="geometry-attributes-aScale" args={[scales, 1]} />
-      <shaderMaterial
-        ref={materialRef}
-        uniforms={uniforms}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </Points>
-  );
-}
-
 function SpatialWorld({ compact }: { compact: boolean }) {
   const rig = useRef<THREE.Group>(null);
   const deepPoints = useRef<THREE.Points>(null);
@@ -186,10 +158,9 @@ function SpatialWorld({ compact }: { compact: boolean }) {
   const deep = useMemo(() => makeBase(compact ? 420 : 1050, 17, 38, 7), [compact]);
   const near = useMemo(() => makeBase(compact ? 260 : 680, 10, 22, 17), [compact]);
   const sparkles = useMemo(() => makeBase(compact ? 70 : 150, 8, 17, 41), [compact]);
-  const formationNames: Formation[] = ["depth", "lanes", "column", "tunnel", "frame", "mark"];
-  const deepForms = useMemo(() => Object.fromEntries(formationNames.map((name) => [name, makeFormation(deep.positions, name, 17)])) as Record<Formation, Float32Array>, [deep.positions]);
-  const nearForms = useMemo(() => Object.fromEntries(formationNames.map((name) => [name, makeFormation(near.positions, name, 10)])) as Record<Formation, Float32Array>, [near.positions]);
-  const sparkleForms = useMemo(() => Object.fromEntries(formationNames.map((name) => [name, makeFormation(sparkles.positions, name, 8)])) as Record<Formation, Float32Array>, [sparkles.positions]);
+  const deepForms = useMemo(() => Object.fromEntries(FORMATIONS.map((name) => [name, makeFormation(deep.positions, name, 17)])) as Record<Formation, Float32Array>, [deep.positions]);
+  const nearForms = useMemo(() => Object.fromEntries(FORMATIONS.map((name) => [name, makeFormation(near.positions, name, 10)])) as Record<Formation, Float32Array>, [near.positions]);
+  const sparkleForms = useMemo(() => Object.fromEntries(FORMATIONS.map((name) => [name, makeFormation(sparkles.positions, name, 8)])) as Record<Formation, Float32Array>, [sparkles.positions]);
 
   const primaryLine = useMemo(() => [
     new THREE.Vector3(-5, -1.7, -2), new THREE.Vector3(-2.3, .4, -3.2), new THREE.Vector3(.4, -.35, -4.4), new THREE.Vector3(3.1, .9, -5.8), new THREE.Vector3(5.2, -.4, -7),
@@ -301,9 +272,12 @@ function SpatialWorld({ compact }: { compact: boolean }) {
       [[-2.1, .8, .2], [0, 1.05, -.6], [2.1, .8, -1.2], [0, -1.25, -1.8]],
       [[-1.7, .75, .5], [1.7, .75, .3], [-1.7, -.9, .1], [1.7, -.9, -.1]],
     ];
+    const projectLayout = [[-2, .85, 0], [0, .85, -.2], [2, .85, -.4], [0, -1, -.6]];
+    const ctaLayout = [[-.9, .6, 0], [.9, .6, 0], [-.9, -.6, 0], [.9, -.6, 0]];
+    const transitionLayout = [[-3, 1.5, 1], [3, 1.5, 0], [-3, -1.5, -1], [3, -1.5, -2]];
     panels.forEach((panel, index) => {
       if (!panel) return;
-      const layout = isCase ? caseLayouts[Math.min(caseStep.current, 3)][index] : isProject ? [[-2, .85, 0], [0, .85, -.2], [2, .85, -.4], [0, -1, -.6]][index] : isCta ? [[-.9, .6, 0], [.9, .6, 0], [-.9, -.6, 0], [.9, -.6, 0]][index] : [[-3, 1.5, 1], [3, 1.5, 0], [-3, -1.5, -1], [3, -1.5, -2]][index];
+      const layout = isCase ? caseLayouts[Math.min(caseStep.current, 3)][index] : isProject ? projectLayout[index] : isCta ? ctaLayout[index] : transitionLayout[index];
       panel.position.x = THREE.MathUtils.damp(panel.position.x, layout[0], 3, delta);
       panel.position.y = THREE.MathUtils.damp(panel.position.y, layout[1], 3, delta);
       panel.position.z = THREE.MathUtils.damp(panel.position.z, layout[2], 3, delta);
@@ -313,7 +287,6 @@ function SpatialWorld({ compact }: { compact: boolean }) {
 
   return (
     <group ref={rig}>
-      <group ref={deepPoints as unknown as React.Ref<THREE.Group>} />
       <Points ref={deepPoints} positions={deep.positions} stride={3} frustumCulled={false}>
         <bufferAttribute attach="geometry-attributes-aScale" args={[deep.scales, 1]} />
         <shaderMaterial ref={deepMaterial} uniforms={{ uSize: { value: compact ? 10 : 13 }, uColor: { value: new THREE.Color("#8e72ff") }, uOpacity: { value: .36 } }} vertexShader={vertexShader} fragmentShader={fragmentShader} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
