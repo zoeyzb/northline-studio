@@ -7,6 +7,7 @@ import "./motion-hotfix.css";
 import "./recover-inspired.css";
 import "./motion-rebuild.css";
 import "./box-motion.css";
+import "./color-system.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
