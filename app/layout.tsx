@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     description: "Strategy, design, motion, and development for websites and digital products built around clarity, depth, and action.",
   },
   robots: { index: true, follow: true },
+  other: { "codex-preview": "development" },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 
