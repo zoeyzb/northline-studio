@@ -1,14 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "./clarity.css";
-import "./motion-v2.css";
-import "./motion-hotfix.css";
-import "./recover-inspired.css";
-import "./motion-rebuild.css";
-import "./box-motion.css";
-import "./color-system.css";
-import "./visibility-color-fix.css";
+import "./cinematic.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -31,14 +24,12 @@ export const metadata: Metadata = {
     "information architecture",
     "3D web design",
     "motion design",
-    "institutional website design",
   ],
   category: "design",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Northline — Make the digital presence impossible to ignore",
-    description:
-      "Strategy, design, motion, and development for digital experiences that feel clear, dimensional, and premium.",
+    title: "Northline — Make the website match the work",
+    description: "Strategy, design, motion, and development for digital experiences that feel clear, dimensional, and premium.",
     url: "/",
     siteName: "Northline",
     type: "website",
@@ -46,9 +37,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Northline — Digital experiences for ambitious organizations",
-    description:
-      "Strategy, design, motion, and development for websites and digital products built around clarity, depth, and action.",
+    title: "Northline — Make the website match the work",
+    description: "Strategy, design, motion, and development for websites and digital products built around clarity, depth, and action.",
   },
   robots: { index: true, follow: true },
   other: { "codex-preview": "development" },
@@ -56,7 +46,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#040a11",
+  themeColor: "#03080e",
   colorScheme: "dark",
 };
 

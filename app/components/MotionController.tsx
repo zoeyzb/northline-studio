@@ -9,25 +9,27 @@ export function MotionController() {
   useEffect(() => {
     const root = document.documentElement;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const desktop = window.matchMedia("(min-width: 961px)").matches;
+    const fine = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+    const desktop = window.matchMedia("(min-width:961px)").matches;
     const cleanups: Array<() => void> = [];
 
     root.classList.add("motion-ready");
 
     const revealElements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
-    revealElements.forEach((element) => element.classList.add("motion-pending"));
-    const revealObserver = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const element = entry.target as HTMLElement;
-        element.classList.add("is-inview");
-        element.classList.remove("motion-pending");
-        revealObserver.unobserve(element);
-      }
-    }, { rootMargin: "0px 0px -8% 0px", threshold: .08 });
-    revealElements.forEach((element) => revealObserver.observe(element));
-    cleanups.push(() => revealObserver.disconnect());
+    revealElements.forEach((el) => el.classList.add("motion-pending"));
+
+    const sceneSections = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
+    const sceneObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      const section = visible.target as HTMLElement;
+      const scene = section.dataset.scene ?? "hero";
+      root.dataset.activeScene = scene;
+      root.style.setProperty("--scene-opacity", section.dataset.sceneStrength ?? "1");
+      window.dispatchEvent(new CustomEvent("northline:scene", { detail: { scene } }));
+    }, { rootMargin: "-28% 0px -36% 0px", threshold: [0, .15, .35, .6] });
+    sceneSections.forEach((section) => sceneObserver.observe(section));
+    cleanups.push(() => sceneObserver.disconnect());
 
     const onPointer = (event: PointerEvent) => {
       root.style.setProperty("--cursor-x", `${event.clientX}px`);
@@ -38,26 +40,11 @@ export function MotionController() {
     window.addEventListener("pointermove", onPointer, { passive: true });
     cleanups.push(() => window.removeEventListener("pointermove", onPointer));
 
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
-    const sceneObserver = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const section = visible.target as HTMLElement;
-      const scene = section.dataset.scene ?? "overview";
-      root.dataset.activeScene = scene;
-      root.style.setProperty("--scene-opacity", section.dataset.sceneStrength ?? ".7");
-      window.dispatchEvent(new CustomEvent("northline:scene", { detail: { scene } }));
-    }, { rootMargin: "-32% 0px -38% 0px", threshold: [0, .15, .35, .6] });
-    sections.forEach((section) => sceneObserver.observe(section));
-    cleanups.push(() => sceneObserver.disconnect());
-
     if (reduced) {
       root.classList.add("motion-reduced");
-      revealElements.forEach((element) => {
-        element.classList.remove("motion-pending");
-        element.classList.add("is-inview");
+      revealElements.forEach((el) => {
+        el.classList.remove("motion-pending");
+        el.style.opacity = "1";
       });
       return () => {
         root.classList.remove("motion-ready", "motion-reduced");
@@ -68,186 +55,174 @@ export function MotionController() {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true, limitCallbacks: true });
 
-    const lenis = new Lenis({ duration: 1.02, smoothWheel: true, wheelMultiplier: .88, touchMultiplier: 1 });
+    const lenis = new Lenis({ duration: 1.08, smoothWheel: true, wheelMultiplier: .9, touchMultiplier: 1 });
     const onLenis = () => ScrollTrigger.update();
     lenis.on("scroll", onLenis);
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    const context = gsap.context(() => {
+    const ctx = gsap.context(() => {
+      /* HERO — typography foreground, object in depth, slow push through scene */
       const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
       intro
-        .from(".rr-nav", { y: -20, opacity: 0, duration: .65 })
-        .from("[data-hero-line]", { yPercent: 115, rotateX: -14, opacity: 0, filter: "blur(8px)", duration: .95, stagger: .12 }, "-=.28")
-        .from("[data-hero-support]", { y: 24, opacity: 0, duration: .55, stagger: .08 }, "-=.5")
-        .from("[data-hero-preview]", { y: 80, z: -180, rotateX: 11, rotateY: -8, opacity: 0, scale: .94, duration: 1 }, "-=.62")
-        .from(".nl-preview-float", { y: 22, scale: .78, opacity: 0, stagger: .08, duration: .5 }, "-=.4");
+        .from(".nlx-nav", { y: -24, opacity: 0, duration: .7 })
+        .from("[data-hero-line]", { yPercent: 120, rotateX: -18, z: -80, opacity: 0, filter: "blur(10px)", duration: 1.05, stagger: .13 }, "-=.3")
+        .from("[data-hero-support]", { y: 24, opacity: 0, filter: "blur(5px)", duration: .58, stagger: .08 }, "-=.56")
+        .from("[data-hero-object]", { y: 100, z: -300, rotateX: 14, rotateY: -10, scale: .86, opacity: 0, duration: 1.15 }, "-=.62")
+        .from(".nlx-float-chip", { scale: .65, z: -100, opacity: 0, stagger: .09, duration: .52 }, "-=.44");
 
-      gsap.timeline({ scrollTrigger: { trigger: ".rr-hero", start: "top top", end: "bottom top", scrub: .7 } })
-        .to(".rr-hero-copy", { yPercent: 10, scale: .965, opacity: .42, ease: "none" }, 0)
-        .to("[data-hero-preview]", { yPercent: -8, z: 120, rotateY: 5, scale: 1.035, ease: "none" }, 0)
-        .to(".nl-preview-shell", { rotateX: 2.5, rotateY: -3.5, ease: "none" }, 0)
-        .to(".nl-preview-float.float-one", { x: -36, y: -24, ease: "none" }, 0)
-        .to(".nl-preview-float.float-two", { x: 32, y: -10, ease: "none" }, 0)
-        .to(".nl-preview-float.float-three", { x: -18, y: 32, ease: "none" }, 0);
+      gsap.timeline({ scrollTrigger: { trigger: ".nlx-hero", start: "top top", end: "bottom top", scrub: .72 } })
+        .to(".nlx-hero-copy", { yPercent: 15, z: -80, opacity: .24, scale: .95, ease: "none" }, 0)
+        .to("[data-hero-object]", { yPercent: -10, z: 220, rotateY: 7, scale: 1.08, ease: "none" }, 0)
+        .to(".plane-front", { z: 160, rotateX: 24, ease: "none" }, 0)
+        .to(".plane-mid", { z: 20, y: -22, ease: "none" }, 0)
+        .to(".plane-back", { z: -90, y: -55, ease: "none" }, 0)
+        .to(".orbit-a", { rotateZ: 72, scale: 1.16, ease: "none" }, 0)
+        .to(".orbit-b", { rotateZ: -58, scale: .9, ease: "none" }, 0);
 
-      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element, index) => {
-        const variant = index % 3;
-        const fromVars = variant === 0
-          ? { y: 38, opacity: .14, filter: "blur(9px)" }
-          : variant === 1
-            ? { x: -28, opacity: .14, filter: "blur(5px)" }
-            : { y: 24, z: -55, opacity: .14, filter: "blur(7px)" };
-        gsap.fromTo(element, fromVars, {
-          x: 0, y: 0, z: 0, opacity: 1, filter: "blur(0px)", duration: .78, ease: "power3.out",
-          scrollTrigger: { trigger: element, start: "top 91%", once: true },
-        });
-      });
-
-      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((element, index) => {
+      /* generic section copy — mask/blur, never a random generic card transform */
+      revealElements.forEach((element) => {
         gsap.fromTo(element,
-          { yPercent: index % 2 ? 5 : -3 },
-          { yPercent: index % 2 ? -6 : 6, ease: "none", scrollTrigger: { trigger: element, start: "top bottom", end: "bottom top", scrub: .62 } },
+          { y: 46, opacity: .06, filter: "blur(10px)" },
+          { y: 0, opacity: 1, filter: "blur(0px)", duration: .9, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 87%", once: true } },
         );
       });
 
-      const storyStage = document.querySelector<HTMLElement>(".rr-story-stage");
-      if (storyStage) {
-        const cards = gsap.utils.toArray<HTMLElement>(".rr-story-stage [data-box-motion]");
-        const ladderY = [-18, 26, -6, 34];
-        const ladderZ = [28, 64, 46, 86];
-        const storyTimeline = gsap.timeline({
-          scrollTrigger: { trigger: storyStage, start: "top 88%", end: "bottom 38%", scrub: .72, invalidateOnRefresh: true },
-        });
-        cards.forEach((card, index) => {
-          const side = index % 2 ? 1 : -1;
-          storyTimeline.fromTo(card,
-            { x: side * 84, y: 96 + index * 12, z: -210 - index * 36, rotateY: side * 12, rotateX: 10, opacity: .05, scale: .88 },
-            { x: 0, y: desktop ? ladderY[index] : 0, z: desktop ? ladderZ[index] : 0, rotateY: desktop ? side * 2 : 0, rotateX: 0, opacity: 1, scale: 1, ease: "power2.out" },
-            index * .1,
-          );
-          storyTimeline.to(card, { opacity: 1, onStart: () => card.classList.add("box-entered") }, index * .1 + .2);
-        });
-        gsap.to(".rr-story-orbit", { rotateZ: 260, scale: 1.2, ease: "none", scrollTrigger: { trigger: storyStage, start: "top bottom", end: "bottom top", scrub: .8 } });
-      }
-
-      const capabilityGrid = document.querySelector<HTMLElement>(".rr-capability-grid");
-      if (capabilityGrid) {
-        const cards = gsap.utils.toArray<HTMLElement>(".rr-capability-grid [data-box-motion]");
-        gsap.fromTo(cards,
-          { y: 72, z: -145, rotateX: 11, opacity: .05, scale: .94, transformOrigin: "50% 100%" },
+      /* SERVICES — three cards physically occupy different Z depths and camera appears to pass them */
+      const serviceCards = gsap.utils.toArray<HTMLElement>("[data-service-card]");
+      const serviceStarts = [
+        { x: -230, y: 120, z: -420, rotateY: 18, rotateX: 10 },
+        { x: 20, y: -20, z: -620, rotateY: -5, rotateX: -4 },
+        { x: 240, y: 160, z: -340, rotateY: -18, rotateX: 9 },
+      ];
+      serviceCards.forEach((card, index) => {
+        const start = serviceStarts[index];
+        gsap.fromTo(card,
+          { ...start, opacity: .03, scale: .82 },
           {
-            y: 0, z: 0, rotateX: 0, opacity: 1, scale: 1, duration: .95, stagger: .09, ease: "power3.out",
-            scrollTrigger: { trigger: capabilityGrid, start: "top 84%", once: true },
-            onComplete: () => cards.forEach((card) => card.classList.add("box-entered")),
+            x: desktop ? (index - 1) * 12 : 0,
+            y: desktop ? [28, -22, 42][index] : 0,
+            z: desktop ? [80, 20, 120][index] : 0,
+            rotateY: desktop ? [4, -2, -5][index] : 0,
+            rotateX: 0,
+            opacity: 1,
+            scale: 1,
+            ease: "power2.out",
+            scrollTrigger: { trigger: ".nlx-service-space", start: "top 92%", end: "center 45%", scrub: .7, invalidateOnRefresh: true },
           },
-        );
-      }
-
-      gsap.utils.toArray<HTMLElement>(".rr-process li").forEach((item, index) => {
-        gsap.fromTo(item,
-          { x: index % 2 ? 42 : -42, opacity: .14, rotateX: -7, transformOrigin: "top center" },
-          { x: 0, opacity: 1, rotateX: 0, duration: .72, ease: "power3.out", scrollTrigger: { trigger: item, start: "top 90%", once: true } },
         );
       });
-      gsap.to(".rr-process-copy", { y: desktop ? 60 : 0, ease: "none", scrollTrigger: { trigger: ".rr-process", start: "top bottom", end: "bottom top", scrub: .8 } });
+      gsap.timeline({ scrollTrigger: { trigger: ".nlx-services", start: "center 70%", end: "bottom top", scrub: .78 } })
+        .to(serviceCards[0], { x: -210, z: 260, rotateY: 13, opacity: .35, ease: "none" }, 0)
+        .to(serviceCards[1], { y: -90, z: 390, scale: 1.08, ease: "none" }, 0)
+        .to(serviceCards[2], { x: 220, z: 230, rotateY: -13, opacity: .42, ease: "none" }, 0);
 
-      const serviceGrid = document.querySelector<HTMLElement>(".rr-service-cards");
-      if (serviceGrid) {
-        const cards = gsap.utils.toArray<HTMLElement>(".rr-service-cards [data-box-motion]");
-        cards.forEach((card, index) => {
-          const side = index === 0 ? -1 : index === 2 ? 1 : 0;
-          gsap.fromTo(card,
-            { x: side * 94, y: 86, z: -175 - index * 24, rotateY: side * 12, rotateX: 7, opacity: .04, scale: .9 },
-            {
-              x: 0, y: 0, z: 0, rotateY: 0, rotateX: 0, opacity: 1, scale: 1, ease: "power2.out",
-              scrollTrigger: { trigger: serviceGrid, start: "top 86%", end: "center 56%", scrub: .66 },
-              onComplete: () => card.classList.add("box-entered"),
-            },
-          );
+      /* CASE — each step drives the one persistent WebGL object */
+      const caseSteps = gsap.utils.toArray<HTMLElement>("[data-case-step]");
+      caseSteps.forEach((step, index) => {
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 58%",
+          end: "bottom 42%",
+          onEnter: () => window.dispatchEvent(new CustomEvent("northline:case-step", { detail: { step: index } })),
+          onEnterBack: () => window.dispatchEvent(new CustomEvent("northline:case-step", { detail: { step: index } })),
         });
-      }
-
-      const proofGrid = document.querySelector<HTMLElement>(".rr-proof-cards");
-      if (proofGrid) {
-        const cards = gsap.utils.toArray<HTMLElement>(".rr-proof-cards [data-box-motion]");
-        gsap.fromTo(cards,
-          { x: (index) => index % 2 ? 44 : -44, y: 54, z: -105, rotateX: 9, opacity: .05 },
-          {
-            x: 0, y: 0, z: 0, rotateX: 0, opacity: 1, duration: .82, stagger: .1, ease: "power3.out",
-            scrollTrigger: { trigger: proofGrid, start: "top 86%", once: true },
-            onComplete: () => cards.forEach((card) => card.classList.add("box-entered")),
-          },
+        gsap.fromTo(step,
+          { x: index % 2 ? 65 : -38, z: -90, opacity: .12, filter: "blur(6px)" },
+          { x: 0, z: 0, opacity: 1, filter: "blur(0px)", duration: .78, ease: "power3.out", scrollTrigger: { trigger: step, start: "top 82%", once: true } },
         );
-      }
+      });
 
-      gsap.timeline({ scrollTrigger: { trigger: ".rr-closing", start: "top 90%", end: "center 52%", scrub: .65 } })
-        .fromTo(".rr-closing-copy", { x: -58, opacity: .16 }, { x: 0, opacity: 1, ease: "none" }, 0)
-        .fromTo(".review-form", { x: 72, y: 42, z: -100, rotateY: -7, opacity: .16 }, { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, ease: "none" }, 0)
-        .fromTo(".rr-closing-orbit i", { scale: .5, opacity: 0 }, { scale: 1, opacity: .22, stagger: .06, ease: "none" }, .08);
+      /* TRANSITION — slabs accelerate past the camera and reveal the project behind */
+      const shards = gsap.utils.toArray<HTMLElement>(".nlx-transition-shards i");
+      const transition = gsap.timeline({ scrollTrigger: { trigger: ".nlx-transition", start: "top bottom", end: "bottom top", scrub: .58 } });
+      shards.forEach((shard, index) => {
+        const side = index % 2 ? 1 : -1;
+        transition.fromTo(shard,
+          { z: -900 - index * 150, xPercent: side * (45 + index * 8), yPercent: (index - 2) * 18, rotateY: side * 18, rotateX: 8, opacity: .06, scale: .55 },
+          { z: 650 + index * 130, xPercent: side * (10 + index * 6), yPercent: (index - 2) * -9, rotateY: side * -8, rotateX: -3, opacity: index > 2 ? .2 : .45, scale: 1.35, ease: "none" },
+          0,
+        );
+      });
+      transition
+        .fromTo(".nlx-transition-copy", { scale: .72, z: -260, opacity: .08, filter: "blur(12px)" }, { scale: 1.08, z: 120, opacity: 1, filter: "blur(0px)", ease: "none" }, .05)
+        .to(".nlx-transition-copy", { scale: 1.32, opacity: .06, filter: "blur(12px)", ease: "none" }, .62);
+
+      /* PROJECT — browser approaches camera, rotates, reflections move, internal UI unfolds */
+      const projectTl = gsap.timeline({ scrollTrigger: { trigger: ".nlx-project", start: "top 78%", end: "bottom 20%", scrub: .7 } });
+      projectTl
+        .fromTo("[data-device-stage]", { y: 110, z: -280, rotateX: 12, opacity: .08 }, { y: 0, z: 80, rotateX: 0, opacity: 1, ease: "none" }, 0)
+        .fromTo("[data-device]", { rotateY: -14, rotateX: 10, scale: .82 }, { rotateY: 5, rotateX: -2, scale: 1.06, ease: "none" }, 0)
+        .fromTo(".nlx-device-content h3", { y: 34, z: -60, opacity: .05 }, { y: 0, z: 30, opacity: 1, ease: "none" }, .15)
+        .fromTo(".nlx-device-cards span", { y: 50, z: -80, opacity: .05 }, { y: 0, z: 28, opacity: 1, stagger: .05, ease: "none" }, .22)
+        .to(".nlx-device-reflection", { xPercent: 18, yPercent: -12, scale: 1.28, opacity: .8, ease: "none" }, 0)
+        .to(".label-a", { x: -42, y: -24, z: 80, ease: "none" }, 0)
+        .to(".label-b", { x: 36, y: 28, z: 110, ease: "none" }, 0);
+
+      /* CTA — DOM converges while WebGL particles form the mark */
+      gsap.timeline({ scrollTrigger: { trigger: ".nlx-cta", start: "top 82%", end: "center 42%", scrub: .66 } })
+        .fromTo(".nlx-cta-copy", { x: -70, z: -100, opacity: .08 }, { x: 0, z: 0, opacity: 1, ease: "none" }, 0)
+        .fromTo(".review-form", { x: 90, y: 55, z: -180, rotateY: -8, opacity: .08 }, { x: 0, y: 0, z: 0, rotateY: 0, opacity: 1, ease: "none" }, 0)
+        .fromTo(".nlx-cta-mark", { scale: 1.8, rotateZ: -18, opacity: 0 }, { scale: 1, rotateZ: 0, opacity: .58, ease: "none" }, 0)
+        .fromTo(".nlx-cta-mark span", { scale: .3, rotateY: -90, opacity: 0 }, { scale: 1, rotateY: 0, opacity: 1, ease: "none" }, .18);
     });
 
-    if (finePointer) {
+    if (fine) {
       document.querySelectorAll<HTMLElement>(".magnetic").forEach((element) => {
         const move = (event: PointerEvent) => {
           const rect = element.getBoundingClientRect();
-          gsap.to(element, { x: (event.clientX - rect.left - rect.width / 2) * .12, y: (event.clientY - rect.top - rect.height / 2) * .14, duration: .22, ease: "power2.out" });
+          gsap.to(element, {
+            x: (event.clientX - rect.left - rect.width / 2) * .13,
+            y: (event.clientY - rect.top - rect.height / 2) * .15,
+            duration: .22,
+            ease: "power2.out",
+          });
         };
-        const leave = () => gsap.to(element, { x: 0, y: 0, duration: .5, ease: "power3.out" });
+        const leave = () => gsap.to(element, { x: 0, y: 0, duration: .52, ease: "power3.out" });
         element.addEventListener("pointermove", move);
         element.addEventListener("pointerleave", leave);
-        cleanups.push(() => {
-          element.removeEventListener("pointermove", move);
-          element.removeEventListener("pointerleave", leave);
-        });
+        cleanups.push(() => { element.removeEventListener("pointermove", move); element.removeEventListener("pointerleave", leave); });
       });
 
-      document.querySelectorAll<HTMLElement>("[data-box-motion]").forEach((card) => {
+      document.querySelectorAll<HTMLElement>("[data-service-card]").forEach((card) => {
         const move = (event: PointerEvent) => {
           const rect = card.getBoundingClientRect();
           const nx = (event.clientX - rect.left) / rect.width;
           const ny = (event.clientY - rect.top) / rect.height;
-          card.style.setProperty("--box-x", `${nx * 100}%`);
-          card.style.setProperty("--box-y", `${ny * 100}%`);
-          card.style.setProperty("--content-x", `${(nx - .5) * 8}px`);
-          card.style.setProperty("--content-y", `${(ny - .5) * 7}px`);
+          card.style.setProperty("--card-x", `${nx * 100}%`);
+          card.style.setProperty("--card-y", `${ny * 100}%`);
+          card.style.setProperty("--card-angle", `${nx * 160 + ny * 80}deg`);
+          gsap.to(card.querySelectorAll("h3,p,.nlx-tags,a"), { x: (nx - .5) * 9, y: (ny - .5) * 8, z: 24, duration: .28, ease: "power2.out" });
         };
         const leave = () => {
-          card.style.setProperty("--box-x", "50%");
-          card.style.setProperty("--box-y", "50%");
-          card.style.setProperty("--content-x", "0px");
-          card.style.setProperty("--content-y", "0px");
+          card.style.setProperty("--card-x", "50%");
+          card.style.setProperty("--card-y", "50%");
+          gsap.to(card.querySelectorAll("h3,p,.nlx-tags,a"), { x: 0, y: 0, z: 0, duration: .5, ease: "power3.out" });
         };
         card.addEventListener("pointermove", move);
         card.addEventListener("pointerleave", leave);
-        cleanups.push(() => {
-          card.removeEventListener("pointermove", move);
-          card.removeEventListener("pointerleave", leave);
-        });
+        cleanups.push(() => { card.removeEventListener("pointermove", move); card.removeEventListener("pointerleave", leave); });
       });
 
-      document.querySelectorAll<HTMLElement>(".interactive-card:not([data-box-motion])").forEach((card) => {
+      const device = document.querySelector<HTMLElement>("[data-device]");
+      if (device) {
         const move = (event: PointerEvent) => {
-          const rect = card.getBoundingClientRect();
+          const rect = device.getBoundingClientRect();
           const x = (event.clientX - rect.left) / rect.width - .5;
           const y = (event.clientY - rect.top) / rect.height - .5;
-          card.style.setProperty("--card-x", `${(x + .5) * 100}%`);
-          card.style.setProperty("--card-y", `${(y + .5) * 100}%`);
-          gsap.to(card, { rotateY: x * 4.5, rotateX: -y * 3.6, y: -5, scale: 1.006, duration: .24, ease: "power2.out", transformPerspective: 1300 });
+          gsap.to(device, { rotateY: x * 8, rotateX: -y * 6, duration: .35, ease: "power2.out", overwrite: "auto" });
+          gsap.to(".nlx-device-reflection", { xPercent: x * 18, yPercent: y * 14, duration: .4, ease: "power2.out" });
         };
-        const leave = () => gsap.to(card, { rotateY: 0, rotateX: 0, y: 0, scale: 1, duration: .5, ease: "power3.out" });
-        card.addEventListener("pointermove", move);
-        card.addEventListener("pointerleave", leave);
-        cleanups.push(() => {
-          card.removeEventListener("pointermove", move);
-          card.removeEventListener("pointerleave", leave);
-        });
-      });
+        const leave = () => gsap.to(device, { rotateY: 3, rotateX: -1, duration: .65, ease: "power3.out" });
+        device.addEventListener("pointermove", move);
+        device.addEventListener("pointerleave", leave);
+        cleanups.push(() => { device.removeEventListener("pointermove", move); device.removeEventListener("pointerleave", leave); });
+      }
     }
 
     const refresh = () => ScrollTrigger.refresh(true);
-    const timers = [window.setTimeout(refresh, 180), window.setTimeout(refresh, 700), window.setTimeout(refresh, 1500)];
+    const timers = [180, 700, 1400].map((delay) => window.setTimeout(refresh, delay));
     window.addEventListener("load", refresh, { once: true });
     window.addEventListener("resize", refresh, { passive: true });
     document.fonts?.ready.then(refresh).catch(() => undefined);
@@ -258,7 +233,7 @@ export function MotionController() {
     });
 
     return () => {
-      context.revert();
+      ctx.revert();
       lenis.off("scroll", onLenis);
       lenis.destroy();
       gsap.ticker.remove(tick);
