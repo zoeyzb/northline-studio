@@ -4,7 +4,7 @@ import test from "node:test";
 const developmentPreviewMeta =
   /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
 
-test("renders the Northline Recover-inspired premium homepage", async () => {
+test("renders the Northline Recover and Sierra inspired premium homepage", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
@@ -22,10 +22,17 @@ test("renders the Northline Recover-inspired premium homepage", async () => {
   assert.match(html, developmentPreviewMeta);
   assert.match(html, /Make your digital presence/);
   assert.match(html, /feel as strong as the work behind it/);
+  assert.match(html, /INTERACTIVE PROJECT SYSTEM/);
+  assert.match(html, /Strategy/);
+  assert.match(html, /Structure/);
+  assert.match(html, /Motion/);
+  assert.match(html, /Build/);
+  assert.match(html, /Make the first idea impossible to miss/);
   assert.match(html, /Understand it faster/);
   assert.match(html, /BUILT AS ONE SYSTEM/);
   assert.match(html, /A premium site should feel simple/);
-  assert.match(html, /One clear idea/);
+  assert.match(html, /One message leads/);
+  assert.match(html, /Motion creates memory/);
   assert.match(html, /Flagship websites/);
   assert.match(html, /Digital products/);
   assert.match(html, /Transformations/);
@@ -44,7 +51,8 @@ test("renders the Northline Recover-inspired premium homepage", async () => {
   assert.match(html, /Keep it simple/);
   assert.match(html, /Send project details/);
   assert.match(html, /Nothing is submitted automatically/);
-  assert.match(html, /recover-inspired/);
+  assert.match(html, /recover-inspired motion-rebuild/);
+  assert.match(html, /data-hero-preview/);
   assert.match(html, /data-scene="system"/);
   assert.match(html, /data-showcase/);
   assert.match(html, /data-transform-item/);
