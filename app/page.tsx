@@ -68,17 +68,17 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="nlx-hero-object nlx-prism" data-hero-object aria-hidden="true">
+          <div className="nlx-hero-object hero-sculpture" data-hero-object aria-hidden="true">
             <div className="nlx-hero-orbit orbit-a" />
             <div className="nlx-hero-orbit orbit-b" />
-            <div className="nlx-hero-plane plane-back"><div className="nlx-prism-halo" /></div>
-            <div className="nlx-hero-plane plane-mid"><div className="nlx-prism-axis" /><div className="nlx-prism-dot dot-a" /><div className="nlx-prism-dot dot-b" /></div>
-            <div className="nlx-hero-plane plane-front">
-              <div className="nlx-prism-core"><span>N</span></div>
-              <div className="nlx-prism-caption"><small>NORTHLINE</small><strong>Clarity<br />in motion.</strong></div>
-            </div>
-            <div className="nlx-float-chip chip-a">STRATEGY</div>
-            <div className="nlx-float-chip chip-b">MOTION</div>
+            <div className="nlx-hero-plane plane-back" />
+            <div className="nlx-hero-plane plane-mid" />
+            <div className="nlx-hero-plane plane-front" />
+            <i className="sculpture-line line-a" />
+            <i className="sculpture-line line-b" />
+            <i className="sculpture-dot dot-a" />
+            <i className="sculpture-dot dot-b" />
+            <i className="sculpture-dot dot-c" />
           </div>
         </div>
         <div className="nlx-hero-scroll nlx-shell"><span>Scroll to enter</span><i>↓</i></div>
