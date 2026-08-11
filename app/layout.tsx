@@ -5,6 +5,7 @@ import "./clarity.css";
 import "./motion-v2.css";
 import "./motion-hotfix.css";
 import "./recover-inspired.css";
+import "./motion-rebuild.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
