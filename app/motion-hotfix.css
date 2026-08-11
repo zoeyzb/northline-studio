@@ -1,0 +1,149 @@
+/* Production motion hotfix: keep visual atmosphere behind the UI, remove sticky overlay behavior,
+   and guarantee visible entrance/ambient motion even when ScrollTrigger measurements are delayed. */
+
+.premium-v2 { position: relative; }
+
+/* The light layer should never sit on top of readable UI. */
+.premium-v2 .cursor-light {
+  z-index: 1;
+  opacity: .72;
+  mix-blend-mode: screen;
+}
+.premium-v2 .spatial-canvas {
+  z-index: 0;
+  opacity: calc(var(--scene-opacity) * .7);
+}
+.premium-v2 .spatial-canvas::before { opacity: .55; }
+.premium-v2 .spatial-canvas::after { opacity: .65; }
+.premium-v2 .scene-section,
+.premium-v2 .site-footer,
+.premium-v2 .scroll-rail { position: relative; z-index: 3; }
+.premium-v2 .scroll-rail { position: fixed; }
+
+/* Stop the ladder from behaving like a pane pinned over the page. */
+.premium-v2 .flow-ladder-shell {
+  min-height: 0;
+  padding-bottom: 4.5rem;
+}
+.premium-v2 .flow-ladder {
+  position: relative;
+  top: auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.premium-v2 .flow-card {
+  min-height: 29rem;
+  transition: border-color .35s ease, box-shadow .35s ease, background .35s ease;
+}
+.premium-v2 .flow-card:hover {
+  border-color: rgba(151,224,244,.42);
+  box-shadow: 0 42px 110px rgba(0,0,0,.38), 0 0 55px rgba(84,190,228,.08), inset 0 1px rgba(255,255,255,.07);
+}
+
+/* A real non-JS-looking reveal fallback. JS IntersectionObserver removes motion-pending. */
+.motion-ready .motion-pending {
+  opacity: .12;
+  transform: translate3d(0, 28px, 0) scale(.985);
+}
+.motion-ready .is-inview {
+  opacity: 1;
+  transform: translate3d(0,0,0) scale(1);
+  transition: opacity .75s cubic-bezier(.22,.8,.25,1), transform .85s cubic-bezier(.22,.8,.25,1);
+}
+
+/* Keep the page alive even when the user is not actively scrolling. */
+.motion-ready:not(.motion-reduced) .scene-glow {
+  animation: nl-breathe 5.8s ease-in-out infinite alternate;
+}
+.motion-ready:not(.motion-reduced) .scene-chip {
+  animation: nl-float-chip 4.8s ease-in-out infinite;
+}
+.motion-ready:not(.motion-reduced) .scene-chip.chip-b { animation-delay: -2.1s; }
+.motion-ready:not(.motion-reduced) .flow-backdrop i:nth-child(3) {
+  animation: nl-breathe-wide 8s ease-in-out infinite alternate;
+}
+.motion-ready:not(.motion-reduced) .contact-beam {
+  animation: nl-beam-pulse 4.2s ease-in-out infinite alternate;
+}
+.motion-ready:not(.motion-reduced) .screen-front::after {
+  animation-duration: 5.5s;
+}
+
+@keyframes nl-breathe {
+  from { opacity: .45; filter: blur(28px); }
+  to { opacity: .95; filter: blur(38px); }
+}
+@keyframes nl-breathe-wide {
+  from { opacity: .28; }
+  to { opacity: .72; }
+}
+@keyframes nl-float-chip {
+  0%,100% { margin-top: 0; }
+  50% { margin-top: -8px; }
+}
+@keyframes nl-beam-pulse {
+  from { opacity: .18; filter: blur(1px); }
+  to { opacity: .62; filter: blur(4px); }
+}
+
+/* Make showcases feel like dimensional scenes instead of flat wireframes. */
+.premium-v2 .showcase-scene {
+  isolation: isolate;
+}
+.premium-v2 .showcase-scene::after {
+  content: "";
+  position: absolute;
+  inset: 13% 6% 9%;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--card-x, 58%) var(--card-y, 42%), rgba(113,218,242,.17), rgba(24,91,124,.06) 42%, transparent 70%);
+  filter: blur(22px);
+}
+.premium-v2 .scene-window-front {
+  border-color: rgba(164,229,247,.3);
+  box-shadow: 0 45px 120px rgba(0,0,0,.5), 0 0 62px rgba(83,190,228,.08), inset 0 1px rgba(255,255,255,.08);
+}
+.premium-v2 .scene-window-mid { opacity: .74; }
+.premium-v2 .scene-window-back { opacity: .48; }
+
+/* Make the transformation moment visibly directional. */
+.premium-v2 .transform-stage { overflow: visible; }
+.premium-v2 .transform-before,
+.premium-v2 .transform-after { box-shadow: 0 34px 95px rgba(0,0,0,.34); }
+.premium-v2 .transform-after {
+  box-shadow: 0 40px 115px rgba(0,0,0,.4), 0 0 55px rgba(114,217,242,.09);
+}
+
+/* Stronger interaction feedback. */
+.premium-v2 .button,
+.premium-v2 .nav-cta,
+.premium-v2 .showcase-copy li,
+.premium-v2 .contact-points span {
+  transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.premium-v2 .button:hover,
+.premium-v2 .nav-cta:hover { transform: translateY(-2px); }
+.premium-v2 .showcase-copy li:hover,
+.premium-v2 .contact-points span:hover {
+  transform: translateY(-2px);
+  border-color: rgba(114,217,242,.35);
+  background: rgba(114,217,242,.055);
+}
+
+@media (max-width: 960px) {
+  .premium-v2 .flow-ladder { position: relative; top: auto; }
+  .premium-v2 .flow-card-2,
+  .premium-v2 .flow-card-3,
+  .premium-v2 .flow-card-4 { margin-top: 0; }
+  .premium-v2 .cursor-light { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-ready .motion-pending,
+  .motion-ready .is-inview { opacity: 1; transform: none; transition: none; }
+  .motion-ready .scene-glow,
+  .motion-ready .scene-chip,
+  .motion-ready .flow-backdrop i,
+  .motion-ready .contact-beam { animation: none !important; }
+}
