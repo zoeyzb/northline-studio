@@ -14,7 +14,7 @@ export function ProjectReviewForm() {
     const need = String(form.get("need") || "").trim();
 
     if (!name || !email || !need) {
-      setStatus("Add your name, email, and a short note about what you want to improve.");
+      setStatus("Add your name, email, and a short note.");
       return;
     }
 
@@ -28,7 +28,7 @@ export function ProjectReviewForm() {
       need,
     ].join("\n"));
 
-    setStatus("Ready. Your email app will open with the message prepared.");
+    setStatus("Ready. Your email app will open next.");
     window.location.href = `mailto:hello@northline.studio?subject=${subject}&body=${body}`;
   };
 
@@ -36,23 +36,23 @@ export function ProjectReviewForm() {
     <form className="review-form simplified-form" onSubmit={submit} data-reveal noValidate>
       <div className="form-intro">
         <span>Project inquiry</span>
-        <h3>Keep it simple.</h3>
-        <p>Tell us what you are building or what feels wrong with the current site. That is enough to start.</p>
+        <h3>Tell us the gap.</h3>
+        <p>Site, idea, or product. A few lines are enough.</p>
       </div>
 
       <div className="form-row">
-        <label>Your name <span>*</span><input name="name" autoComplete="name" placeholder="Your name" required /></label>
+        <label>Name <span>*</span><input name="name" autoComplete="name" placeholder="Your name" required /></label>
         <label>Email <span>*</span><input name="email" type="email" autoComplete="email" placeholder="you@company.com" required /></label>
       </div>
 
-      <label>Current website <small>optional</small><input name="website" type="url" inputMode="url" placeholder="https://" /></label>
+      <label>Current site <small>optional</small><input name="website" type="url" inputMode="url" placeholder="https://" /></label>
 
-      <label>What do you want to improve or build? <span>*</span>
-        <textarea name="need" rows={5} placeholder="Example: Our site feels outdated and confusing. We want a clearer story, stronger visuals, and a better way for people to contact us." required />
+      <label>What should feel better? <span>*</span>
+        <textarea name="need" rows={4} placeholder="Our site feels flat. We want a clearer story and stronger experience." required />
       </label>
 
       <button className="button button-primary magnetic" type="submit">Send project details <span aria-hidden="true">↗</span></button>
-      <p className="form-note">Nothing is submitted automatically. This prepares an email for you to review and send.</p>
+      <p className="form-note">Opens a prepared email. Nothing sends automatically.</p>
       <p className="form-status" role="status" aria-live="polite">{status}</p>
     </form>
   );
