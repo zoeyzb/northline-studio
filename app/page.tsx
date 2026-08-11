@@ -1,5 +1,6 @@
 import { AtmosphericSceneClient } from "./components/AtmosphericSceneClient";
 import { MotionController } from "./components/MotionController";
+import { NorthlineExperiencePreview } from "./components/NorthlineExperiencePreview";
 import { ProjectReviewForm } from "./components/ProjectReviewForm";
 
 const capabilities = [
@@ -33,7 +34,7 @@ const promises = [
 
 export default function Home() {
   return (
-    <main id="main-content" className="northline-home premium-v2 recover-inspired">
+    <main id="main-content" className="northline-home premium-v2 recover-inspired motion-rebuild">
       <MotionController />
       <AtmosphericSceneClient />
       <a className="skip-link" href="#main-content">Skip to content</a>
@@ -56,21 +57,7 @@ export default function Home() {
             <div className="rr-actions" data-hero-support><a className="rr-button rr-button-primary magnetic" href="#services">See what we build <span>↓</span></a><a className="rr-button rr-button-secondary magnetic" href="#contact">Start a project</a></div>
             <div className="rr-facts" data-hero-support><span>✓ Strategy through launch</span><span>✓ 3D + motion when useful</span><span>✓ Responsive production build</span></div>
           </div>
-
-          <div className="rr-product-preview interactive-card" data-parallax aria-label="Northline website preview">
-            <div className="rr-product-glow" />
-            <div className="rr-window rr-window-back"><span>STRUCTURE</span><i /><i /><i /></div>
-            <div className="rr-window rr-window-mid"><span>INTERACTION</span><i /><i /></div>
-            <div className="rr-window rr-window-front">
-              <div className="rr-window-nav"><i /><i /><i /><span /></div>
-              <small>NORTHLINE / LIVE EXPERIENCE</small>
-              <strong>One clear idea. Then everything supports it.</strong>
-              <div className="rr-window-bars"><i /><i /></div>
-              <div className="rr-window-cards"><span /><span /><span /></div>
-              <div className="rr-window-cta">Explore the experience <b>↗</b></div>
-            </div>
-            <div className="rr-float rr-float-a">CLARITY</div><div className="rr-float rr-float-b">DEPTH</div><div className="rr-float rr-float-c">ACTION</div>
-          </div>
+          <NorthlineExperiencePreview />
         </div>
       </section>
 
