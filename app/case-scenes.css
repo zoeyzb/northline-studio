@@ -1,0 +1,56 @@
+/* Rich, authored mini-scenes for Signal / Structure / Depth / Action. */
+.nlx-case-step{overflow:hidden!important;position:relative!important;min-height:23rem!important;padding:1.8rem 2rem 1.6rem!important;display:grid!important;grid-template-rows:auto auto 1fr!important;gap:1.1rem!important}
+.nlx-case-step>span,.nlx-case-step>div:not(.case-visual){position:relative;z-index:3}
+.case-visual{position:relative;z-index:2;min-height:10.5rem;border-top:1px solid rgba(17,16,14,.09);margin-top:.35rem;perspective:900px;transform-style:preserve-3d;overflow:hidden}
+.case-visual::before{content:"";position:absolute;inset:8% 2% 4%;border-radius:1rem;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.72),transparent 34%),linear-gradient(145deg,rgba(255,255,255,.45),rgba(102,78,181,.04));border:1px solid rgba(17,16,14,.07);box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+
+/* 01 SIGNAL — fragments converge toward one focal signal. */
+.case-signal .signal-node{position:absolute;width:.7rem;height:.7rem;border-radius:999px;background:#171513;box-shadow:0 0 0 .42rem rgba(114,87,201,.1),0 0 26px rgba(114,87,201,.26);left:51%;top:48%;animation:signal-pulse 2.7s ease-in-out infinite}
+.case-signal .signal-fragment{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(17,16,14,.46),rgba(114,87,201,.72));transform-origin:right center;animation:signal-drift 4.6s ease-in-out infinite alternate}
+.case-signal .signal-fragment:nth-child(1){width:32%;left:7%;top:24%;transform:rotate(11deg)}
+.case-signal .signal-fragment:nth-child(2){width:27%;left:11%;top:62%;transform:rotate(-9deg);animation-delay:-1.2s}
+.case-signal .signal-fragment:nth-child(3){width:29%;right:8%;top:31%;transform:rotate(-14deg);animation-delay:-2s}
+.case-signal .signal-fragment:nth-child(4){width:24%;right:10%;top:69%;transform:rotate(8deg);animation-delay:-.7s}
+.case-signal .signal-ring{position:absolute;left:51%;top:48%;width:5.4rem;height:5.4rem;border:1px solid rgba(114,87,201,.22);border-radius:50%;transform:translate(-50%,-50%);animation:ring-breathe 3.6s ease-in-out infinite}
+
+/* 02 STRUCTURE — architectural grid builds itself. */
+.case-structure .structure-grid{position:absolute;inset:13% 7% 9%;display:grid;grid-template-columns:1.4fr .8fr .8fr;grid-template-rows:.65fr 1fr;gap:.55rem;transform:rotateX(56deg) rotateZ(-7deg) translateY(12px);transform-origin:50% 80%;animation:grid-float 5s ease-in-out infinite alternate}
+.case-structure .structure-grid i{border:1px solid rgba(17,16,14,.19);background:linear-gradient(145deg,rgba(255,255,255,.7),rgba(91,70,181,.06));box-shadow:0 8px 22px rgba(46,39,33,.05)}
+.case-structure .structure-grid i:first-child{grid-row:1/3}.case-structure .structure-grid i:nth-child(4){grid-column:2/4}
+.case-structure .structure-axis{position:absolute;left:11%;right:10%;bottom:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(65,211,226,.5),rgba(114,87,201,.55),transparent);transform:rotate(-5deg)}
+
+/* 03 DEPTH — planes actually separate in Z-space. */
+.case-depth .depth-stack{position:absolute;inset:11% 7% 8%;transform-style:preserve-3d;perspective:800px}
+.case-depth .depth-stack i{position:absolute;inset:14% 12%;border-radius:.8rem;border:1px solid rgba(17,16,14,.13);background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(102,78,181,.08));box-shadow:0 22px 34px rgba(42,35,30,.07);animation:depth-float 4.8s ease-in-out infinite alternate}
+.case-depth .depth-stack i:nth-child(1){transform:translate3d(-12%,-10%, -100px) rotateY(10deg)}
+.case-depth .depth-stack i:nth-child(2){transform:translate3d(0,0,0) rotateY(-4deg);animation-delay:-1.2s}
+.case-depth .depth-stack i:nth-child(3){transform:translate3d(13%,11%,100px) rotateY(-10deg);animation-delay:-2.2s;background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(65,211,226,.08))}
+
+/* 04 ACTION — path resolves into an obvious CTA endpoint. */
+.case-action .action-path{position:absolute;left:8%;right:10%;top:51%;height:2px;background:linear-gradient(90deg,rgba(17,16,14,.14),rgba(114,87,201,.58) 55%,rgba(65,211,226,.72));transform:translateY(-50%)}
+.case-action .action-path::before,.case-action .action-path::after{content:"";position:absolute;top:50%;width:.72rem;height:.72rem;border-radius:50%;transform:translateY(-50%);background:#fff;border:1px solid rgba(17,16,14,.2);box-shadow:0 6px 18px rgba(46,39,33,.08)}
+.case-action .action-path::before{left:22%}.case-action .action-path::after{left:55%}
+.case-action .action-cta{position:absolute;right:7%;top:50%;transform:translateY(-50%);padding:.8rem 1.1rem;border-radius:.7rem;background:#11100e;color:#fff;font:700 .72rem/1 var(--font-geist-sans),sans-serif;letter-spacing:.08em;box-shadow:0 12px 28px rgba(17,16,14,.18);animation:cta-lock 3.4s ease-in-out infinite}
+.case-action .action-orbit{position:absolute;right:4.7%;top:50%;width:7.4rem;height:7.4rem;border:1px solid rgba(65,211,226,.2);border-radius:50%;transform:translateY(-50%);animation:ring-breathe 3.4s ease-in-out infinite reverse}
+
+@keyframes signal-pulse{0%,100%{transform:scale(.88)}50%{transform:scale(1.18)}}
+@keyframes signal-drift{0%{opacity:.34;filter:blur(.2px)}100%{opacity:.85;filter:blur(0)}}
+@keyframes ring-breathe{0%,100%{scale:.86;opacity:.34}50%{scale:1.12;opacity:.72}}
+@keyframes grid-float{0%{transform:rotateX(58deg) rotateZ(-8deg) translate3d(-2%,14px,0)}100%{transform:rotateX(50deg) rotateZ(-3deg) translate3d(3%,-3px,26px)}}
+@keyframes depth-float{0%{margin-top:7px}100%{margin-top:-7px}}
+@keyframes cta-lock{0%,100%{transform:translateY(-50%) scale(.96)}50%{transform:translateY(-50%) scale(1.04);box-shadow:0 16px 38px rgba(17,16,14,.22),0 0 30px rgba(65,211,226,.13)}}
+
+/* Reduce the enormous dead spacing between story beats. */
+.nlx-case{min-height:auto!important;padding:8rem 0 9rem!important}
+.nlx-case-grid{align-items:start!important}
+.nlx-case-steps{gap:5.5rem!important;padding:2rem 0 3rem!important}
+.nlx-case-step:nth-child(even){transform-origin:100% 50%}
+
+@media(max-width:960px){
+ .nlx-case-steps{gap:2rem!important;padding-top:1rem!important}
+ .nlx-case-step{min-height:20rem!important}
+ .case-visual{min-height:9rem}
+}
+@media(prefers-reduced-motion:reduce){
+ .case-visual *{animation:none!important}
+}
