@@ -7,6 +7,7 @@ import "./light-sections-contrast.css";
 import "./reference-liquid.css";
 import "./reference-liquid-visible.css";
 import "./case-scenes.css";
+import "./project-polish.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -14,12 +15,8 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   metadataBase: new URL("https://northline-studio-wheat.vercel.app"),
   applicationName: "Northline",
-  title: {
-    default: "Northline — Digital experiences for ambitious organizations",
-    template: "%s — Northline",
-  },
-  description:
-    "Northline is a digital studio for strategy, websites, products, interaction, and development—turning complex organizations and ideas into clear, credible, spatial digital experiences.",
+  title: { default: "Northline — Digital experiences for ambitious organizations", template: "%s — Northline" },
+  description: "Northline is a digital studio for strategy, websites, products, interaction, and development—turning complex organizations and ideas into clear, credible, spatial digital experiences.",
   keywords: ["digital studio", "website strategy", "custom website design", "interactive website development", "digital product design", "information architecture", "3D web design", "motion design"],
   category: "design",
   alternates: { canonical: "/" },
