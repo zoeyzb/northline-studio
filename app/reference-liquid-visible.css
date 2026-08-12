@@ -1,0 +1,77 @@
+/* Strong visible reference pass: liquid/ink lives inside each section, not behind it. */
+.cinematic-site{background:#f4efe5!important;color:#11100e!important}
+
+/* Keep content above the liquid surfaces. */
+.nlx-hero,.nlx-services,.nlx-case,.nlx-transition,.nlx-project,.nlx-cta{position:relative!important;isolation:isolate;overflow:hidden!important;background:#f4efe5!important}
+.nlx-hero>.nlx-shell,.nlx-services>.nlx-shell,.nlx-case>.nlx-shell,.nlx-project>.nlx-shell,.nlx-cta>.nlx-shell,.nlx-transition-copy,.nlx-transition-shards{position:relative;z-index:3}
+
+/* Shared liquid edge language. */
+.nlx-hero::before,.nlx-services::before,.nlx-case::before,.nlx-transition::before,.nlx-project::before,.nlx-cta::before,
+.nlx-hero::after,.nlx-services::after,.nlx-case::after,.nlx-transition::after,.nlx-project::after,.nlx-cta::after{
+  content:"";position:absolute;pointer-events:none;z-index:1;will-change:transform,border-radius;mix-blend-mode:multiply;
+  animation:edge-liquid 15s ease-in-out infinite alternate;
+}
+@keyframes edge-liquid{
+  0%{transform:translate3d(-2%,0,0) rotate(-3deg) scale(.96);border-radius:41% 59% 63% 37%/59% 38% 62% 41%}
+  50%{transform:translate3d(4%,2%,0) rotate(4deg) scale(1.04);border-radius:59% 41% 43% 57%/37% 63% 37% 63%}
+  100%{transform:translate3d(-1%,6%,0) rotate(-2deg) scale(1);border-radius:48% 52% 38% 62%/62% 44% 56% 38%}
+}
+
+/* HERO: obvious teal/black left spill + violet/black right spill. */
+.nlx-hero.hero-light{background:linear-gradient(180deg,#f8f3e9 0%,#f2ebdf 100%)!important}
+.nlx-hero::before{width:42rem;height:48rem;left:-24rem;top:-8rem;filter:blur(7px) saturate(1.35);opacity:.95;background:
+  radial-gradient(circle at 72% 26%,rgba(255,255,255,.75) 0 8%,transparent 18%),
+  radial-gradient(circle at 67% 35%,#55eff1 0 9%,#17a8bd 18%,rgba(8,24,31,.92) 46%,#080a0e 67%,transparent 73%);
+  box-shadow:0 0 70px rgba(57,223,231,.42)}
+.nlx-hero::after{width:37rem;height:45rem;right:-21rem;top:-3rem;filter:blur(8px) saturate(1.45);opacity:.96;background:
+  radial-gradient(circle at 25% 24%,rgba(255,255,255,.7) 0 6%,transparent 15%),
+  radial-gradient(circle at 34% 38%,#5ce9ec 0 8%,#6551d8 22%,#2e184e 43%,#09090d 68%,transparent 75%);
+  box-shadow:0 0 74px rgba(100,76,220,.36);animation-delay:-5s}
+.hero-light .nlx-hero-aura{opacity:.24!important}
+
+/* SERVICES: paper center with visible liquid corners. */
+.nlx-services::before{width:34rem;height:37rem;left:-18rem;bottom:-7rem;filter:blur(9px) saturate(1.3);opacity:.9;background:radial-gradient(circle at 68% 33%,#5be7e8 0 11%,#1e91ad 25%,#10232a 46%,#080a0d 67%,transparent 75%);animation-delay:-3s}
+.nlx-services::after{width:30rem;height:35rem;right:-15rem;top:8rem;filter:blur(10px) saturate(1.4);opacity:.8;background:radial-gradient(circle at 34% 36%,#aa8dff 0 11%,#6554d8 25%,#231b40 48%,#0b0b10 68%,transparent 77%);animation-delay:-8s}
+
+/* TRANSFORMATION: closest match to the approved reference. */
+.nlx-case{background:linear-gradient(180deg,#f1ece3 0%,#e9e5de 52%,#f3ede3 100%)!important}
+.nlx-case::before{width:46rem;height:52rem;left:-25rem;top:2rem;filter:blur(7px) saturate(1.48);opacity:.98;background:
+ radial-gradient(circle at 68% 21%,rgba(255,255,255,.78) 0 6%,transparent 13%),
+ radial-gradient(circle at 63% 30%,#65eff1 0 8%,#20a7bd 19%,#152c35 41%,#07090d 64%,transparent 72%),
+ radial-gradient(circle at 78% 68%,#8066ec 0 8%,rgba(45,33,81,.84) 28%,transparent 52%);
+ box-shadow:0 0 82px rgba(38,211,221,.42)}
+.nlx-case::after{width:43rem;height:55rem;right:-24rem;top:28rem;filter:blur(8px) saturate(1.5);opacity:.98;background:
+ radial-gradient(circle at 28% 22%,#4fe7e9 0 8%,#5847d0 20%,#3b225f 39%,#08090d 65%,transparent 74%),
+ radial-gradient(circle at 22% 67%,#b58cff 0 7%,rgba(91,66,174,.8) 24%,transparent 50%);
+ box-shadow:0 0 78px rgba(104,79,220,.4);animation-delay:-6s}
+.nlx-case-step{background:linear-gradient(145deg,rgba(255,252,246,.93),rgba(242,237,228,.86))!important;box-shadow:0 20px 54px rgba(46,39,33,.12)!important;backdrop-filter:blur(18px)!important}
+.nlx-case-copy,.nlx-case-steps{position:relative;z-index:3}
+
+/* TRANSITION: liquid tunnel around clean black headline. */
+.nlx-transition{background:#eee9e0!important}
+.nlx-transition::before{width:50rem;height:50rem;left:-25rem;top:50%;transform:translateY(-50%);filter:blur(8px) saturate(1.45);opacity:.93;background:radial-gradient(circle at 68% 50%,#5be7ea 0 8%,#1d8ea7 20%,#13262d 39%,#08090d 62%,transparent 72%)}
+.nlx-transition::after{width:46rem;height:52rem;right:-24rem;top:49%;filter:blur(8px) saturate(1.5);opacity:.94;background:radial-gradient(circle at 31% 43%,#67eef0 0 8%,#7057de 20%,#33204f 41%,#090a0e 64%,transparent 74%);animation-delay:-7s}
+.nlx-transition-copy strong{color:#11100e!important;text-shadow:none!important}
+
+/* PROJECT: cream stage with a strong dark product object and liquid frame. */
+.nlx-project::before{width:37rem;height:42rem;left:-20rem;top:16rem;filter:blur(9px) saturate(1.35);opacity:.72;background:radial-gradient(circle at 70% 33%,#68e8e8 0 9%,#1f9cb3 22%,#0e1b20 48%,#08090c 66%,transparent 74%)}
+.nlx-project::after{width:40rem;height:46rem;right:-21rem;bottom:-6rem;filter:blur(8px) saturate(1.42);opacity:.88;background:radial-gradient(circle at 31% 30%,#8e72ef 0 10%,#5b46c8 24%,#291c43 43%,#08090d 66%,transparent 75%);animation-delay:-4s}
+.nlx-device{transform:perspective(1100px) rotateX(4deg) rotateY(-7deg)!important;box-shadow:0 48px 120px rgba(20,18,17,.28),0 0 70px rgba(76,218,229,.08)!important}
+
+/* CTA: quieter but still visibly connected to the same world. */
+.nlx-cta::before{width:34rem;height:40rem;left:-18rem;bottom:-10rem;filter:blur(10px) saturate(1.35);opacity:.72;background:radial-gradient(circle at 70% 34%,#58e4e7 0 10%,#267f94 28%,#101b20 48%,#08090d 67%,transparent 75%)}
+.nlx-cta::after{width:34rem;height:42rem;right:-18rem;top:4rem;filter:blur(9px) saturate(1.42);opacity:.76;background:radial-gradient(circle at 30% 34%,#9578ef 0 9%,#5f49cb 25%,#2c2046 45%,#09090e 68%,transparent 76%);animation-delay:-6s}
+
+/* Existing global blobs become secondary, not the main effect. */
+.nlx-liquid-field{opacity:.28!important;z-index:0!important}
+.nlx-liquid-blob{filter:blur(30px)!important;opacity:.45!important}
+
+@media(max-width:960px){
+  .nlx-hero::before,.nlx-case::before,.nlx-services::before,.nlx-project::before,.nlx-cta::before{left:-29rem!important;opacity:.7!important}
+  .nlx-hero::after,.nlx-case::after,.nlx-services::after,.nlx-project::after,.nlx-cta::after{right:-28rem!important;opacity:.68!important}
+  .nlx-transition::before{left:-31rem!important}.nlx-transition::after{right:-30rem!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .nlx-hero::before,.nlx-services::before,.nlx-case::before,.nlx-transition::before,.nlx-project::before,.nlx-cta::before,
+  .nlx-hero::after,.nlx-services::after,.nlx-case::after,.nlx-transition::after,.nlx-project::after,.nlx-cta::after{animation:none!important}
+}
