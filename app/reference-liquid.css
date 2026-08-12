@@ -1,0 +1,122 @@
+/* Reference-driven Northline art direction: cream editorial surface + liquid edge atmosphere. */
+.cinematic-site{
+  --paper:#f4efe5;
+  --paper-2:#ece5d8;
+  --black:#11100e;
+  --charcoal:#403b34;
+  --violet:#7257c9;
+  --cyan:#42d7e7;
+  --coral:#ef9a7f;
+  --mint:#72d6bf;
+  background:var(--paper)!important;
+  color:var(--black)!important;
+}
+
+/* Keep WebGL as atmosphere, not a black page. */
+.cinematic-site .spatial-canvas{
+  background:transparent!important;
+  opacity:.32!important;
+  mix-blend-mode:multiply;
+}
+.cinematic-site .spatial-canvas::before{background:transparent!important}
+.cinematic-site .spatial-canvas::after{opacity:.32!important}
+.cinematic-site .cursor-light{opacity:.18!important;mix-blend-mode:multiply!important}
+
+/* Moving liquid edge system. */
+.nlx-liquid-field{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;isolation:isolate}
+.nlx-liquid-blob{position:absolute;border-radius:47% 53% 61% 39% / 55% 38% 62% 45%;filter:blur(22px) saturate(1.15);opacity:.88;mix-blend-mode:multiply;will-change:transform,border-radius;animation:liquid-drift 18s ease-in-out infinite alternate}
+.nlx-liquid-blob::after{content:"";position:absolute;inset:12%;border-radius:inherit;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),transparent 22%),radial-gradient(circle at 62% 58%,rgba(255,255,255,.12),transparent 42%);filter:blur(10px)}
+.nlx-liquid-blob.a{width:34rem;height:45rem;left:-18rem;top:6rem;background:radial-gradient(circle at 62% 34%,rgba(70,224,234,.92),rgba(45,127,164,.72) 34%,rgba(14,18,25,.96) 74%);animation-duration:21s}
+.nlx-liquid-blob.b{width:29rem;height:37rem;right:-12rem;top:10rem;background:radial-gradient(circle at 28% 27%,rgba(99,226,232,.92),rgba(101,68,207,.76) 42%,rgba(13,14,20,.98) 78%);animation-duration:17s;animation-delay:-6s}
+.nlx-liquid-blob.c{width:42rem;height:31rem;left:-20rem;top:112vh;background:radial-gradient(circle at 72% 35%,rgba(67,221,231,.9),rgba(49,138,166,.56) 42%,rgba(11,14,19,.95) 78%);animation-duration:22s;animation-delay:-4s}
+.nlx-liquid-blob.d{width:35rem;height:43rem;right:-17rem;top:145vh;background:radial-gradient(circle at 30% 28%,rgba(149,116,239,.88),rgba(65,211,226,.7) 44%,rgba(12,13,18,.98) 79%);animation-duration:19s;animation-delay:-9s}
+.nlx-liquid-blob.e{width:30rem;height:36rem;left:-13rem;top:310vh;background:radial-gradient(circle at 70% 30%,rgba(117,216,196,.78),rgba(67,196,222,.72) 38%,rgba(10,13,18,.96) 76%);animation-duration:20s;animation-delay:-2s}
+.nlx-liquid-blob.f{width:38rem;height:48rem;right:-21rem;top:430vh;background:radial-gradient(circle at 35% 30%,rgba(109,84,210,.82),rgba(48,197,218,.76) 45%,rgba(10,12,17,.98) 79%);animation-duration:23s;animation-delay:-11s}
+@keyframes liquid-drift{0%{transform:translate3d(-2%,0,0) rotate(-4deg) scale(.94);border-radius:47% 53% 61% 39% / 55% 38% 62% 45%}45%{transform:translate3d(5%,3%,0) rotate(5deg) scale(1.05);border-radius:61% 39% 43% 57% / 37% 62% 38% 63%}100%{transform:translate3d(-1%,7%,0) rotate(-2deg) scale(1);border-radius:42% 58% 64% 36% / 60% 42% 58% 40%}}
+
+.cinematic-site>.nlx-nav,.cinematic-site>section,.cinematic-site>.nlx-footer,.cinematic-site>.skip-link{z-index:3!important}
+
+/* Navigation matches the reference: clean cream strip + black type. */
+.nlx-nav{height:5.1rem!important;background:rgba(247,242,232,.88)!important;border-bottom:1px solid rgba(17,16,14,.08)!important;color:var(--black)!important;backdrop-filter:blur(22px)!important}
+.nlx-nav .nlx-brand strong,.nlx-nav nav,.nlx-nav nav a{color:var(--black)!important}
+.nlx-nav .nlx-brand>span{border:0!important;background:transparent!important;color:var(--black)!important;width:auto!important;font-family:Georgia,serif!important;font-size:1.25rem!important}
+.nlx-nav-cta{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;border-radius:.55rem!important;padding:.8rem 1rem!important}
+
+/* HERO */
+.nlx-hero.hero-light{background:linear-gradient(180deg,rgba(247,242,232,.98),rgba(244,239,229,.96))!important;color:var(--black)!important;min-height:calc(100svh - 5.1rem)!important}
+.hero-light .nlx-hero-aura{opacity:.45!important;background:radial-gradient(circle at 72% 28%,rgba(128,98,220,.14),transparent 28%),radial-gradient(circle at 70% 72%,rgba(56,208,223,.14),transparent 31%)!important}
+.hero-light .nlx-hero-grid{grid-template-columns:.88fr 1.12fr!important;gap:5vw!important;padding-block:6.5rem 7rem!important}
+.hero-light .nlx-kicker{color:#5f49aa!important}
+.hero-light .nlx-hero h1,.hero-light h1{color:var(--black)!important;font-size:clamp(5.1rem,7.6vw,9rem)!important;line-height:.87!important;letter-spacing:-.075em!important}
+.hero-light .nlx-hero-lede{color:#454039!important;font-size:1.15rem!important}
+.hero-light .nlx-button-primary{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important}
+.hero-light .nlx-button-ghost{background:rgba(255,255,255,.58)!important;color:var(--black)!important;border-color:rgba(17,16,14,.16)!important}
+
+/* Hero build object becomes the dark tilted studio/product panel from the target. */
+.hero-build{min-height:39rem!important;transform-style:preserve-3d}
+.hero-build .plane-back,.hero-build .plane-mid{opacity:.2!important;background:rgba(255,255,255,.58)!important;border-color:rgba(17,16,14,.12)!important;box-shadow:0 22px 55px rgba(55,47,39,.08)!important}
+.hero-build .plane-back{transform:translateX(-50%) translateZ(-180px) translateY(92px) rotateX(66deg) scale(.9)!important}
+.hero-build .plane-mid{transform:translateX(-50%) translateZ(-90px) translateY(52px) rotateX(56deg) scale(.95)!important}
+.hero-build .plane-front{top:22%!important;width:min(40rem,98%)!important;aspect-ratio:1.55!important;transform:translateX(-50%) translateZ(52px) rotateX(14deg) rotateY(-7deg)!important;background:linear-gradient(145deg,#17161b,#27222f)!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:0 40px 90px rgba(25,21,18,.26),0 14px 24px rgba(25,21,18,.14)!important}
+.hero-build .plane-front>small{color:#ad97ff!important}
+.hero-build .plane-front>strong{color:#fff!important;max-width:18rem!important;font-size:clamp(2rem,2.6vw,3rem)!important}
+.hero-build .build-finished-grid i{height:6.2rem!important}
+.hero-build .nlx-float-chip{background:rgba(251,248,241,.92)!important;color:#24211d!important;border:1px solid rgba(17,16,14,.11)!important;box-shadow:0 12px 30px rgba(43,36,30,.12)!important}
+.hero-build .chip-a{top:8%!important;left:5%!important}.hero-build .chip-b{top:29%!important;right:-1%!important}.hero-build .chip-c{bottom:4%!important;left:27%!important}
+
+/* ALL MAIN SECTIONS: paper instead of dark slabs. */
+.nlx-services,.nlx-case,.nlx-transition,.nlx-project,.nlx-cta{color:var(--black)!important;background:rgba(244,239,229,.88)!important}
+.nlx-services{padding:clamp(8rem,11vw,12rem) 0!important}
+.nlx-section-head h2,.nlx-case-copy h2,.nlx-project-copy h2,.nlx-cta-copy h2,.nlx-transition-copy strong{color:var(--black)!important;text-shadow:none!important}
+.nlx-section-head h2{max-width:860px!important}
+.nlx-kicker,.nlx-case .nlx-kicker,.nlx-transition-copy>span{color:#664eb5!important}
+
+/* Service cards become pale editorial tiles with colored light living inside them. */
+.nlx-service-space{min-height:40rem!important}
+.nlx-service-card{min-height:30rem!important;background:linear-gradient(145deg,rgba(255,253,248,.88),rgba(238,231,219,.82))!important;border:1px solid rgba(17,16,14,.11)!important;box-shadow:0 26px 64px rgba(52,43,35,.1)!important;color:var(--black)!important;backdrop-filter:blur(14px)!important}
+.nlx-service-card::after{content:"";position:absolute;width:13rem;height:13rem;right:-5rem;bottom:-5rem;border-radius:50%;background:radial-gradient(circle,rgba(var(--tone),.26),transparent 70%);filter:blur(10px);pointer-events:none}
+.nlx-service-card h3,.nlx-service-card>a{color:var(--black)!important}.nlx-service-card p{color:#575148!important}.nlx-tags small{color:#4f4942!important;background:rgba(var(--tone),.08)!important}
+.nlx-card-light{opacity:.16!important}
+
+/* Transformation section: match the reference composition closely. */
+.nlx-case{min-height:200svh!important;padding:9rem 0 12rem!important;position:relative!important}
+.nlx-case-grid{grid-template-columns:.9fr 1.1fr!important;gap:8vw!important}
+.nlx-case-copy{top:16vh!important}
+.nlx-case-copy h2{font-size:clamp(4rem,6.6vw,7.4rem)!important;line-height:.88!important}
+.nlx-case-copy>p:last-child{color:#4c4740!important}
+.nlx-case-steps{gap:21vh!important;padding:8vh 0 20vh!important}
+.nlx-case-step{min-height:17rem!important;padding:1.7rem 1.9rem!important;border:1px solid rgba(17,16,14,.1)!important;border-radius:.45rem!important;background:linear-gradient(145deg,rgba(255,253,248,.84),rgba(239,233,223,.74))!important;box-shadow:0 20px 48px rgba(54,46,38,.08)!important;backdrop-filter:blur(18px)!important}
+.nlx-case-step h3{color:var(--black)!important;font-size:clamp(2.8rem,4.4vw,4.8rem)!important}.nlx-case-step p{color:#585149!important}.nlx-case-step>span{color:#7359c7!important}
+
+/* Transition stays dramatic without turning the page dark. */
+.nlx-transition{background:radial-gradient(circle at center,rgba(64,214,228,.12),transparent 42%),rgba(244,239,229,.82)!important}
+.nlx-transition-shards i{border-color:rgba(17,16,14,.12)!important;background:linear-gradient(145deg,rgba(255,255,255,.5),rgba(104,80,189,.06))!important;box-shadow:0 30px 80px rgba(44,37,30,.08)!important}
+
+/* Project: dark product frame on paper. */
+.nlx-project{padding:clamp(9rem,12vw,13rem) 0!important}
+.nlx-project-copy>p:last-of-type{color:#514b44!important}
+.nlx-project-facts span{border-color:rgba(17,16,14,.12)!important;background:rgba(255,255,255,.5)!important;color:#49443d!important}
+.nlx-device{background:linear-gradient(145deg,#17171b,#27232f)!important;border-color:rgba(255,255,255,.13)!important;box-shadow:0 45px 110px rgba(28,24,20,.24)!important}
+.nlx-device-label{background:rgba(250,247,240,.92)!important;color:#3a3530!important;border-color:rgba(17,16,14,.12)!important}
+
+/* CTA + form */
+.nlx-cta{padding:clamp(9rem,12vw,13rem) 0!important}
+.nlx-cta-copy>p:last-child{color:#514b44!important}
+.nlx-cta-mark{color:rgba(17,16,14,.035)!important}
+.nlx-cta form,.nlx-cta .project-review-form{background:rgba(255,253,248,.78)!important;border-color:rgba(17,16,14,.11)!important;box-shadow:0 26px 70px rgba(50,41,33,.09)!important;color:var(--black)!important}
+.nlx-cta input,.nlx-cta textarea{background:rgba(255,255,255,.68)!important;color:var(--black)!important;border-color:rgba(17,16,14,.13)!important}
+.nlx-cta button{background:var(--black)!important;color:#fff!important}
+
+.nlx-footer{color:#4c4740!important;border-top-color:rgba(17,16,14,.1)!important;background:rgba(244,239,229,.94)!important}
+.nlx-footer .nlx-brand strong,.nlx-footer a{color:var(--black)!important}
+
+@media(max-width:960px){
+  .hero-light .nlx-hero-grid{grid-template-columns:1fr!important;padding-top:4rem!important}
+  .hero-build{min-height:30rem!important}
+  .hero-build .plane-front{width:min(34rem,96%)!important}
+  .nlx-liquid-blob{opacity:.6;filter:blur(28px)}
+  .nlx-liquid-blob.a,.nlx-liquid-blob.c,.nlx-liquid-blob.e{left:-23rem}.nlx-liquid-blob.b,.nlx-liquid-blob.d,.nlx-liquid-blob.f{right:-23rem}
+  .nlx-case-grid{grid-template-columns:1fr!important}.nlx-case-copy{position:relative!important;top:auto!important}
+}
+
+@media(prefers-reduced-motion:reduce){.nlx-liquid-blob{animation:none!important}}
