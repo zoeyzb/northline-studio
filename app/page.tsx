@@ -35,9 +35,17 @@ const story = [
 
 export default function Home() {
   return (
-    <main id="main-content" className="cinematic-site">
+    <main id="main-content" className="cinematic-site reference-liquid-site">
       <MotionController />
       <AtmosphericSceneClient />
+      <div className="nlx-liquid-field" aria-hidden="true">
+        <i className="nlx-liquid-blob a" />
+        <i className="nlx-liquid-blob b" />
+        <i className="nlx-liquid-blob c" />
+        <i className="nlx-liquid-blob d" />
+        <i className="nlx-liquid-blob e" />
+        <i className="nlx-liquid-blob f" />
+      </div>
       <a className="skip-link" href="#main-content">Skip to content</a>
 
       <header className="nlx-nav nlx-shell">
@@ -45,11 +53,11 @@ export default function Home() {
           <span>N</span><strong>Northline</strong>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="#services">Services</a>
           <a href="#project">Work</a>
-          <a href="#contact">Contact</a>
+          <a href="#services">Services</a>
+          <a href="#approach">Approach</a>
         </nav>
-        <a className="nlx-nav-cta magnetic" href="#contact">Start a project <i>↗</i></a>
+        <a className="nlx-nav-cta magnetic" href="#contact">Let&apos;s talk <i>↗</i></a>
       </header>
 
       <section className="nlx-hero nlx-scene hero-light" id="hero" data-scene="hero" data-scene-strength="1">

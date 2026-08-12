@@ -4,6 +4,7 @@ import "./globals.css";
 import "./cinematic.css";
 import "./readability-minimal.css";
 import "./light-sections-contrast.css";
+import "./reference-liquid.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -48,8 +49,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#03080e",
-  colorScheme: "dark",
+  themeColor: "#f4efe5",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
